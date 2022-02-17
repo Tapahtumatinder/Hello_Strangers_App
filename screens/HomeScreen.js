@@ -1,17 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, TouchableOpacity, View, Button, TextInput } from 'react-native';
-import { React, useState, useEffect } from 'react';
-import { auth, db } from '../firebase';
+import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import { React } from 'react';
+import { auth } from '../firebase';
 import { signOut } from "firebase/auth";
-import { collection, getDocs, doc, setDoc, onSnapshot, getDoc } from 'firebase/firestore/lite';
+import Picture from '../components/Picture'
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [userName, setUserName] = useState('')
-
-  useEffect(() => {
-    getData()
-  }, [])
 
   const handeleSignOut = () => {
     signOut(auth)
@@ -21,34 +16,11 @@ const HomeScreen = () => {
     .catch(error => alert(error.message))
   }
 
-  const getData = async () => {
-    const docRef = doc(db, 'user', auth.currentUser.uid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      setUserName(docSnap.data().userName);
-    } else {
-      console.log('a true sranger');
-    }
-  }
-
-  const setData = async () => {
-    await setDoc(doc(db, 'user', auth.currentUser.uid), {
-      userName: userName
-    })
-
-  }
-
   return (
     <View style={styles.container}>
-      <Text>Email: {auth.currentUser?.email}</Text>
-      <TextInput
-          placeholder='Set your first name'
-          value={userName}
-          onChangeText={text => setUserName(text)}
-          style={styles.input}
-      />
-      <Button title='Set name' onPress={setData}/>
+      <Picture></Picture>
+      <Button title='Move to profile' onPress={() => navigation.navigate('Profile')}/>
+      <Button title='Move to event' onPress={() => navigation.navigate('Event')}/>
       <TouchableOpacity
         onPress={handeleSignOut}
         style={styles.button}
@@ -73,7 +45,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 16,
   },
   buttonText: {
       color: 'white',
