@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity, Text, View } from 'react-native'
 import { auth } from '../firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { StatusBar } from 'expo-status-bar'
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
@@ -12,7 +13,7 @@ const LoginScreen = () => {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
-                navigation.replace('Home')
+                navigation.navigate('Home')
             }
         })
         return unsubscribe
@@ -20,12 +21,12 @@ const LoginScreen = () => {
 
     const handleSignUp = () => {
         createUserWithEmailAndPassword(auth, email, password)
-        .catch(error => alert(error.message))
+            .catch(error => alert(error.message))
     }
 
     const handleLoginp = () => {
         signInWithEmailAndPassword(auth, email, password)
-        .catch(error => alert(error.message))
+            .catch(error => alert(error.message))
     }
 
     return (

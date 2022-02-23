@@ -1,26 +1,60 @@
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
-import { React } from 'react';
-import { auth } from '../firebase';
+import { StyleSheet, Text, TouchableOpacity, View, Button, TextInput } from 'react-native';
+import { React, useState, useEffect } from 'react';
+import { auth, db } from '../firebase';
 import { signOut } from "firebase/auth";
-import Picture from '../components/Picture'
+import { StatusBar } from 'expo-status-bar';
+import { collection, getDocs, doc, setDoc, onSnapshot, getDoc } from 'firebase/firestore/lite';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const [userName, setUserName] = useState('')
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   const handeleSignOut = () => {
     signOut(auth)
-    .then(() => {
-      navigation.replace('Login')
+      .then(() => {
+        // navigation.reset ns "tyhjentaa" navigoinnissa auki olevat sivut
+        navigation.reset({
+          index: 1,
+          routes: [{ name: 'Login' }],
+        });
+      })
+      .catch(error => alert(error.message))
+  }
+
+  const getData = async () => {
+    const docRef = doc(db, 'user', auth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setUserName(docSnap.data().userName);
+    } else {
+      console.log('a true sranger');
+    }
+  }
+
+  const setData = async () => {
+    await setDoc(doc(db, 'user', auth.currentUser.uid), {
+      userName: userName
     })
-    .catch(error => alert(error.message))
+
   }
 
   return (
     <View style={styles.container}>
-      <Picture></Picture>
-      <Button title='Move to profile' onPress={() => navigation.navigate('Profile')}/>
-      <Button title='Move to event' onPress={() => navigation.navigate('Event')}/>
+
+      <Text>Email: {auth.currentUser?.email}</Text>
+      <TextInput
+        placeholder='Set your first name'
+        value={userName}
+        onChangeText={text => setUserName(text)}
+        style={styles.input}
+      />
+      <Button title='Set name' onPress={setData} />
       <TouchableOpacity
         onPress={handeleSignOut}
         style={styles.button}
@@ -45,12 +79,12 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 16,
+    marginTop: 40,
   },
   buttonText: {
-      color: 'white',
-      fontWeight: '700',
-      fontSize: 16
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16
   },
   input: {
     backgroundColor: 'white',
@@ -58,5 +92,5 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
-},
+  },
 })
