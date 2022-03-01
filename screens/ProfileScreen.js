@@ -5,7 +5,8 @@ import { React, useState, useEffect } from 'react';
 
 const ProfileScreen = () => {
     const [userName, setUserName] = useState('');
-  
+    const [userDescription, setUserDescription]= useState('');
+
     // Calls function getData every time the page reloads
     useEffect(() => {
       getData()
@@ -18,6 +19,8 @@ const ProfileScreen = () => {
   
       if (docSnap.exists()) {
         setUserName(docSnap.data().userName);
+        setUserDescription(docSnap.data().userDescription);
+
       } else {
         console.log('a true sranger');
       }
@@ -28,10 +31,14 @@ const ProfileScreen = () => {
     // If the collection does not exsist, then creates a 'user' collection to firestore.
     const setData = async () => {
       await setDoc(doc(db, 'user', auth.currentUser.uid), {
-        userName: userName
+        userName: userName,
+        userDescription: userDescription
+
     })
+  }
   
-    }
+  
+    
   
     return (
       <View style={styles.container}>
@@ -42,6 +49,17 @@ const ProfileScreen = () => {
             style={styles.input}
         />
         <Button title='Set name' onPress={setData}/>
+        <TextInput
+            placeholder='Describe yourself'
+            value={userDescription}
+            onChangeText={text => setUserDescription(text)}
+            style= {styles.descriptionInput}
+            multiline={true}
+            maxLength={250}
+            
+            />
+            <Button title ='Add description' onPress={setData}/>
+          
       </View>
     )
   }
@@ -60,5 +78,17 @@ const ProfileScreen = () => {
       paddingVertical: 10,
       borderRadius: 10,
       marginTop: 5,
-  },
+    },
+    descriptionInput:{
+      backgroundColor: 'white',
+      paddingHorizontal: 15,
+      paddingVertical: 10,
+      borderRadius: 10,
+      marginTop: 5,
+      width: 250,
+      
+    }
+
+  
 })
+
