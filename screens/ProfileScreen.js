@@ -15,7 +15,9 @@ const ProfileScreen = () => {
     const [show, setShow] = useState(false);
     // calculate age
     const onDateChange = (event, selectedDate) => {
+      const currentDate = selectedDate || date;
       setShow(Platform.OS === 'ios');
+      setDate(currentDate);
       var birthDate= new Date(selectedDate);
       var currentDay= new Date();
       var age= currentDay.getFullYear()-birthDate.getFullYear();
