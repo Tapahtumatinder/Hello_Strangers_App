@@ -3,25 +3,26 @@ import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
 import { auth, db } from '../firebase';
 import { React, useState, useEffect } from 'react';
 import DatePicker from 'react-native-date-picker'
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const ProfileScreen = () => {
     const [userName, setUserName] = useState('');
     const [userDescription, setUserDescription]= useState('');
-    const [age, setAge]= useState('');
+    const [userAge, setUserAge]= useState('');
     
     //Pick the birthdate
     const [date, setDate]= useState(new Date());
-    const [mode, setMode]= useState('date');
-    const [open, setOpen] = useState(false);
-
-    const countAge = (event, selectedDate) => {
-      var birthDate= new Date(date);
+    const [show, setShow] = useState(false);
+    // calculate age
+    const onDateChange = (event, selectedDate) => {
+      setShow(Platform.OS === 'ios');
+      var birthDate= new Date(selectedDate);
       var currentDay= new Date();
       var age= currentDay.getFullYear()-birthDate.getFullYear();
       var month= currentDay.getMonth()-birthDate.getMonth();
       if(month<0||(month===0 && currentDay.getDate()<birthDate.getDate()))
       age --;
-      setAge(age);
+      setUserAge(age);
       console.log(age);
     };
 
@@ -39,7 +40,7 @@ const ProfileScreen = () => {
       if (docSnap.exists()) {
         setUserName(docSnap.data().userName);
         setUserDescription(docSnap.data().userDescription);
-       
+        setUserAge(docSnap.data().userAge);
       } else {
         console.log('a true stranger');
       }
@@ -52,8 +53,7 @@ const ProfileScreen = () => {
       await setDoc(doc(db, 'user', auth.currentUser.uid), {
         userName: userName,
         userDescription: userDescription,
-        
-
+        userAge : userAge
     })
   }
     return (
@@ -65,7 +65,7 @@ const ProfileScreen = () => {
             onChangeText={text => setUserName(text)}
             style={styles.input}
         />
-        <Button title='Set name' onPress={setData}/>
+       
         <TextInput style= {styles.descriptionInput}
             placeholder='Describe yourself'
             value={userDescription}
@@ -73,36 +73,30 @@ const ProfileScreen = () => {
             style= {styles.descriptionInput}
             multiline={true}
             maxLength={250}
-            
             />
-            <Button title ='Add description' onPress={setData}/>
-            </View>
-          
-            <Button title ="Select birthday" onPress={() => setOpen(true)} />
-          
-        <DatePicker
-          modal
-          open={open}
-          date={date}
-          onConfirm={(date) => {
-            setOpen(false)
-            setDate(date)
-          }}
-          onCancel={() => {
-            setOpen(false)
-          }}
-        />
-      
+           
+          <Button title ="Select birthday" onPress={() => setShow(true)} />
+          </View>
+            {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onDateChange}
+            />
+          )}
+          <Button title ='Save' onPress={setData}/>
       </View>
     );
   
-        }
+ }
   export default ProfileScreen;
     
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      
     },
     input: {
       backgroundColor: 'white',
@@ -110,13 +104,10 @@ const ProfileScreen = () => {
       paddingVertical: 10,
       borderRadius: 10,
       marginTop: 5,
-    
     },
-
     inputContainer: {
       alignItems: 'center'
     },
-
     descriptionInput:{
       backgroundColor: 'white',
       paddingHorizontal: 15,
@@ -124,11 +115,9 @@ const ProfileScreen = () => {
       borderRadius: 10,
       marginTop: 5,
       width: 250,
-      
     },
     datePicker: {
       flex: 2,
-      
     },
 
   
