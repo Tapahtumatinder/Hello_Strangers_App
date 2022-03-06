@@ -8,21 +8,24 @@ mainContainer: {
 },
 inputContainer: {
     flex: 3,
-    alignItems: 'center' // on secundary (row) axis
+    alignItems: 'center' // on secondary (row) axis
 },
 input: {
     backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop: 5,
+    marginTop: 10,
+    marginBottom: 10,
+    width: 250
 },
 multilineInput:{
     backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop: 5,
+    marginTop: 10,
+    marginBottom: 10,
     width: 250,
 },
 basicButton: {
@@ -30,6 +33,7 @@ basicButton: {
     borderColor: 'transparent',
     borderWidth: 0,
     borderRadius: 10,
+    width: 200
 },
 basicTitle: {
     color: 'black',

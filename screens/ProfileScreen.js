@@ -67,13 +67,15 @@ const ProfileScreen = () => {
     return (
       <View style= {styles.mainContainer}>
         <View  style= {styles.inputContainer}>
+        <Button buttonStyle= {styles.basicButton} title ='ADD PHOTO' titleStyle={styles.basicTitle}/>
+        <Text>Name</Text>
         <TextInput
             placeholder='Set your first name'
             value={userName}
             onChangeText={text => setUserName(text)}
             style={styles.input}
         />
-       
+        <Text>About you</Text>
         <TextInput style= {styles.multilineInput}
             placeholder='Describe yourself'
             value={userDescription}
@@ -95,9 +97,10 @@ const ProfileScreen = () => {
               onChange={onDateChange}
             />
           )}
-          
+          <View style= {styles.inputContainer}>
 
           <Button buttonStyle= {styles.basicButton} title ='SAVE' titleStyle={styles.basicTitle} onPress={setData}/>
+          </View>
       </View>
     );
   
