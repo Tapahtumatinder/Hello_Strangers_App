@@ -1,9 +1,11 @@
-import { StyleSheet, View, Button, TextInput, Platform } from 'react-native'
+import { StyleSheet, View, TextInput, Text, Platform } from 'react-native'
+import { Button, ButtonGroup, withTheme } from 'react-native-elements';
 import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
 import { auth, db } from '../firebase';
 import { React, useState, useEffect } from 'react';
 import DatePicker from 'react-native-date-picker'
 import DateTimePicker from '@react-native-community/datetimepicker';
+import styles from '../AppStyle'
 
 const ProfileScreen = () => {
     const [userName, setUserName] = useState('');
@@ -13,11 +15,14 @@ const ProfileScreen = () => {
     //Pick the birthdate
     const [date, setDate]= useState(new Date());
     const [show, setShow] = useState(false);
+    const [chosenDate, setChosenDate] = useState();
+    
     // calculate age
     const onDateChange = (event, selectedDate) => {
       const currentDate = selectedDate || date;
       setShow(Platform.OS === 'ios');
       setDate(currentDate);
+      setChosenDate(selectedDate);
       var birthDate= new Date(selectedDate);
       var currentDay= new Date();
       var age= currentDay.getFullYear()-birthDate.getFullYear();
@@ -26,6 +31,7 @@ const ProfileScreen = () => {
       age --;
       setUserAge(age);
       console.log(age);
+      setShow(false);
     };
 
     
@@ -59,7 +65,7 @@ const ProfileScreen = () => {
     })
   }
     return (
-      <View style= {styles.container}>
+      <View style= {styles.mainContainer}>
         <View  style= {styles.inputContainer}>
         <TextInput
             placeholder='Set your first name'
@@ -68,16 +74,16 @@ const ProfileScreen = () => {
             style={styles.input}
         />
        
-        <TextInput style= {styles.descriptionInput}
+        <TextInput style= {styles.multilineInput}
             placeholder='Describe yourself'
             value={userDescription}
             onChangeText={text => setUserDescription(text)}
-            style= {styles.descriptionInput}
+            style= {styles.multilineInput}
             multiline={true}
             maxLength={250}
             />
            
-          <Button title ="Select birthday" onPress={() => setShow(true)} />
+          <Button buttonStyle= {styles.basicButton} title ="SELECT BIRTHDAY" titleStyle={styles.basicTitle} onPress={() => setShow(true)} />
           </View>
             {show && (
             <DateTimePicker
@@ -89,38 +95,11 @@ const ProfileScreen = () => {
               onChange={onDateChange}
             />
           )}
-          <Button title ='Save' onPress={setData}/>
+          
+
+          <Button buttonStyle= {styles.basicButton} title ='SAVE' titleStyle={styles.basicTitle} onPress={setData}/>
       </View>
     );
   
  }
   export default ProfileScreen;
-    
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    input: {
-      backgroundColor: 'white',
-      paddingHorizontal: 15,
-      paddingVertical: 10,
-      borderRadius: 10,
-      marginTop: 5,
-    },
-    inputContainer: {
-      alignItems: 'center'
-    },
-    descriptionInput:{
-      backgroundColor: 'white',
-      paddingHorizontal: 15,
-      paddingVertical: 10,
-      borderRadius: 10,
-      marginTop: 5,
-      width: 250,
-    },
-    datePicker: {
-      flex: 2,
-    },
-
-  
-})
