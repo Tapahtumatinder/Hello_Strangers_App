@@ -6,6 +6,7 @@ import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import EventScreen from './screens/EventScreen';
+import EventListScreen from './screens/EventListScreen';
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and will be removed in a future release.'])
@@ -18,6 +19,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Event" component={EventScreen} />
+        <Stack.Screen name="EventList" component={EventListScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
