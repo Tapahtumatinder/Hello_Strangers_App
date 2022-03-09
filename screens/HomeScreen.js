@@ -20,7 +20,8 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Picture></Picture>
       <Button title='Move to profile' onPress={() => navigation.navigate('Profile')}/>
-      <Button title='Move to event' onPress={() => navigation.navigate('Event')}/>
+      <Button title='Create an event' onPress={() => navigation.navigate('Event')}/>
+      <Button title='Show all events' onPress={() => navigation.navigate('EventList')}/>
       <TouchableOpacity
         onPress={handeleSignOut}
         style={styles.button}
