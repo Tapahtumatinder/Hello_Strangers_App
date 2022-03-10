@@ -42,5 +42,49 @@ basicTitle: {
 datePicker: {
     flex: 2,
 },
+eventImg: {
+    height: 250,
+    justifyContent: 'center',
+    opacity: 0.7,
+    marginBottom: 10
+},
+horizontalInputs: {
+    flexDirection: 'row',
+},
+horizontalRight: {
+    flex: 1,
+    justifyContent: 'flex-end'
+},
+horizontalLeft: {
+    flex: 1,
+    justifyContent: 'flex-start'
+},
+label: {
+    color: 'black',
+    fontWeight: '700',
+    fontSize: 16,
+    marginLeft: 6,
+    marginTop: 15
+},
+eventInput: {
+    width: '95%',
+    height: 40,
+    margin: 6,
+    backgroundColor: 'white',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderColor: '#868B8E',
+    borderWidth: 1
+},
+eventInputMultiline: {
+    width: '95%',
+    margin: 6,
+    backgroundColor: 'white',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderColor: '#868B8E',
+    borderWidth: 1,
+    textAlignVertical: 'top'
+},
 
 })
