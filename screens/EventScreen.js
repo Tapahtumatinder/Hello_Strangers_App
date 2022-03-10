@@ -1,16 +1,19 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
+import { addDoc, collection } from 'firebase/firestore/lite';
+import { auth, db } from '../firebase';
 import {
-  Button,
+  ImageBackground,
   Platform,
   SafeAreaView,
   ScrollView,
-  StyleSheet
+  Text,
+  TextInput,
+  View
 } from 'react-native';
+import { Button } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
-import { Input } from 'react-native-elements';
-import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore/lite';
-import { auth, db } from '../firebase';
+import styles from '../AppStyle';
 
 const EventScreen = () => {
   const [eventName, setEventName] = useState('');
@@ -70,181 +73,180 @@ const EventScreen = () => {
   const showTimepicker = () => {
     showMode('time');
   }
-  /* can be used later on when updating the event (note: use updateDoc instead of setDoc)
-  // Calls function getData every time the page reloads
-  useEffect(() => {
-    //getData()
-  }, [])
-  
-  // Gets all of the data stored in collection 'event' that has the same id with the logged in user.
-  const getData = async () => {
-    const docRef = doc(db, 'event', auth.currentUser.uid);
-    const docSnap = await getDoc(docRef);
-  
-    if (docSnap.exists()) {
-      setEventName(docSnap.data().eventName);
-      setAddress(docSnap.data().address);
-      setLocality(docSnap.data().locality);
-      setStartDateTime(docSnap.data().startDateTime.toDate());
-      setEndDateTime(docSnap.data().endDateTime.toDate());
-      setMaxAttendance(docSnap.data().maxAttendance);
-      setDescription(docSnap.data().description);
-      setEventUrlLink(docSnap.data().eventUrlLink);
-      setOrganizer(docSnap.data().organizer);
-    }
-  }
-  // Overrides or creates anything within the collection: 'event' and id: 'logged in user id'...
-  // ...with the stuff inside the '{}' (in this case 'eventName: eventName').
-  // For further development it might be wiser to store an array of events within the '{}'.
-  // => so {[{ name: name, location: location,... }, { name: name, location: location,... },...]}
-  const setData = async () => {
-    await setDoc(doc(db, 'event', auth.currentUser.uid), {
-      eventName: eventName,
-      address: address,
-      locality: locality,
-      startDateTime: startDateTime,
-      endDateTime: endDateTime,
-      maxAttendance: maxAttendance,
-      description: description,
-      eventUrlLink: eventUrlLink,
-      organizer: organizer
-    })
-  }
-  */
+  // TODO: change event image (now temporary img from unsplash.com)
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.mainContainer}>
       <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={styles.inputContainer}>
-        <Input
-          label='ADDRESS'
-          placeholder='Set an address for your event'
-          value={address}
-          onChangeText={text => setAddress(text)}
-          style={styles.input}
-          inputContainerStyle={{
-            borderBottomWidth: 0
-          }}
-          labelStyle={{
-            color: 'black'
-          }}
-        />
-         <Input
-          label='POSTAL CODE'
-          placeholder='Set a postal code'
-          value={postalCode}
-          onChangeText={text => setPostalCode(text)}
-          style={styles.input}
-        />
-        <Input
-          label='CITY'
-          placeholder='Set a locality for your event'
-          value={locality}
-          onChangeText={text => setLocality(text)}
-          style={styles.input}
-        />
-        <Input
-          label='START DATE'
-          placeholder='Set date'
-          value={format(new Date(startDateTime), 'd.M.yyyy')}
-          onPressIn={() => { showDatepicker(); setIsStart(true); }}
-          showSoftInputOnFocus={false}
-          style={styles.input}
-        />
-        <Input
-          label='START TIME'
-          placeholder='Set start time'
-          value={format(new Date(startDateTime), 'HH:mm')}
-          onPressIn={() => { showTimepicker(); setIsStart(true); }}
-          showSoftInputOnFocus={false}
-          style={styles.input}
-        />
-        <Input
-          label='END DATE'
-          placeholder='Set date'
-          value={format(new Date(endDateTime), 'd.M.yyyy')}
-          onPressIn={() => { showDatepicker(); setIsStart(false); }}
-          showSoftInputOnFocus={false}
-          style={styles.input}
-        />
-        <Input
-          label='END TIME'
-          placeholder='Set end time'
-          value={format(new Date(endDateTime), 'HH:mm')}
-          onPressIn={() => { showTimepicker(); setIsStart(false); }}
-          showSoftInputOnFocus={false}
-          style={styles.input}
-        />
-        {isStart && show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={startDateTime}
-            mode={mode}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-          />
-        )}
-        {!isStart && show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={endDateTime}
-            mode={mode}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-          />
-        )}
-        <Input
-          label='MAX ATTENDANCE'
-          placeholder='Max'
-          value={maxAttendance}
-          onChangeText={text => setMaxAttendance(text)}
-          keyboardType='numeric'
-          style={styles.input}
-        />
-        <Input
-          label='EVENT NAME'
-          placeholder='Set event name, max 30 characters'
-          value={eventName}
-          onChangeText={text => setEventName(text)}
-          style={styles.input}
-        />
-        <Input
-          label='DESCRIPTION'
-          placeholder='Describe your event'
-          value={description}
-          onChangeText={text => setDescription(text)}
-          style={styles.input}
-        />
-        <Input
-          label='HTTP LINK'
-          placeholder="Anything you'd like to share?"
-          value={eventUrlLink}
-          onChangeText={text => setEventUrlLink(text)}
-          style={styles.input}
-        />
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}>
+        <ImageBackground
+          source={{ uri: 'https://images.unsplash.com/photo-1464047736614-af63643285bf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80' }}
+          resizeMode="cover"
+          style={styles.eventImg}>
+        </ImageBackground>
+        <View style={{ flex: 1, padding: 10 }}>
+          <View style={styles.horizontalInputs}>
+            <View style={styles.horizontalLeft}>
+              <Text style={styles.label}>COVER IMAGE</Text>
+              <TextInput
+                placeholder='COMING SOON'
+                editable={false}
+                style={styles.eventInput}
+              />
+            </View>
+            <View style={styles.horizontalRight}>
+              <Button
+                title='Unplash image'
+                disabled={true}
+                buttonStyle={{
+                  borderColor: 'transparent',
+                  borderWidth: 0,
+                  borderRadius: 20,
+                  marginBottom: 6,
+                  width: 160,
+                  alignSelf: 'center'
+                }}
+              />
+            </View>
+          </View>
+          <View style={styles.verticalInputs}>
+            <Text style={styles.label}>ADDRESS</Text>
+            <TextInput
+              placeholder='Set an address for your event'
+              value={address}
+              onChangeText={text => setAddress(text)}
+              style={styles.eventInput}
+            />
+            <View style={styles.horizontalInputs}>
+              <View style={styles.horizontalLeft}>
+                <Text style={styles.label}>POSTAL CODE</Text>
+                <TextInput
+                  placeholder='Postal code'
+                  value={postalCode}
+                  onChangeText={text => setPostalCode(text)}
+                  style={styles.eventInput}
+                />
+              </View>
+              <View style={styles.horizontalRight}>
+                <Text style={styles.label}>CITY</Text>
+                <TextInput
+                  placeholder='Locality'
+                  value={locality}
+                  onChangeText={text => setLocality(text)}
+                  style={styles.eventInput}
+                />
+              </View>
+            </View>
+            <View style={styles.horizontalInputs}>
+              <View style={styles.horizontalLeft}>
+                <Text style={styles.label}>START DATE</Text>
+                <TextInput
+                  placeholder='Start date'
+                  value={format(new Date(startDateTime), 'd.M.yyyy')}
+                  onPressIn={() => { showDatepicker(); setIsStart(true); }}
+                  showSoftInputOnFocus={false}
+                  style={styles.eventInput}
+                />
+              </View>
+              <View style={styles.horizontalRight}>
+                <Text style={styles.label}>START TIME</Text>
+                <TextInput
+                  placeholder='Start time'
+                  value={format(new Date(startDateTime), 'HH:mm')}
+                  onPressIn={() => { showTimepicker(); setIsStart(true); }}
+                  showSoftInputOnFocus={false}
+                  style={styles.eventInput}
+                />
+              </View>
+            </View>
+            <View style={styles.horizontalInputs}>
+              <View style={styles.horizontalLeft}>
+                <Text style={styles.label}>END DATE</Text>
+                <TextInput
+                  placeholder='Set date'
+                  value={format(new Date(endDateTime), 'd.M.yyyy')}
+                  onPressIn={() => { showDatepicker(); setIsStart(false); }}
+                  showSoftInputOnFocus={false}
+                  style={styles.eventInput}
+                />
+              </View>
+              <View style={styles.horizontalRight}>
+                <Text style={styles.label}>END TIME</Text>
+                <TextInput
+                  label='END TIME'
+                  placeholder='Set end time'
+                  value={format(new Date(endDateTime), 'HH:mm')}
+                  onPressIn={() => { showTimepicker(); setIsStart(false); }}
+                  showSoftInputOnFocus={false}
+                  style={styles.eventInput}
+                />
+              </View>
+            </View>
+            {isStart && show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={startDateTime}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+            {!isStart && show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={endDateTime}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+            <View style={styles.verticalInputs}>
+              <Text style={styles.label}>MAX ATTENDANCE</Text>
+              <TextInput
+                placeholder='How many people can participate in?'
+                value={maxAttendance}
+                onChangeText={text => setMaxAttendance(text)}
+                keyboardType='numeric'
+                style={styles.eventInput}
+              />
+              <Text style={styles.label}>TAGS</Text>
+              <TextInput
+                editable={false}
+                placeholder='COMING SOON: Select tags'
+                style={styles.eventInput}
+              />
+              <Text style={styles.label}>EVENT NAME</Text>
+              <TextInput
+                placeholder='Set event name, max 30 characters'
+                value={eventName}
+                onChangeText={text => setEventName(text)}
+                style={styles.eventInput}
+              />
+              <Text style={styles.label}>DESCRIPTION</Text>
+              <TextInput
+                multiline={true}
+                numberOfLines={4}
+                placeholder='Describe your event'
+                value={description}
+                onChangeText={text => setDescription(text)}
+                style={styles.eventInputMultiline}
+              />
+              <Text style={styles.label}>HTTP LINK</Text>
+              <TextInput
+                label='HTTP LINK'
+                placeholder="Anything you'd like to share?"
+                value={eventUrlLink}
+                onChangeText={text => setEventUrlLink(text)}
+                style={styles.eventInput}
+              />
+            </View>
+          </View>
+        </View>
         <Button title='Publish event' onPress={setData} />
       </ScrollView>
     </SafeAreaView>
   )
 }
 export default EventScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  inputContainer: {
-    width: '80%'
-  },
-  input: {
-    backgroundColor: 'white',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 5
-  },
-})
