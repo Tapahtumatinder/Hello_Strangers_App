@@ -9,7 +9,7 @@ import EventScreen from './screens/EventScreen';
 import EventListScreen from './screens/EventListScreen';
 
 const Stack = createNativeStackNavigator();
-LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and will be removed in a future release.'])
+LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and will be removed in a future release.', 'Remote debugger'])
 
 export default function App() {
   return (
@@ -24,12 +24,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
