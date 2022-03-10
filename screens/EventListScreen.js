@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import {
-  SafeAreaView
+  SafeAreaView,
+  ScrollView
 } from 'react-native';
 import { format, isToday } from 'date-fns';
 import { Avatar, ListItem } from 'react-native-elements';
@@ -31,9 +32,11 @@ const EventListScreen = () => {
       console.error("Error adding document: ", e);
     }
   }
-  // TODO : ScrollView and much more
+  // TODO : Block events from the past (and much more todo)
   return (
     <SafeAreaView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}>
       {
         events.map((item, index) => (
           <ListItem key={index} bottomDivider>
@@ -57,6 +60,7 @@ const EventListScreen = () => {
           </ListItem>
         ))
       }
+      </ScrollView>
     </SafeAreaView>
   );
 }
