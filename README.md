@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <h1>Tapahtumatinder<h1>
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="HelloStrangerLogoTransparent.png" alt="Logo" width="80" height="80">
   </a>
 
 
