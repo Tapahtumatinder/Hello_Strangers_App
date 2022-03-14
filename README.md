@@ -3,8 +3,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <h1>Tapahtumatinder<h1>
-    <img src="HelloStrangerLogoTransparent.png" alt="Logo" width="80" height="80">
+  <h1>Hello Stranger<h1>
+    <img src="HelloStrangerLogoTransparent.png" alt="Logo" width="240" height="260">
   </a>
 
 
