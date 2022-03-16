@@ -1,32 +1,28 @@
+import { React } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
-import { React } from 'react';
 import { auth } from '../firebase';
 import { signOut } from "firebase/auth";
 import Picture from '../components/Picture'
 
-const HomeScreen = () => {
-  const navigation = useNavigation();
+const HomeScreen = ({ navigation }) => {
 
   const handeleSignOut = () => {
     signOut(auth)
-    .then(() => {
-      navigation.replace('Login')
-    })
-    .catch(error => alert(error.message))
+      .then(() => {
+        navigation.replace('Login')
+      })
+      .catch(error => alert(error.message))
   }
 
   return (
     <View style={styles.container}>
       <Picture></Picture>
-      <Button title='Move to profile' onPress={() => navigation.navigate('Profile')}/>
-      <Button title='Create an event' onPress={() => navigation.navigate('Event')}/>
-      <Button title='Show all events' onPress={() => navigation.navigate('EventList')}/>
       <TouchableOpacity
         onPress={handeleSignOut}
         style={styles.button}
       >
-        <Text style={styles.buttonText}>Sign out</Text>
+        <Text style={styles.buttonText}>Sign out (osittain rikki)</Text>
       </TouchableOpacity>
     </View>
   )
@@ -49,9 +45,9 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   buttonText: {
-      color: 'white',
-      fontWeight: '700',
-      fontSize: 16
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16
   },
   input: {
     backgroundColor: 'white',
@@ -59,5 +55,5 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
-},
+  },
 })

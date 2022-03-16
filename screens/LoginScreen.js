@@ -1,13 +1,12 @@
-import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity, Text, View } from 'react-native'
 import { auth } from '../firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const navigation = useNavigation()
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
@@ -20,18 +19,18 @@ const LoginScreen = () => {
 
     const handleSignUp = () => {
         createUserWithEmailAndPassword(auth, email, password)
-        .catch(error => alert(error.message))
+            .catch(error => alert(error.message))
     }
 
     const handleLoginp = () => {
         signInWithEmailAndPassword(auth, email, password)
-        .catch(error => alert(error.message))
+            .catch(error => alert(error.message))
     }
 
     return (
         <KeyboardAvoidingView
             style={styles.container}
-            behavior='padding'
+            behavior='height'
         >
             <View style={styles.inputContainer}>
                 <TextInput
