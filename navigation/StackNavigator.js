@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import EventScreen from '../screens/EventScreen';
 import EventListScreen from '../screens/EventListScreen';
+import { TabNavigator } from './TabNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ const LoginStack = () => {
 }
  */
 
+/** 
 const MainStack = () => {
 
     return (
@@ -38,7 +40,30 @@ const MainStack = () => {
         </Stack.Navigator>
     );
 }
+*/
 
+const MainStack = () => {
+
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Login"
+                options={{ headerShown: false }}
+                component={LoginScreen}
+            />
+            <Stack.Screen
+                name="Home"
+                component={TabNavigator}
+            />
+            <Stack.Screen
+                name="Create event"
+                component={EventScreen}
+            />
+        </Stack.Navigator>
+    );
+}
+
+/** 
 const ProfileStack = () => {
     return (
         <Stack.Navigator>
@@ -64,5 +89,6 @@ const EventStack = () => {
         </Stack.Navigator>
     );
 }
+*/
 
-export { MainStack, EventStack, ProfileStack };
+export { MainStack };

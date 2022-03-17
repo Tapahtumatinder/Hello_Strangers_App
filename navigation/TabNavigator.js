@@ -2,6 +2,11 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MainStack, EventStack, ProfileStack } from './StackNavigator';
 import { Ionicons } from '@expo/vector-icons';
+import LoginScreen from '../screens/LoginScreen';
+import HomeScreen from '../screens/HomeScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import EventScreen from '../screens/EventScreen';
+import EventListScreen from '../screens/EventListScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,17 +29,17 @@ export const TabNavigator = () => {
             <Tab.Screen
                 name="HomeTab"
                 options={{ headerShown: false, tabBarShowLabel: false }}
-                component={MainStack}
+                component={HomeScreen}
             />
             <Tab.Screen
                 name="ProfileTab"
                 options={{ headerShown: false, tabBarShowLabel: false }}
-                component={ProfileStack}
+                component={ProfileScreen}
             />
             <Tab.Screen
                 name="EventListTab"
                 options={{ headerShown: false, tabBarShowLabel: false }}
-                component={EventStack}
+                component={EventListScreen}
             />
         </Tab.Navigator>
     );

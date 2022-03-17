@@ -10,6 +10,7 @@ LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and w
 
 export default function App() {
 
+  /** 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -19,14 +20,21 @@ export default function App() {
       }
     });
   }, [])
+  */
 
   return (
     <NavigationContainer>
+      <MainStack />
+      {
+        /**
       {isLoggedIn == true ? (
         <TabNavigator />
       ) : (
         <MainStack />
       )}
+       */
+      }
+      
     </NavigationContainer>
   );
 }
