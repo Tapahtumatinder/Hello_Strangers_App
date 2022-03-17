@@ -6,7 +6,12 @@ import { LoginStack, MainStack } from './navigation/StackNavigator';
 import { auth } from './firebase'
 import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
 
-LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and will be removed in a future release.', 'Remote debugger'])
+LogBox.ignoreLogs(
+  [
+    'AsyncStorage',
+    'Remote debugger',
+    'Require cycle'
+  ])
 
 export default function App() {
 
@@ -34,7 +39,7 @@ export default function App() {
       )}
        */
       }
-      
+
     </NavigationContainer>
   );
 }

@@ -4,6 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { auth } from '../firebase';
 import { signOut } from "firebase/auth";
 import Picture from '../components/Picture'
+import { StatusBar } from 'expo-status-bar';
 
 const HomeScreen = ({ navigation }) => {
 
@@ -22,7 +23,7 @@ const HomeScreen = ({ navigation }) => {
         onPress={handeleSignOut}
         style={styles.button}
       >
-        <Text style={styles.buttonText}>Sign out (osittain rikki)</Text>
+        <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
     </View>
   )
