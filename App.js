@@ -1,10 +1,7 @@
-import { React, useState, useEffect } from 'react';
 import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { TabNavigator } from "./navigation/TabNavigator";
-import { LoginStack, MainStack } from './navigation/StackNavigator';
-import { auth } from './firebase'
 import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
+import { MainStack } from './navigation/StackNavigator'
 
 LogBox.ignoreLogs(
   [

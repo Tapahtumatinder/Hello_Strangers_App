@@ -6,6 +6,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 
 const Picture = () => {
+  // muutoksia
 
   const [progress, setProgress] = useState('');
   const [url, setUrl] = useState(null);
