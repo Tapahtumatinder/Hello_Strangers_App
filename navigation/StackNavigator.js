@@ -7,6 +7,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import EventScreen from '../screens/EventScreen';
 import EventListScreen from '../screens/EventListScreen';
 import { TabNavigator } from './TabNavigator';
+import DeleteAccountScreen from '../screens/DeleteAccountScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +59,10 @@ const MainStack = () => {
             <Stack.Screen
                 name="Create event"
                 component={EventScreen}
+            />
+            <Stack.Screen
+                name="Delete account"
+                component={DeleteAccountScreen}
             />
         </Stack.Navigator>
     );

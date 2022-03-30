@@ -112,8 +112,10 @@ const ProfileScreen = ({ navigation }) => {
         />
       )}
       <View style={styles.inputContainer}>
-
+        
         <Button buttonStyle={styles.basicButton} title='SAVE' titleStyle={styles.basicTitle} onPress={setData} />
+        <Text style={{color:'blue', textAlign:'center', textDecorationLine:'underline', marginTop: 40}} onPress={()=> navigation.navigate('Delete account')}>Delete account</Text>
+
       </View>
     </View>
   );
