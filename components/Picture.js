@@ -32,7 +32,7 @@ const Picture = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 1,
+      quality: 0.1,
     });
 
     if (!result.cancelled) {

@@ -2,6 +2,7 @@ import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
 import { MainStack } from './navigation/StackNavigator'
+// muutos
 
 LogBox.ignoreLogs(
   [
