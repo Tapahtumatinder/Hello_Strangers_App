@@ -1,15 +1,22 @@
-import { StyleSheet, Text, TouchableOpacity, View, Button, Image } from 'react-native';
-import { React, useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { React, useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { storage, auth, db } from '../firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 
-const Picture = () => {
+const Picture = forwardRef((props, i) => {
   // muutoksia
 
   const [progress, setProgress] = useState('');
   const [url, setUrl] = useState(null);
+  const { collection } = props;
+
+  useImperativeHandle(i, () => ({
+    method: () => {
+      pickPicture();
+    },
+  }));
 
   useEffect(() => {
     getCurrentPicture ();
@@ -45,7 +52,7 @@ const Picture = () => {
   // upload picture to cloud storage
   const uploadPicture = (image) => {
     if (!image) return;
-    const storageRef = ref(storage, `/avatar/${auth.currentUser.uid}`);
+    const storageRef = ref(storage, `/images/${auth.currentUser.uid}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
     // show picture upload progress in %
@@ -68,14 +75,14 @@ const Picture = () => {
 
   // merge picture url under user object in firestore 
     const setData = async (url) => {
-      const ref = doc(db, 'user', auth.currentUser.uid);
+      const ref = doc(db, collection, auth.currentUser.uid);
       await setDoc(ref, { pictureUrl: url }, { merge: true })
       .then(setUrl(url))
   }
 
   // 
   const getCurrentPicture = async () => {
-    const docRef = doc(db, 'user', auth.currentUser.uid);
+    const docRef = doc(db, collection, auth.currentUser.uid);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -87,10 +94,9 @@ const Picture = () => {
       <View>
           <Image style={styles.image} source={{ uri: url }}/>
           <Text>{progress}%</Text>
-          <Button title='Pick a photo' onPress={pickPicture}/>
       </View>
   )
-}
+})
 
 export default Picture
 

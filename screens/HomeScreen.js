@@ -1,12 +1,16 @@
-import { React } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { React, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { auth } from '../firebase';
 import { signOut } from "firebase/auth";
 import Picture from '../components/Picture'
-import { StatusBar } from 'expo-status-bar';
 
 const HomeScreen = ({ navigation }) => {
+
+  const buttonRef = useRef();
+
+  const pickPicture = () => {
+    buttonRef.current.method();
+  };
 
   const handeleSignOut = () => {
     signOut(auth)
@@ -18,11 +22,11 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Picture></Picture>
+      <Picture collection="profile" ref={buttonRef}/>
+      <Button onPress={pickPicture} title="Pick a photo" />
       <TouchableOpacity
         onPress={handeleSignOut}
-        style={styles.button}
-      >
+        style={styles.button}>
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
     </View>
