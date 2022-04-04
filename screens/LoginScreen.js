@@ -1,14 +1,13 @@
-import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity, Text, View } from 'react-native'
 import { auth } from '../firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { StatusBar } from 'expo-status-bar'
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const navigation = useNavigation()
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
@@ -32,7 +31,7 @@ const LoginScreen = () => {
     return (
         <KeyboardAvoidingView
             style={styles.container}
-            behavior='padding'
+            behavior='height'
         >
             <View style={styles.inputContainer}>
                 <TextInput

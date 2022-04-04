@@ -1,6 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, LogBox } from 'react-native';
+import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+<<<<<<< HEAD
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,9 +8,18 @@ import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import EventScreen from './screens/EventScreen';
+=======
+import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
+import { MainStack } from './navigation/StackNavigator'
+// muutos
+>>>>>>> origin/main
 
-const Stack = createNativeStackNavigator();
-LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and will be removed in a future release.'])
+LogBox.ignoreLogs(
+  [
+    'AsyncStorage',
+    'Remote debugger',
+    'Require cycle'
+  ])
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +34,7 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
 
+<<<<<<< HEAD
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -52,16 +62,34 @@ export default function App() {
       <StatusBar hidden />
       {/* ^^^jostain syysta emulaattorilla ilmestyy musta palkki
              mutta puhelimella piilottaa oikein */}
+=======
+  /** 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const loginState = auth.onAuthStateChanged(user => {
+      if (user) {
+        setIsLoggedIn(true);
+      }
+    });
+  }, [])
+  */
+
+  return (
+    <NavigationContainer>
+      <MainStack />
+      {
+        /**
+      {isLoggedIn == true ? (
+        <TabNavigator />
+      ) : (
+        <MainStack />
+      )}
+       */
+      }
+
+>>>>>>> origin/main
     </NavigationContainer>
 
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
