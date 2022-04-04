@@ -1,16 +1,14 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MainStack, EventStack, ProfileStack } from './StackNavigator';
 import { Ionicons } from '@expo/vector-icons';
-import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import EventScreen from '../screens/EventScreen';
 import EventListScreen from '../screens/EventListScreen';
 
 const Tab = createBottomTabNavigator();
 
-export const TabNavigator = () => {
+// Screens that need their own tab go here
+const TabNavigator = () => {
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -45,3 +43,4 @@ export const TabNavigator = () => {
     );
 }
 
+export { TabNavigator };
