@@ -23,6 +23,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <>
       <Picture collection="profile" id={auth.currentUser.uid} ref={buttonRef} />
+      <Button onPress={pickPicture} title="Pick a photo" />
     </>
   )
   */
