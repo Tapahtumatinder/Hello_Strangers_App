@@ -5,14 +5,14 @@ import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 
-const Picture = forwardRef((props, i) => {
+const Picture = forwardRef((props, refe) => {
   // muutoksia
 
   const [progress, setProgress] = useState('');
   const [url, setUrl] = useState(null);
-  const { collection } = props;
+  const { collection, id } = props;
 
-  useImperativeHandle(i, () => ({
+  useImperativeHandle(refe, () => ({
     method: () => {
       pickPicture();
     },
@@ -52,7 +52,7 @@ const Picture = forwardRef((props, i) => {
   // upload picture to cloud storage
   const uploadPicture = (image) => {
     if (!image) return;
-    const storageRef = ref(storage, `/images/${auth.currentUser.uid}`);
+    const storageRef = ref(storage, `/images/${id}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
     // show picture upload progress in %
@@ -75,14 +75,14 @@ const Picture = forwardRef((props, i) => {
 
   // merge picture url under user object in firestore 
     const setData = async (url) => {
-      const ref = doc(db, collection, auth.currentUser.uid);
+      const ref = doc(db, collection, id);
       await setDoc(ref, { pictureUrl: url }, { merge: true })
       .then(setUrl(url))
   }
 
   // 
   const getCurrentPicture = async () => {
-    const docRef = doc(db, collection, auth.currentUser.uid);
+    const docRef = doc(db, collection, id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {

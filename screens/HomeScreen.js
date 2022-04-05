@@ -6,6 +6,27 @@ import Picture from '../components/Picture'
 
 const HomeScreen = ({ navigation }) => {
 
+  /*
+  // Here's everything that is needed for enabling Picture-component in profile or event screen.
+  // collection = 'profile' or 'event', id = {userId} or {eventId}, ref = {buttonRef}
+
+  import { useRef } from 'react';
+  import { auth } from '../firebase';
+  import Picture from '../components/Picture'
+
+  const buttonRef = useRef();
+
+  const pickPicture = () => {
+    buttonRef.current.method();
+  };
+
+  return (
+    <>
+      <Picture collection="profile" id={auth.currentUser.uid} ref={buttonRef} />
+    </>
+  )
+  */
+
   const buttonRef = useRef();
 
   const pickPicture = () => {
@@ -22,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Picture collection="profile" ref={buttonRef}/>
+      <Picture collection="profile" id={auth.currentUser.uid} ref={buttonRef} />
       <Button onPress={pickPicture} title="Pick a photo" />
       <TouchableOpacity
         onPress={handeleSignOut}
