@@ -63,7 +63,7 @@ const EventListScreen = ({ navigation }) => {
             event['hostName'] = doc.data().userName;
             event['hostAge'] = doc.data().userAge;
             event['hostImgUrl'] = doc.data().pictureUrl;
-            event.organizer == auth.currentUser.uid && tempHostedEventList.push(event);     // if event's organizer is signed in user, adds event to hostedEvents 
+            event.organizer === auth.currentUser.uid && tempHostedEventList.push(event);     // if event's organizer is signed in user, adds event to hostedEvents 
           }
         })
       });
@@ -75,14 +75,6 @@ const EventListScreen = ({ navigation }) => {
       console.error("Something went wrong: ", e);
     }
 
-    // maps all events and sets events hosted by signed in user to state 'hostedEvents'
-    const getHostedEvents = (eventList) => {
-      const tempHostedEventList = [];
-      eventList.map((event) => {
-        event.organizer == auth.currentUser.uid && tempHostedEventList.push(event);
-      });
-      setHostedEvents(tempHostedEventList);
-    }
   }
 
   // UseState for the search keyword
