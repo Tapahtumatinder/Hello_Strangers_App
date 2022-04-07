@@ -40,6 +40,7 @@ const EventListScreen = ({ navigation }) => {
           -> mapping and adding host user details to event object */
   const getData = async () => {
     let tempEventList = [];
+    let tempHostedEventList = [];
     let tempEvent = {};
 
     try {
@@ -58,14 +59,15 @@ const EventListScreen = ({ navigation }) => {
             event['hostName'] = doc.data().userName;
             event['hostAge'] = doc.data().userAge;
             event['hostImgUrl'] = doc.data().pictureUrl;
+            event.organizer == auth.currentUser.uid && tempHostedEventList.push(event);     // if event's organizer is signed in user, adds event to hostedEvents 
           }
         })
       });
       setEvents(tempEventList);
-      getHostedEvents(tempEventList);
-    }
+      setHostedEvents(tempHostedEventList);         
+    } 
     catch (e) {
-      console.error("Error adding document: ", e);
+      console.error("Something went wrong: ", e);
     }
 
     // maps all events and sets events hosted by signed in user to state 'hostedEvents'
