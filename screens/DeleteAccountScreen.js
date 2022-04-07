@@ -37,10 +37,6 @@ const result = async () => {
 }
 // User successfully reauthenticated. New ID tokens should be valid.
 
-
-
-
-
     return(
         <View>
             <Text style={{marginTop:40, textAlign:'center'}}>To delete your account, give your password</Text>

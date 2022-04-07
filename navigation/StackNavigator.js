@@ -3,7 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TabNavigator } from './TabNavigator';
 import LoginScreen from '../screens/LoginScreen';
 import EventScreen from '../screens/EventScreen';
-import DeleteAccountScreen from '../screens/DeleteAccountScreen';
+import EventListScreen from '../screens/EventListScreen';
+import EventDetailsScreen from '../screens/EventDetailsScreen';
+import EditEventScreen from '../screens/EditEventScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,8 +28,18 @@ const MainStack = () => {
                 component={EventScreen}
             />
             <Stack.Screen
-                name="Delete account"
-                component={DeleteAccountScreen}
+                name='Event details'
+                component={EventDetailsScreen}
+                options={({ navigation, route }) => ({
+                })}
+            />
+            <Stack.Screen
+                name='Edit event'
+                component={EditEventScreen}
+            />
+            <Stack.Screen
+                name='Events'
+                component={EventListScreen}
             />
         </Stack.Navigator>
     );

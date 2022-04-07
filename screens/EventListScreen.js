@@ -1,99 +1,194 @@
 import { React, useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, Button, TextInput } from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  TextInput
+} from 'react-native';
 import { format, isToday } from 'date-fns';
-import { Avatar, ListItem } from 'react-native-elements';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore/lite';
-import { db } from '../firebase';
+import {
+  Avatar,
+  FAB,
+  Icon,
+  ListItem,
+  Tab,
+  TabView
+} from 'react-native-elements';
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  where
+} from 'firebase/firestore/lite';
+import { auth, db } from '../firebase';
 import styles from '../AppStyle';
 
 const EventListScreen = ({ navigation }) => {
   const [events, setEvents] = useState([]);
+  const [hostedEvents, setHostedEvents] = useState([]);
+  const [index, setIndex] = useState(0);
+  const today = new Date();
 
   useEffect(() => {
     getData();
   }, []);
-  // Gets all of the data stored in collection 'event' and sets it in state 'events'
+
+  /*  In first query, gets data stored in a collection 'event' (not past events)
+          -> mapping and adding event id to event object,
+
+      in second query gets all data stored in a collection 'user'
+          -> mapping and adding host user details to event object */
   const getData = async () => {
     let tempEventList = [];
     let tempEvent = {};
 
     try {
-      const q = query(collection(db, 'event'), orderBy('startDateTime'));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
+      const q = query(collection(db, 'event'), where("startDateTime", ">=", today), orderBy('startDateTime'));
+      const querySnapshotEvents = await getDocs(q);
+      querySnapshotEvents.forEach((doc) => {
         tempEvent = doc.data();
         tempEvent['id'] = doc.id;
         tempEventList.push(tempEvent);
       });
+
+      const querySnapshotUsers = await getDocs(collection(db, 'user'));
+      querySnapshotUsers.forEach((doc) => {
+        tempEventList.map(event => {
+          if (event.organizer === doc.id) {
+            event['hostName'] = doc.data().userName;
+            event['hostAge'] = doc.data().userAge;
+            event['hostImgUrl'] = doc.data().pictureUrl;
+          }
+        })
+      });
       setEvents(tempEventList);
+      getHostedEvents(tempEventList);
     }
     catch (e) {
       console.error("Error adding document: ", e);
+    }
+
+    // maps all events and sets events hosted by signed in user to state 'hostedEvents'
+    const getHostedEvents = (eventList) => {
+      const tempHostedEventList = [];
+      eventList.map((event) => {
+        event.organizer == auth.currentUser.uid && tempHostedEventList.push(event);
+      });
+      setHostedEvents(tempHostedEventList);
     }
   }
 
   // UseState for the search keyword
   const [search, setSearch] = useState('');
 
-  // TODO : Block events from the past (and much more todo)
+  const updateSearch = (search) => {
+    events.filter(item => {
+      if (search === '') {
+        return item;
+      }
+      else if (item.eventName.toLowerCase().includes(search.toLowerCase())) {
+        return item;
+      }
+    })
+  }
+
+  const renderHeader = () => {
+    return (
+      <TextInput
+        placeholder='Search event...'
+        onChangeText={text => setSearch(text)}
+        style={styles.eventInput}
+      />
+    )
+  }
+
+  // event items displayed in a flatlist
+  const renderItem = ({ item }) =>
+    <ListItem
+      bottomDivider
+      onPress={() => {
+        navigation.navigate('Event details', { event: item });
+      }}
+    >
+      { /* Event picture */}
+      <Avatar
+        size={58}
+        rounded
+        source={{ uri: item.hostImgUrl ? item.hostImgUrl : 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80' }} />
+
+      { /* Main content of the list item */}
+      <ListItem.Content>
+        <ListItem.Title style={styles.boldFontWeight}>
+          {item.eventName}
+        </ListItem.Title>
+        <ListItem.Subtitle>
+          {`${item.address}, ${item.locality}`}
+        </ListItem.Subtitle>
+      </ListItem.Content>
+
+      { /* Right side content of the list item */}
+      <ListItem.Content right>
+        <ListItem.Title right style={styles.colorBlue}>
+          {isToday(item.startDateTime.toDate()) ? 'Today' : format(new Date(item.startDateTime.toDate()), 'MMM d')}
+        </ListItem.Title>
+        <ListItem.Title right style={styles.colorBlue}>
+          {format(new Date(item.startDateTime.toDate()), 'HH:mm')}
+        </ListItem.Title>
+      </ListItem.Content>
+
+    </ListItem>
+
+  /* returns two tabs 'Events' and 'Hosting'
+      Events: lists all events in a flatlist,
+      Hosting: lists all events hosted by signed in user (in a flatlist) */
   return (
-    <SafeAreaView>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
-        { /* Search bar */}
-        <TextInput
-          placeholder='Search event...'
-          onChangeText={text => setSearch(text)}
-          style={styles.eventInput}
+    <SafeAreaView style={styles.mainContainer}>
+      <Tab value={index} onChange={setIndex}>
+        <Tab.Item
+        title="Events"
+        titleStyle={styles.colorBlack}
         />
-
-        { /* Navigate to event creation screen */}
-        <Button
-          title='Create an event'
-          onPress={() => navigation.navigate('Create event')}
+        <Tab.Item
+        title="Hosting"
+        titleStyle={styles.colorBlack}
         />
+      </Tab>
 
-        { /* filtering the events by 'search' keyword and then mapping them */
-          events.filter(item => {
-            if (search === '') {
-              return item;
-            }
-            else if (item.eventName.toLowerCase().includes(search.toLowerCase())) {
-              return item;
-            }
-          }).map((item, index) => (
-            <ListItem
-              key={index}
-              bottomDivide
-            >
-              { /* Event picture */}
-              <Avatar rounded source={{ uri: 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80' }} />
+      <TabView value={index} onChange={setIndex} >
+        
+        { /* All events */ }
+        <TabView.Item style={{ width: '100%' }}>
+          <FlatList
+            data={events}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index}
+            ListHeaderComponent={renderHeader}
+          />
+        </TabView.Item>
 
-              { /* Main content of the list item */}
-              <ListItem.Content>
-                <ListItem.Title style={{ fontWeight: 'bold' }}>
-                  {item.eventName}
-                </ListItem.Title>
-                <ListItem.Subtitle>
-                  {`${item.address}, ${item.locality}`}
-                </ListItem.Subtitle>
-              </ListItem.Content>
+        { /* Hosting events */ }
+        <TabView.Item style={{ width: '100%' }}>
+          <FlatList
+            data={hostedEvents}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index}
+          />
+        </TabView.Item>
+      </TabView>
 
-              { /* Right side content of the list item */}
-              <ListItem.Content right>
-                <ListItem.Title right style={{ color: '#1390E0' }}>
-                  {isToday(item.startDateTime.toDate()) ? 'Today' : format(new Date(item.startDateTime.toDate()), 'MMM dd')}
-                </ListItem.Title>
-                <ListItem.Title right style={{ color: '#1390E0' }}>
-                  {format(new Date(item.startDateTime.toDate()), 'HH:mm')}
-                </ListItem.Title>
-              </ListItem.Content>
-
-            </ListItem>
-          ))
-        }
-      </ScrollView>
+      { /* Button that navigates to event creation screen */}
+      <FAB
+        title=''
+        placement='right'
+        color='#1390E0'
+        icon={
+          <Icon
+            name='add-outline'
+            type='ionicon'
+            size={25}
+            color="white" />}
+        onPress={() => navigation.navigate('Create event')}
+      />
     </SafeAreaView>
   );
 }
