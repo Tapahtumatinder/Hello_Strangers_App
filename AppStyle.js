@@ -17,7 +17,8 @@ input: {
     borderRadius: 10,
     marginTop: 10,
     marginBottom: 10,
-    width: 250
+    width: 250,
+    textAlign:'center'
 },
 multilineInput:{
     backgroundColor: 'white',
