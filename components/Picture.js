@@ -6,7 +6,6 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 
 const Picture = forwardRef((props, refe) => {
-  // muutoksia
 
   const [progress, setProgress] = useState('');
   const [url, setUrl] = useState(null);
@@ -19,7 +18,7 @@ const Picture = forwardRef((props, refe) => {
   }));
 
   useEffect(() => {
-    getCurrentPicture ();
+    getCurrentPicture();
 
     // check if permission is granted
     (async () => {
@@ -48,7 +47,7 @@ const Picture = forwardRef((props, refe) => {
       uploadPicture(bytes);
     }
   }
-  
+
   // upload picture to cloud storage
   const uploadPicture = (image) => {
     if (!image) return;
@@ -62,21 +61,21 @@ const Picture = forwardRef((props, refe) => {
       );
       setProgress(prog);
     },
-    (error) => {
-      console.error(error)
-    },
-    () => {
-      // Upload completed successfully, now we can get the download URL
-      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-      setData(downloadURL)
-      });
-    })
+      (error) => {
+        console.error(error)
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setData(downloadURL)
+        });
+      })
   }
 
   // merge picture url under user object in firestore 
-    const setData = async (url) => {
-      const ref = doc(db, collection, id);
-      await setDoc(ref, { pictureUrl: url }, { merge: true })
+  const setData = async (url) => {
+    const ref = doc(db, collection, id);
+    await setDoc(ref, { pictureUrl: url }, { merge: true })
       .then(setUrl(url))
   }
 
@@ -91,10 +90,10 @@ const Picture = forwardRef((props, refe) => {
   }
 
   return (
-      <View>
-          <Image style={styles.image} source={{ uri: url }}/>
-          <Text>{progress}%</Text>
-      </View>
+    <View>
+      <Image style={styles.image} source={{ uri: url }} />
+      <Text>{progress}%</Text>
+    </View>
   )
 })
 

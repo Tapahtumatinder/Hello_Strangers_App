@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { auth } from '../firebase';
 import { signOut } from "firebase/auth";
 import Picture from '../components/Picture'
+import { StatusBar } from 'expo-status-bar';
 
 const HomeScreen = ({ navigation }) => {
 
@@ -44,6 +45,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden></StatusBar>
       <Picture collection="profile" id={auth.currentUser.uid} ref={buttonRef} />
       <Button onPress={pickPicture} title="Pick a photo" />
       <TouchableOpacity
@@ -61,7 +63,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     //justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 20
   },
   button: {
     backgroundColor: '#0782f9',

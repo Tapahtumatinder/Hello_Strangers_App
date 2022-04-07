@@ -2,7 +2,10 @@ import { React, useState, useEffect } from 'react';
 import {
   FlatList,
   SafeAreaView,
-  TextInput
+  TextInput,
+  View,
+  Text,
+  TouchableOpacity
 } from 'react-native';
 import { format, isToday } from 'date-fns';
 import {
@@ -25,6 +28,7 @@ import styles from '../AppStyle';
 
 const EventListScreen = ({ navigation }) => {
   const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [hostedEvents, setHostedEvents] = useState([]);
   const [index, setIndex] = useState(0);
   const today = new Date();
@@ -64,8 +68,9 @@ const EventListScreen = ({ navigation }) => {
         })
       });
       setEvents(tempEventList);
-      setHostedEvents(tempHostedEventList);         
-    } 
+      setHostedEvents(tempHostedEventList);
+      setFilteredEvents(tempEventList);
+    }
     catch (e) {
       console.error("Something went wrong: ", e);
     }
@@ -83,92 +88,114 @@ const EventListScreen = ({ navigation }) => {
   // UseState for the search keyword
   const [search, setSearch] = useState('');
 
-  const updateSearch = (search) => {
-    events.filter(item => {
-      if (search === '') {
-        return item;
-      }
-      else if (item.eventName.toLowerCase().includes(search.toLowerCase())) {
-        return item;
-      }
-    })
-  }
-
-  const renderHeader = () => {
-    return (
-      <TextInput
-        placeholder='Search event...'
-        onChangeText={text => setSearch(text)}
-        style={styles.eventInput}
-      />
-    )
+  // Filtering of events
+  const filterSearch = (text) => {
+    if (text) {
+      const newData = events.filter((item) => {
+        const itemData = item.eventName ? item.eventName.toLowerCase()
+          : ''.toLowerCase();
+        const textData = text.toLowerCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredEvents(newData);
+      setSearch(text);
+    } else {
+      setFilteredEvents(events);
+      setSearch(text);
+    }
   }
 
   // event items displayed in a flatlist
-  const renderItem = ({ item }) =>
-    <ListItem
-      bottomDivider
-      onPress={() => {
-        navigation.navigate('Event details', { event: item });
-      }}
-    >
-      { /* Event picture */}
-      <Avatar
-        size={58}
-        rounded
-        source={{ uri: item.hostImgUrl ? item.hostImgUrl : 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80' }} />
+  const renderItem = ({ item }) => {
+    return (
+      <ListItem
+        bottomDivider
+        onPress={() => {
+          navigation.navigate('Event details', { event: item });
+        }}
+      >
+        { /* Event picture */}
+        <Avatar
+          size={58}
+          rounded
+          source={{ uri: item.hostImgUrl ? item.hostImgUrl : 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80' }} />
 
-      { /* Main content of the list item */}
-      <ListItem.Content>
-        <ListItem.Title style={styles.boldFontWeight}>
-          {item.eventName}
-        </ListItem.Title>
-        <ListItem.Subtitle>
-          {`${item.address}, ${item.locality}`}
-        </ListItem.Subtitle>
-      </ListItem.Content>
+        { /* Main content of the list item */}
+        <ListItem.Content>
+          <ListItem.Title style={styles.boldFontWeight}>
+            {item.eventName}
+          </ListItem.Title>
+          <ListItem.Subtitle>
+            {`${item.address}, ${item.locality}`}
+          </ListItem.Subtitle>
+        </ListItem.Content>
 
-      { /* Right side content of the list item */}
-      <ListItem.Content right>
-        <ListItem.Title right style={styles.colorBlue}>
-          {isToday(item.startDateTime.toDate()) ? 'Today' : format(new Date(item.startDateTime.toDate()), 'MMM d')}
-        </ListItem.Title>
-        <ListItem.Title right style={styles.colorBlue}>
-          {format(new Date(item.startDateTime.toDate()), 'HH:mm')}
-        </ListItem.Title>
-      </ListItem.Content>
+        { /* Right side content of the list item */}
+        <ListItem.Content right>
+          <ListItem.Title right style={styles.colorBlue}>
+            {isToday(item.startDateTime.toDate()) ? 'Today' : format(new Date(item.startDateTime.toDate()), 'MMM d')}
+          </ListItem.Title>
+          <ListItem.Title right style={styles.colorBlue}>
+            {format(new Date(item.startDateTime.toDate()), 'HH:mm')}
+          </ListItem.Title>
+        </ListItem.Content>
 
-    </ListItem>
-
+      </ListItem>
+    )
+  }
   /* returns two tabs 'Events' and 'Hosting'
       Events: lists all events in a flatlist,
       Hosting: lists all events hosted by signed in user (in a flatlist) */
   return (
     <SafeAreaView style={styles.mainContainer}>
+
       <Tab value={index} onChange={setIndex}>
         <Tab.Item
-        title="Events"
-        titleStyle={styles.colorBlack}
+          title="Events"
+          titleStyle={styles.colorBlack}
         />
         <Tab.Item
-        title="Hosting"
-        titleStyle={styles.colorBlack}
+          title="Hosting"
+          titleStyle={styles.colorBlack}
         />
       </Tab>
 
+      <View style={styles.horizontalInputs}>
+        { /* Search bar */}
+        <View style={styles.horizontalLeft}>
+          <TextInput
+            placeholder='Search event...'
+            onChangeText={(text) => filterSearch(text)}
+            value={search}
+            style={styles.eventInput}
+          />
+        </View>
+        { /* Refresh button */}
+        <View style={styles.horizontalRight}>
+          <TouchableOpacity
+            onPress={getData}
+            style={{ alignItems: 'center' }}
+          >
+            <Text
+              style={{ textAlign: 'center', textAlignVertical: 'center', height: 40, width: 80 }}>
+              REFRESH
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
       <TabView value={index} onChange={setIndex} >
-        
-        { /* All events */ }
+
+        { /* All events */}
         <TabView.Item style={{ width: '100%' }}>
           <FlatList
-            data={events}
+            data={filteredEvents}
             renderItem={renderItem}
             keyExtractor={(item, index) => index}
-            ListHeaderComponent={renderHeader}
           />
         </TabView.Item>
 
-        { /* Hosting events */ }
+        { /* Hosting events */}
         <TabView.Item style={{ width: '100%' }}>
           <FlatList
             data={hostedEvents}

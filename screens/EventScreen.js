@@ -47,7 +47,8 @@ const EventScreen = ({ navigation }) => {
         eventUrlLink: eventUrlLink,
         organizer: auth.currentUser.uid
       });
-      navigation.navigate('Events');
+      navigation.goBack('Events');
+
     } catch (e) {
       console.error("Error adding document: ", e);
     }

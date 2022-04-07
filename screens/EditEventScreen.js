@@ -49,7 +49,8 @@ const EditEventScreen = ({ route, navigation }) => {
                 description: event.description,
                 eventUrlLink: event.eventUrlLink
             });
-            navigation.navigate('Events');
+            navigation.goBack(null);
+
         } catch (error) {
             console.log('error');
         }

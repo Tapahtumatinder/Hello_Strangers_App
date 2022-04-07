@@ -6,6 +6,7 @@ import EventScreen from '../screens/EventScreen';
 import EventListScreen from '../screens/EventListScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 import EditEventScreen from '../screens/EditEventScreen';
+import DeleteAccountScreen from '../screens/DeleteAccountScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ const MainStack = () => {
             />
             <Stack.Screen
                 name="Home"
+                options={{ headerShown: false }}
                 component={TabNavigator}
             />
             <Stack.Screen
@@ -40,6 +42,10 @@ const MainStack = () => {
             <Stack.Screen
                 name='Events'
                 component={EventListScreen}
+            />
+             <Stack.Screen
+                name="Delete account"
+                component={DeleteAccountScreen}
             />
         </Stack.Navigator>
     );

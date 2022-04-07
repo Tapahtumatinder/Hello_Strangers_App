@@ -6,7 +6,8 @@ LogBox.ignoreLogs(
   [
     'AsyncStorage',
     'Remote debugger',
-    'Require cycle'
+    'Require cycle',
+    'Setting a timer'
   ])
 
 export default function App() {

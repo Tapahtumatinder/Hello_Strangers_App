@@ -53,7 +53,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                 console.log('Something went wrong');
             }
         }
-        navigation.navigate('Events');
+        navigation.goBack('Events');
     }
 
     // TODO: event image (now hardcoded), 'tags' and 'attending'-chips and bottom sheet's 'Attending' action (doesn't do anything now)

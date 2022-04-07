@@ -44,7 +44,6 @@ const ProfileScreen = ({ navigation }) => {
     setShow(false);
   };
 
-
   // Calls function getData every time the page reloads
   useEffect(() => {
     getData()
@@ -80,7 +79,12 @@ const ProfileScreen = ({ navigation }) => {
     <View style={styles.mainContainer}>
       <View style={styles.inputContainer}>
 
-        <Button buttonStyle={styles.basicButton} title='ADD PHOTO' titleStyle={styles.basicTitle} />
+        <Button
+          buttonStyle={styles.basicButton}
+          title='ADD PHOTO'
+          titleStyle={styles.basicTitle}
+        />
+
         <Text>Name</Text>
         <TextInput
           placeholder='Set your first name'
@@ -88,6 +92,7 @@ const ProfileScreen = ({ navigation }) => {
           onChangeText={text => setUserName(text)}
           style={styles.input}
         />
+
         <Text>About you</Text>
         <TextInput
           placeholder='Describe yourself'
@@ -98,9 +103,14 @@ const ProfileScreen = ({ navigation }) => {
           maxLength={250}
         />
 
-        <Button buttonStyle={styles.basicButton} title="SELECT BIRTHDAY" titleStyle={styles.basicTitle} onPress={() => setShow(true)} />
-
+        <Button
+          buttonStyle={styles.basicButton}
+          title="SELECT BIRTHDAY"
+          titleStyle={styles.basicTitle}
+          onPress={() => setShow(true)}
+        />
         <Text>{bDayText}</Text>
+
       </View>
       {show && (
         <DateTimePicker
@@ -112,9 +122,18 @@ const ProfileScreen = ({ navigation }) => {
         />
       )}
       <View style={styles.inputContainer}>
-        
-        <Button buttonStyle={styles.basicButton} title='SAVE' titleStyle={styles.basicTitle} onPress={setData} />
-        <Text style={{color:'blue', textAlign:'center', textDecorationLine:'underline', marginTop: 40}} onPress={()=> navigation.navigate('Delete account')}>Delete account</Text>
+
+        <Button
+          buttonStyle={styles.basicButton}
+          title='SAVE'
+          titleStyle={styles.basicTitle}
+          onPress={setData}
+        />
+        <Text
+          style={{ color: 'blue', textAlign: 'center', textDecorationLine: 'underline', marginTop: 40 }}
+          onPress={() => navigation.navigate('Delete account')}>
+          Delete account
+        </Text>
 
       </View>
     </View>
