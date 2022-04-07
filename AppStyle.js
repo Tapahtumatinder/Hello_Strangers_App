@@ -42,10 +42,16 @@ basicTitle: {
 datePicker: {
     flex: 2,
 },
+colorBlue: {
+    color: '#1390E0'
+},
+colorBlack: {
+    color: 'black'
+},
+/* EventScreen */
 eventImg: {
     height: 250,
     justifyContent: 'center',
-    opacity: 0.7,
     marginBottom: 10
 },
 horizontalInputs: {
@@ -85,6 +91,37 @@ eventInputMultiline: {
     borderColor: '#868B8E',
     borderWidth: 1,
     textAlignVertical: 'top'
+},
+/* EventDetailsScreen */
+avatarOnEventImg: {
+    marginLeft: 15, 
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom:0,
+    marginBottom: 20,
+},
+txtOnEventImg: {
+    marginLeft: 15,
+    color: 'white',
+    fontSize: 20,
+    textShadowColor: 'black',
+    textShadowOffset: { width: 1, height: 1 } ,
+    textShadowRadius: 5,
+},
+boldFontWeight: {
+    fontWeight: "700"
+},
+eventChips: {
+    flex: 1,
+    alignItems: 'flex-start',
+    padding: 10
+},
+eventDescription: {
+    flex: 1,
+    padding: 15
+},
+bottomSheetContent: {
+    alignItems: 'center'
 },
 
 })
