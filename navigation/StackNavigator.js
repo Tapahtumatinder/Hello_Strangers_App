@@ -7,6 +7,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import EventScreen from '../screens/EventScreen';
 import EventListScreen from '../screens/EventListScreen';
 import { TabNavigator } from './TabNavigator';
+import EventDetailsScreen from '../screens/EventDetailsScreen';
+import EditEventScreen from '../screens/EditEventScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +60,20 @@ const MainStack = () => {
             <Stack.Screen
                 name="Create event"
                 component={EventScreen}
+            />
+            <Stack.Screen
+                name='Event details'
+                component={EventDetailsScreen}
+                options={({ navigation, route }) => ({
+                })}
+            />
+            <Stack.Screen
+                name='Edit event'
+                component={EditEventScreen}
+            />
+            <Stack.Screen
+                name='Events'
+                component={EventListScreen}
             />
         </Stack.Navigator>
     );
