@@ -24,11 +24,11 @@ const user= auth.currentUser;
 const credential = EmailAuthProvider.credential(auth.currentUser.email,password);
 const result = async () => {
     await reauthenticateWithCredential(auth.currentUser,credential);
-    deleteDoc(docRef)
-    .then(()=>{
+    deleteDoc(docRef).then(()=>{
         console.log('wörkkii')
     deleteUser(user).then(()=> {
         console.log("deleted")
+        navigation.navigate('Login')
         //todo: redirect to login/registerscreen
         
     }).catch(error => alert(error.message))
