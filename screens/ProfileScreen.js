@@ -75,6 +75,7 @@ const ProfileScreen = ({ navigation }) => {
       userAge: userAge,
       userBirthdate: userBirthdate
     })
+    navigation.navigate('HomeTab')
   }
   return (
     <View style={styles.mainContainer}>
@@ -97,6 +98,8 @@ const ProfileScreen = ({ navigation }) => {
           multiline={true}
           maxLength={250}
         />
+
+        <Button buttonStyle={styles.basicButton} title='INTERESTS' titleStyle={styles.basicTitle} onPress={() => navigation.navigate('Interest')} /> 
 
         <Button buttonStyle={styles.basicButton} title="SELECT BIRTHDAY" titleStyle={styles.basicTitle} onPress={() => setShow(true)} />
 
