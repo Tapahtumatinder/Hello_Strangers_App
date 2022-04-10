@@ -6,7 +6,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 
 const Picture = forwardRef((props, refe) => {
-  // muutoksia
+  // androidissa time-warning
 
   const [progress, setProgress] = useState('');
   const [url, setUrl] = useState(null);
