@@ -4,17 +4,28 @@ import { doc, setDoc, getDoc, collection, getDocs, query } from 'firebase/firest
 import { auth, db } from '../firebase';
 import styles from '../AppStyle';
 import { React, useState, useEffect } from 'react';
+import MultiSelect from 'react-native-multiple-select';
+import { render } from 'react-dom';
+
 
 const InterestScreen = ({ navigation }) => {
 
     const [interests, setInterests] = useState([]);
- //   const [buttons, setButtons] = useState([]);
+ // const [buttons, setButtons] = useState([]);
     const [selectedId, setSelectedId] = useState(null);
+    const [selectedItems, setSelectedItems] = useState([]);
+    function onSelectedItemsChange(selectedItems) {
+    // Set Selected Items
+    setSelectedItems(selectedItems);
+  }
+
+  
     
   // Calls function getData every time the page reloads
   useEffect(() => {
     getInterest();
   }, []);
+
 
   // Gets all of the data stored in collection 'interest'
   const getInterest = async () => {
@@ -73,21 +84,36 @@ const renderItem = ({ item }) => {
   );
 
 return (
-    <View style={styles.mainContainer}>
-    <View style={styles.listContainer}>
-        <Text style={{margin:20, textAlign:'center', fontSize: 22, fontWeight: "bold"}}> Choose your interests</Text>
-     <View style={styles.flatListContainer}>
-       <FlatList
-            horizontal={false}
-            numColumns
-            data={interests} // interests from the database
-            renderItem={renderItem} // which item we render
-            keyExtractor={(item) => item.id.toString()}
-            extraData={selectedId}
-             />
-     </View>
-    </View>
-    </View>
-)
+  <SafeAreaView>
+      <View>
+        <Text>
+          Choose interests
+        </Text>
+     <MultiSelect
+     hideTags
+     items={interests}
+     uniqueKey="id"
+     onSelectedItemsChange={onSelectedItemsChange}
+     selectedItems={selectedItems}
+     selectText="Choose interests"
+     onChangeInput={(text)=> console.log(text)}
+     tagRemoveIconColor="CCC"
+     tagBorderColor="#CCC"
+     tagTextColor="#CCC"
+     selectedItemTextColor="#CCC"
+      selectedItemIconColor="#CCC"
+          itemTextColor="#000"
+          displayKey="interestName"
+          searchInputStyle={{color: '#CCC'}}
+          submitButtonColor='rgba(128, 128, 128, 0.4)'
+          submitButtonText="Submit"
+        />
+     
+   </View>
+   </SafeAreaView>
+);
 }
 export default InterestScreen;
+
+
+

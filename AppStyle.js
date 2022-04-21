@@ -74,7 +74,8 @@ basicButton: {
     borderColor: 'transparent',
     borderWidth: 0,
     borderRadius: 10,
-    width: 200
+    width: 200,
+    marginBottom:10
 },
 basicTitle: {
     color: 'black',
