@@ -1,4 +1,4 @@
-import { View, FlatList, TextInput, Text, Platform, SafeAreaView, TouchableOpacity } from 'react-native'
+import { View, FlatList, TextInput, Text, Platform, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
 import { Button, ListItem, ButtonGroup } from 'react-native-elements';
 import { doc, setDoc, getDoc, collection, getDocs, query } from 'firebase/firestore/lite';
 import { auth, db } from '../firebase';
@@ -14,12 +14,18 @@ const InterestScreen = ({ navigation }) => {
  // const [buttons, setButtons] = useState([]);
     const [selectedId, setSelectedId] = useState(null);
     const [selectedItems, setSelectedItems] = useState([]);
+
     function onSelectedItemsChange(selectedItems) {
     // Set Selected Items
     setSelectedItems(selectedItems);
   }
 
-  
+
+  const saveInterests= async () => {
+    await setDoc(doc(db, 'user', auth.currentUser.uid), {
+      interests: selectedItems
+    })
+  }
     
   // Calls function getData every time the page reloads
   useEffect(() => {
@@ -47,15 +53,7 @@ const InterestScreen = ({ navigation }) => {
 }
 }
  
-// sets the button texts - tätä ei nyt ehkä tarvita
-// const setButton = (tempInterestList) => {
-//   let tempButton = [];
-//   tempButton = tempInterestList.map (interest =>
-//    interest.interestName
-//    )
-//    setButtons(tempButton);
-//    console.log(tempButton)
-//}
+
 
 // to list and save seledted interest to profile -- kesken
 const listSelectedInterests = (selectedId) => {
@@ -85,6 +83,7 @@ const renderItem = ({ item }) => {
 
 return (
   <SafeAreaView>
+    <ScrollView>
       <View>
         <Text>
           Choose interests
@@ -101,18 +100,22 @@ return (
      tagBorderColor="#CCC"
      tagTextColor="#CCC"
      selectedItemTextColor="#CCC"
-      selectedItemIconColor="#CCC"
-          itemTextColor="#000"
+     selectedItemIconColor="#CCC"
+     itemTextColor="#000"
           displayKey="interestName"
           searchInputStyle={{color: '#CCC'}}
           submitButtonColor='rgba(128, 128, 128, 0.4)'
           submitButtonText="Submit"
         />
-     
+  
+  
    </View>
+  </ScrollView>
    </SafeAreaView>
 );
 }
+
+
 export default InterestScreen;
 
 

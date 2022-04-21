@@ -7,6 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from '../AppStyle';
 import Picture from '../components/Picture';
 import DatePicker from 'react-native-date-picker'
+import InterestScreen from './InterestScreen';
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -60,6 +61,7 @@ const ProfileScreen = ({ navigation }) => {
       setUserDescription(docSnap.data().userDescription);
       setUserAge(docSnap.data().userAge);
       setUserBirthdate(docSnap.data().userBirthdate);
+
     } else {
       console.log('a true stranger');
     }
@@ -98,9 +100,9 @@ const ProfileScreen = ({ navigation }) => {
           multiline={true}
           maxLength={250}
         />
-
-        <Button buttonStyle={styles.basicButton} title='INTERESTS' titleStyle={styles.basicTitle} onPress={() => navigation.navigate('Interest')} /> 
-
+        <View style={styles.mainContainer}>
+        <InterestScreen/>
+        </View>
         <Button buttonStyle={styles.basicButton} title="SELECT BIRTHDAY" titleStyle={styles.basicTitle} onPress={() => setShow(true)} />
 
         <Text>{bDayText}</Text>
