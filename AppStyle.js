@@ -49,6 +49,9 @@ colorBlue: {
 colorBlack: {
     color: 'black'
 },
+filterButton: {
+    width: '100%'
+},
 /* EventScreen */
 eventImg: {
     height: 250,
@@ -60,11 +63,15 @@ horizontalInputs: {
 },
 horizontalRight: {
     flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'center'
 },
 horizontalLeft: {
+    flex: 2,
+    justifyContent: 'center'
+},
+horizontalCenter: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'center',
 },
 label: {
     color: 'black',
