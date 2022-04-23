@@ -1,6 +1,6 @@
 import { React, useState, useLayoutEffect } from 'react';
 import { auth, db } from '../firebase';
-import { doc, deleteDoc } from "firebase/firestore/lite";
+import { doc, deleteDoc, updateDoc, setDoc, arrayUnion, arrayRemove } from "firebase/firestore/lite";
 import {
     ImageBackground,
     SafeAreaView,
@@ -20,11 +20,44 @@ import { format } from 'date-fns';
 import styles from '../AppStyle';
 
 const EventDetailsScreen = ({ route, navigation }) => {
+  
     const { event } = route.params;
     const [isVisible, setIsVisible] = useState(false);
 
+    // Add a current users id to the "attendance" array field.
+    const addAttendance = async () => {
+        const ref = doc(db, 'event', event.id);
+        await updateDoc(ref, {
+            attending: arrayUnion(auth.currentUser.uid)
+        });
+    }
+
+    // Remove current users id from the "attendance" array field.
+    const removeAttendance = async () => {
+        const ref = doc(db, 'event', event.id);
+        await updateDoc(ref, {
+            attending: arrayRemove(auth.currentUser.uid)
+        });
+    }
+
+    /*
+    const attending = [
+        'SN83doHTkSdXAVP67HMWl0oYRpv2',
+        'pejQN1GR12ZAiUgLLVKXEwld3Fr1',
+        'k38tgBqsh6NhJbz0VWtBe9EcDTt1'
+    ];
+
+    const setData = async () => {
+        const ref = doc(db, 'event', event.id);
+        await setDoc(ref, { attending: attending }, { merge: true })
+        console.log(ref)
+    }
+    */
+
     // to display button in the right upper corner of the header (three dots)
     useLayoutEffect(() => {
+        //addAttendance();
+        removeAttendance();
         navigation.setOptions({
             headerRight: () => (
                 <Button
