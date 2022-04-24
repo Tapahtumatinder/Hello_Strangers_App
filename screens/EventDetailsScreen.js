@@ -1,6 +1,6 @@
-import { React, useState, useLayoutEffect } from 'react';
+import { React, useState, useLayoutEffect, useEffect } from 'react';
 import { auth, db } from '../firebase';
-import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore/lite";
+import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore/lite";
 import UserAvatar from '../components/UserAvatar'
 import {
     ImageBackground,
@@ -24,15 +24,26 @@ const EventDetailsScreen = ({ route, navigation }) => {
   
     const { event } = route.params;
     const [isVisible, setIsVisible] = useState(false);
-    const [userPics, setUserPics] = useState([]);
     const userId = auth.currentUser.uid;
+    const [eventByid, setEventByid] = useState({attending: []});
+
+    useEffect(() => {
+        getEventByid()
+    }, []);
+
+    const getEventByid = async () => {
+        const docRef = doc(db, 'event', event.id);
+        const docSnap = await getDoc(docRef);
+        setEventByid(docSnap.data())
+    }
 
     // Toggle (add/remove) current users id in event.attending array
     const changeAttendance = async () => {
         const ref = doc(db, 'event', event.id);
         await updateDoc(ref, {
-            attending: event.attending.includes(userId) ? arrayRemove(userId) : arrayUnion(userId)
-        }); 
+            attending: eventByid.attending.includes(userId) ? arrayRemove(userId) : arrayUnion(userId)
+        });
+        getEventByid();
     }
 
     // to display button in the right upper corner of the header (three dots)
@@ -120,7 +131,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                         }}
                         containerStyle={{ marginVertical: 8 }} />
                     <Chip
-                        title={`Attending ${event.attending ? event.attending.length : '0'}/${event.maxAttendance}`}
+                        title={`Attending ${eventByid.attending ? eventByid.attending.length : '0'}/${eventByid.maxAttendance}`}
                         titleStyle={{ color: 'black' }}
                         type='outline'
                         buttonStyle={{ backgroundColor: '#D6D6D6', borderColor: 'white' }}
@@ -164,7 +175,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                 />
                 <View style={styles.eventDescription}>
                     <Text style={styles.boldFontWeight}>Attending:</Text>
-                    {event.attending.map((uid, index) => {
+                    {eventByid.attending.map((uid, index) => {
                         return <UserAvatar key={index} index={index} uid={uid}/>
                     })}
                 </View>
@@ -195,7 +206,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                             <ListItem.Content style={styles.bottomSheetContent}>
                                 <ListItem.Title>
                                     <Text onPress={() => setIsVisible(false) + changeAttendance()}>
-                                        {event.attending.includes(userId) ? "Drop out from event" : "Let host know you'd like to attend" }
+                                        {eventByid.attending.includes(userId) ? "Drop out from event" : "Let host know you'd like to attend" }
                                     </Text>
                                 </ListItem.Title>
                             </ListItem.Content>
