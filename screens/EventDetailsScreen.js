@@ -1,6 +1,7 @@
 import { React, useState, useLayoutEffect } from 'react';
 import { auth, db } from '../firebase';
-import { doc, deleteDoc, updateDoc, setDoc, arrayUnion, arrayRemove } from "firebase/firestore/lite";
+import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore/lite";
+import UserAvatar from '../components/UserAvatar'
 import {
     ImageBackground,
     SafeAreaView,
@@ -23,41 +24,19 @@ const EventDetailsScreen = ({ route, navigation }) => {
   
     const { event } = route.params;
     const [isVisible, setIsVisible] = useState(false);
+    const [userPics, setUserPics] = useState([]);
+    const userId = auth.currentUser.uid;
 
-    // Add a current users id to the "attendance" array field.
-    const addAttendance = async () => {
+    // Toggle (add/remove) current users id in event.attending array
+    const changeAttendance = async () => {
         const ref = doc(db, 'event', event.id);
         await updateDoc(ref, {
-            attending: arrayUnion(auth.currentUser.uid)
-        });
+            attending: event.attending.includes(userId) ? arrayRemove(userId) : arrayUnion(userId)
+        }); 
     }
-
-    // Remove current users id from the "attendance" array field.
-    const removeAttendance = async () => {
-        const ref = doc(db, 'event', event.id);
-        await updateDoc(ref, {
-            attending: arrayRemove(auth.currentUser.uid)
-        });
-    }
-
-    /*
-    const attending = [
-        'SN83doHTkSdXAVP67HMWl0oYRpv2',
-        'pejQN1GR12ZAiUgLLVKXEwld3Fr1',
-        'k38tgBqsh6NhJbz0VWtBe9EcDTt1'
-    ];
-
-    const setData = async () => {
-        const ref = doc(db, 'event', event.id);
-        await setDoc(ref, { attending: attending }, { merge: true })
-        console.log(ref)
-    }
-    */
 
     // to display button in the right upper corner of the header (three dots)
     useLayoutEffect(() => {
-        //addAttendance();
-        removeAttendance();
         navigation.setOptions({
             headerRight: () => (
                 <Button
@@ -141,7 +120,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                         }}
                         containerStyle={{ marginVertical: 8 }} />
                     <Chip
-                        title="Attending"
+                        title={`Attending ${event.attending ? event.attending.length : '0'}/${event.maxAttendance}`}
                         titleStyle={{ color: 'black' }}
                         type='outline'
                         buttonStyle={{ backgroundColor: '#D6D6D6', borderColor: 'white' }}
@@ -176,6 +155,19 @@ const EventDetailsScreen = ({ route, navigation }) => {
                     <Text style={styles.boldFontWeight}>Description:</Text>
                     <Text style={{ marginTop: 15 }}>{event.description}</Text>
                 </View>
+                <View
+                    style={{
+                        borderBottomColor: '#D6D6D6',
+                        borderBottomWidth: 1,
+                        margin: 10
+                    }}
+                />
+                <View style={styles.eventDescription}>
+                    <Text style={styles.boldFontWeight}>Attending:</Text>
+                    {event.attending.map((uid, index) => {
+                        return <UserAvatar key={index} index={index} uid={uid}/>
+                    })}
+                </View>
                 <BottomSheet
                     isVisible={isVisible}>
                     {event.organizer === auth.currentUser.uid ?
@@ -202,7 +194,10 @@ const EventDetailsScreen = ({ route, navigation }) => {
                         (<ListItem bottomDivider>
                             <ListItem.Content style={styles.bottomSheetContent}>
                                 <ListItem.Title>
-                                    <Text>Let host know you'd like to attend</Text></ListItem.Title>
+                                    <Text onPress={() => setIsVisible(false) + changeAttendance()}>
+                                        {event.attending.includes(userId) ? "Drop out from event" : "Let host know you'd like to attend" }
+                                    </Text>
+                                </ListItem.Title>
                             </ListItem.Content>
                         </ListItem>)
                     }
@@ -221,3 +216,18 @@ const EventDetailsScreen = ({ route, navigation }) => {
     );
 }
 export default EventDetailsScreen;
+
+
+/*
+    const attending = [
+        'SN83doHTkSdXAVP67HMWl0oYRpv2',
+        'pejQN1GR12ZAiUgLLVKXEwld3Fr1',
+        'k38tgBqsh6NhJbz0VWtBe9EcDTt1'
+    ];
+
+    const setData = async () => {
+        const ref = doc(db, 'event', event.id);
+        await setDoc(ref, { attending: attending }, { merge: true })
+        console.log(ref)
+    }
+    */
