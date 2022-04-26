@@ -10,6 +10,10 @@ inputContainer: {
     flex: 3,
     alignItems: 'center' // on secondary (row) axis
 },
+interestContainer: {
+    flex: 3,
+    width: 250
+},
 input: {
     backgroundColor: 'white',
     paddingHorizontal: 15,

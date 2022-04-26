@@ -1,4 +1,4 @@
-import { View, FlatList, TextInput, Text, Platform, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Card, TextInput, Text, Pressable, Platform, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
 import { Button, ListItem, ButtonGroup } from 'react-native-elements';
 import { doc, setDoc, getDoc, collection, getDocs, query } from 'firebase/firestore/lite';
 import { auth, db } from '../firebase';
@@ -11,27 +11,42 @@ import { render } from 'react-dom';
 const InterestScreen = ({ navigation }) => {
 
     const [interests, setInterests] = useState([]);
- // const [buttons, setButtons] = useState([]);
     const [selectedId, setSelectedId] = useState(null);
     const [selectedItems, setSelectedItems] = useState([]);
+    const [userInterests, setUserInterests] = useState([]);
+   
+  // Calls function getData every time the page reloads
+  useEffect(() => {
+    getInterest();
+    getData();
+  }, []);
+
 
     function onSelectedItemsChange(selectedItems) {
     // Set Selected Items
     setSelectedItems(selectedItems);
   }
 
+   // Gets already stored interests in collection 'user' that has the same id with the logged in user
+   const getData = async () => {
+    const docRef = doc(db, 'user', auth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
 
-  const saveInterests= async () => {
-    await setDoc(doc(db, 'user', auth.currentUser.uid), {
-      interests: selectedItems
-    })
+    if (docSnap.exists()) {
+      setUserInterests(docSnap.data().interest)
+      setSelectedItems(docSnap.data().interest)
+    } else {
+      console.log('a true stranger');
+    }
   }
-    
-  // Calls function getData every time the page reloads
-  useEffect(() => {
-    getInterest();
-  }, []);
 
+
+  // merge selected interests under user object in firestore 
+  const saveInterest = async (url) => {
+    const ref = doc(db, 'user', auth.currentUser.uid);
+    await setDoc(ref, { 
+      interest: selectedItems }, { merge: true })
+  }
 
   // Gets all of the data stored in collection 'interest'
   const getInterest = async () => {
@@ -54,40 +69,9 @@ const InterestScreen = ({ navigation }) => {
 }
  
 
-
-// to list and save seledted interest to profile -- kesken
-const listSelectedInterests = (selectedId) => {
-    console.log(selectedId + " on valittu")
-
-}
-
-// change the color of the selected item based on selected id
-const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "rgba(128, 128, 128, 0.4)" : "#FFFFFF";
-    listSelectedInterests(selectedId)
-    return (
-      <Item
-        item={item}
-        onPress={() => setSelectedId(item.id)}
-        backgroundColor={{ backgroundColor }} 
-      />
-    );
-  };
-
-  // one item on a interest list rendered in flatlist
-  const Item = ({ item, onPress, backgroundColor}) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-        <Text style={[styles.basicTitle]}>{item.interestName}</Text>
-    </TouchableOpacity>
-  );
-
 return (
   <SafeAreaView>
-    <ScrollView>
       <View>
-        <Text>
-          Choose interests
-        </Text>
      <MultiSelect
      hideTags
      items={interests}
@@ -104,13 +88,12 @@ return (
      itemTextColor="#000"
           displayKey="interestName"
           searchInputStyle={{color: '#CCC'}}
-          submitButtonColor='rgba(128, 128, 128, 0.4)'
-          submitButtonText="Submit"
+          hideSubmitButton={true}
         />
-  
-  
-   </View>
-  </ScrollView>
+      <View style={{ alignItems: 'center' }}>
+         <Button buttonStyle={styles.basicButton}  title='SAVE' titleStyle={styles.basicTitle} onPress={saveInterest} />
+      </View> 
+  </View>
    </SafeAreaView>
 );
 }
