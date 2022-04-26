@@ -1,11 +1,10 @@
-import { View, Card, TextInput, Text, Pressable, Platform, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
-import { Button, ListItem, ButtonGroup } from 'react-native-elements';
+import { View, SafeAreaView, ScrollView } from 'react-native'
+import { Button } from 'react-native-elements';
 import { doc, setDoc, getDoc, collection, getDocs, query } from 'firebase/firestore/lite';
 import { auth, db } from '../firebase';
 import styles from '../AppStyle';
 import { React, useState, useEffect } from 'react';
 import MultiSelect from 'react-native-multiple-select';
-import { render } from 'react-dom';
 
 
 const InterestScreen = ({ navigation }) => {
@@ -20,7 +19,6 @@ const InterestScreen = ({ navigation }) => {
     getInterest();
     getData();
   }, []);
-
 
     function onSelectedItemsChange(selectedItems) {
     // Set Selected Items
@@ -90,6 +88,7 @@ return (
           displayKey="interestName"
           searchInputStyle={{color: '#CCC'}}
           hideSubmitButton={true}
+          
         />
       <View style={{ alignItems: 'center' }}>
          <Button buttonStyle={styles.basicButton}  title='SAVE' titleStyle={styles.basicTitle} onPress={saveInterest} />

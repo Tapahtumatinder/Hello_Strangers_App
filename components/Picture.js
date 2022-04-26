@@ -1,9 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View, Button, Image } from 'react-native';
+import { Text, TouchableOpacity, View, Image } from 'react-native';
+import { Button } from 'react-native-elements';
 import { React, useState, useEffect } from 'react';
 import { storage, auth, db } from '../firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
+import styles from '../AppStyle';
 
 const Picture = () => {
   // muutoksia
@@ -87,17 +89,11 @@ const Picture = () => {
       <View>
           <Image style={styles.image} source={{ uri: url }}/>
           <Text>{progress}%</Text>
-          <Button title='Pick a photo' onPress={pickPicture}/>
+          <View style={styles.centerContainer}>
+          <Button buttonStyle={styles.basicButton} titleStyle={styles.basicTitle} title='Pick a photo' onPress={pickPicture}/>
+          </View>
       </View>
   )
 }
 
 export default Picture
-
-const styles = StyleSheet.create({
-  image: {
-    width: 375,
-    height: 375,
-    backgroundColor: '#ddd'
-  }
-})

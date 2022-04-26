@@ -6,6 +6,9 @@ mainContainer: {
     // default direction is column
     flex: 1,
 },
+centerContainer: {
+    alignItems: 'center' // on secondary (row) axis
+},
 inputContainer: {
     flex: 3,
     alignItems: 'center' // on secondary (row) axis
@@ -33,13 +36,6 @@ multilineInput:{
     marginBottom: 10,
     width: 250,
 },
-//btnGroup ei käytössä interest screenissä
-btnGroup: {
-    flex: 1,
-    flexDirection: 'column',
-    //flexWrap: 'wrap',
-    alignContent: 'space-around'
-},
 item: {
     padding: 10,
     marginVertical: 6,
@@ -47,39 +43,35 @@ item: {
     borderWidth: 1,
     borderRadius: 20
   },
-//groupButton ei käytössä interest-screenillä
-groupButton: {
-    backgroundColor: 'white',
-    borderColor: 'grey',
-    borderWidth: 1,
-    borderRadius: 20,
-    width: 200,
-    alignSelf: 'center'
-    
-},
 listContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+},  
+profileDescription: {
+    padding: 10,
+    fontSize: 18,
+    color: 'grey'
 },
-flatListContainer: {
-    flex: 4,
-    width:"100%",
-    // flexDirection: 'row',
-   // flexWrap: 'wrap',
-   // flexDirection: 'row',
-   // alignContent: 'flex-start',
-    //alignItems: 'center',
-    //justifyContent: 'center',
-},   
+profileChips: {
+    flex: 1,
+    flexWrap: 'wrap',
+    flexDirection:'row',
+   // alignContent: 'space-around',
+    padding: 10
+},
+descriptionContainer: {
+    flex: 2,
+    justifyContent: 'center'
+},
 basicButton: {
     backgroundColor: 'rgba(128, 128, 128, 0.4)',
     borderColor: 'transparent',
     borderWidth: 0,
     borderRadius: 10,
-    width: 200,
-    marginBottom:10
+    width: 250,
+    margin: 10
 },
 basicTitle: {
     color: 'black',
@@ -88,6 +80,12 @@ basicTitle: {
 datePicker: {
     flex: 2,
 },
+// picture-komponentin kuvan style
+image: {
+    width: 375,
+    height: 375,
+    backgroundColor: '#ddd'
+  }, 
 eventImg: {
     height: 250,
     justifyContent: 'center',
@@ -132,6 +130,26 @@ eventInputMultiline: {
     borderWidth: 1,
     textAlignVertical: 'top'
 },
-
+// POISTA ALLA OLEVAT ENNEN PUSHAUSTA
+eventImg: {
+    height: 250,
+    justifyContent: 'center',
+    marginBottom: 10
+},
+avatarOnEventImg: {
+    marginLeft: 15, 
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom:0,
+    marginBottom: 20,
+},
+txtOnEventImg: {
+    marginLeft: 15,
+    color: 'white',
+    fontSize: 30,
+    textShadowColor: 'black',
+    textShadowOffset: { width: 1, height: 1 } ,
+    textShadowRadius: 5,
+}
 
 })

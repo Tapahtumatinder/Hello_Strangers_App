@@ -1,4 +1,4 @@
-import { View, TextInput, Text, Platform, ScrollView } from 'react-native'
+import { View, TextInput, Text, Platform, ScrollView, SafeAreaView } from 'react-native'
 import { Button } from 'react-native-elements';
 import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
 import { auth, db } from '../firebase';
@@ -6,8 +6,6 @@ import { React, useState, useEffect } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from '../AppStyle';
 import Picture from '../components/Picture';
-import DatePicker from 'react-native-date-picker'
-import InterestScreen  from './InterestScreen';
 
 
 
@@ -17,15 +15,18 @@ const EditProfileScreen = ({ navigation }) => {
   const [userAge, setUserAge] = useState('');
   const [bDayText, setbDayText] = useState('Empty');
   const [userBirthdate, setUserBirthdate] = useState(new Date());
+ 
+  // Calls function getData every time the page reloads
+  useEffect(() => {
+    getData()
+  }, [])
 
   //Pick the birthdate
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [chosenDate, setChosenDate] = useState();
 
-  
-
-  // select date
+  // Select birthdate
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
@@ -48,13 +49,7 @@ const EditProfileScreen = ({ navigation }) => {
     setShow(false);
   };
 
-
-  // Calls function getData every time the page reloads
-  useEffect(() => {
-    getData()
-  }, [])
-
-  // Gets all of the data stored in collection 'user' that has the same id with the logged in user.
+  // Gets all of the data stored in collection 'user' that has the same id with the logged in user
   const getData = async () => {
     const docRef = doc(db, 'user', auth.currentUser.uid);
     const docSnap = await getDoc(docRef);
@@ -71,39 +66,42 @@ const EditProfileScreen = ({ navigation }) => {
 
   // Overrides anything within the collection: 'user' and id: 'logged in user id'...
   // ...with the stuff inside the '{}' (in this case 'userName: usertName').
-  // If the collection does not exsist, then creates a 'user' collection to firestore.
+  // If the collection does not exsist, then creates a 'user' collection to firestore. If it exists already, then merge.
   const setData = async () => {
     await setDoc(doc(db, 'user', auth.currentUser.uid), {
       userName: userName,
       userDescription: userDescription,
       userAge: userAge,
       userBirthdate: userBirthdate
-      
-    },{merge:true})
+    }, {merge:true})
     navigation.navigate('HomeTab')
   }
+
+
   return (
+    <SafeAreaView style={styles.mainContainer}>
     <ScrollView>
     <View style={styles.mainContainer}>
       <View style={styles.inputContainer}>
-
-        <View style={styles.profilePicture}><Picture /></View>
+        <View >
+          <Picture/>
+        </View>
+        <Text style={styles.label}>NAME</Text>
         <TextInput
           placeholder='Set your first name'
           value={userName}
           onChangeText={text => setUserName(text)}
-          style={styles.input}
+          style={styles.eventInput}
         />
-        <Text>About you</Text>
+        <Text style={styles.label}>ABOUT YOU</Text>
         <TextInput
           placeholder='Describe yourself'
           value={userDescription}
           onChangeText={text => setUserDescription(text)}
-          style={styles.multilineInput}
+          style={styles.eventInputMultiline}
           multiline={true}
           maxLength={250}
         />
-         
          <Button buttonStyle={styles.basicButton} title="SELECT INTERESTS" titleStyle={styles.basicTitle} onPress={() => navigation.navigate('Interest') } />
        
         <Button buttonStyle={styles.basicButton} title="SELECT BIRTHDAY" titleStyle={styles.basicTitle} onPress={() => setShow(true)} />
@@ -120,15 +118,13 @@ const EditProfileScreen = ({ navigation }) => {
         />
       )}
       <View style={styles.inputContainer}>
-        
-        <Button buttonStyle={styles.basicButton} title='SAVE' titleStyle={styles.basicTitle} onPress={setData} />
         <Text style={{color:'blue', textAlign:'center', textDecorationLine:'underline', marginTop: 40}} onPress={()=> navigation.navigate('Delete account')}>Delete account</Text>
-        <Button buttonStyle={styles.basicButton} title='PROFILE' titleStyle={styles.basicTitle} onPress={()=> navigation.navigate('Profile')} />
-
+        <Button buttonStyle={styles.basicButton} title='VIEW PROFILE' titleStyle={styles.basicTitle} onPress={()=> navigation.navigate('Profile')} />
       </View>
-
     </View>
+        <Button title='SAVE' onPress={setData} />
     </ScrollView>
+    </SafeAreaView>
   );
 
 }

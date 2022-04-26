@@ -1,9 +1,10 @@
 import { React } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { auth } from '../firebase';
 import { signOut } from "firebase/auth";
 import Picture from '../components/Picture'
+import { Button } from 'react-native-elements';
 import { StatusBar } from 'expo-status-bar';
 
 const HomeScreen = ({ navigation }) => {
