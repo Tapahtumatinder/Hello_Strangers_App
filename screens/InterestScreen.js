@@ -46,6 +46,7 @@ const InterestScreen = ({ navigation }) => {
     const ref = doc(db, 'user', auth.currentUser.uid);
     await setDoc(ref, { 
       interest: selectedItems }, { merge: true })
+      .then (navigation.goBack('EditProfile'));
   }
 
   // Gets all of the data stored in collection 'interest'
@@ -62,7 +63,7 @@ const InterestScreen = ({ navigation }) => {
             }); 
         console.log(tempInterestList)
         setInterests(tempInterestList);
-//        setButton(tempInterestList); - ei ehkä tarvita
+        
 } catch (e) {
     console.error("Error: ", e);
 }
