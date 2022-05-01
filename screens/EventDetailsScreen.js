@@ -1,4 +1,4 @@
-import { React, useState, useLayoutEffect, useEffect } from 'react';
+import { React, useState, useLayoutEffect } from 'react';
 import { auth, db } from '../firebase';
 import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore/lite";
 import UserAvatar from '../components/UserAvatar'
@@ -27,14 +27,15 @@ const EventDetailsScreen = ({ route, navigation }) => {
     const userId = auth.currentUser.uid;
     const [eventByid, setEventByid] = useState({attending: []});
 
-    useEffect(() => {
-        getEventByid()
-    }, []);
-
+    // Since firestore/lite does not include snapShot,
+    // using useEffect and useState keep the event object updated.
+    // If event.attending is unassigned adding an empty array to it.
     const getEventByid = async () => {
         const docRef = doc(db, 'event', event.id);
         const docSnap = await getDoc(docRef);
-        setEventByid(docSnap.data())
+        const data = docSnap.data();
+        if (!data.attending) {data.attending = []}
+        setEventByid(data)
     }
 
     // Toggle (add/remove) current users id in event.attending array
@@ -48,6 +49,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
 
     // to display button in the right upper corner of the header (three dots)
     useLayoutEffect(() => {
+        getEventByid()
         navigation.setOptions({
             headerRight: () => (
                 <Button
@@ -176,7 +178,12 @@ const EventDetailsScreen = ({ route, navigation }) => {
                 <View style={styles.eventDescription}>
                     <Text style={styles.boldFontWeight}>Attending:</Text>
                     {eventByid.attending.map((uid, index) => {
-                        return <UserAvatar key={index} index={index} uid={uid}/>
+                        return <UserAvatar
+                            navigation={navigation}
+                            key={index}
+                            index={index}
+                            uid={uid}
+                            max={eventByid.maxAttendance}/>
                     })}
                 </View>
                 <BottomSheet
@@ -206,7 +213,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                             <ListItem.Content style={styles.bottomSheetContent}>
                                 <ListItem.Title>
                                     <Text onPress={() => setIsVisible(false) + changeAttendance()}>
-                                        {eventByid.attending.includes(userId) ? "Drop out from event" : "Let host know you'd like to attend" }
+                                        {eventByid.attending.includes(userId) ? 'Drop out from event' : eventByid.attending.length < eventByid.maxAttendance ? 'Join event' : 'Join queue (even full)'}
                                     </Text>
                                 </ListItem.Title>
                             </ListItem.Content>

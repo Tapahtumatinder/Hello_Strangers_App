@@ -7,6 +7,7 @@ import EventListScreen from '../screens/EventListScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 import EditEventScreen from '../screens/EditEventScreen';
 import DeleteAccountScreen from '../screens/DeleteAccountScreen';
+import ProfileDetailsScreen from '../screens/ProfileDetailsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,12 @@ const MainStack = () => {
             <Stack.Screen
                 name='Event details'
                 component={EventDetailsScreen}
+                options={({ navigation, route }) => ({
+                })}
+            />
+            <Stack.Screen
+                name='Profile details'
+                component={ProfileDetailsScreen}
                 options={({ navigation, route }) => ({
                 })}
             />

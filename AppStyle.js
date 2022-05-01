@@ -49,6 +49,12 @@ colorBlue: {
 colorBlack: {
     color: 'black'
 },
+colorGrey: {
+    color: '#666'
+},
+listItem: {
+    padding: 0
+},
 /* EventScreen */
 eventImg: {
     height: 250,
@@ -111,6 +117,10 @@ txtOnEventImg: {
 },
 boldFontWeight: {
     fontWeight: "700"
+},
+attending: {
+    fontWeight: "700",
+    marginBottom: 16
 },
 eventChips: {
     flex: 1,

@@ -32,6 +32,7 @@ const EventListScreen = ({ navigation }) => {
   const [hostedEvents, setHostedEvents] = useState([]);
   const [index, setIndex] = useState(0);
   const today = new Date();
+  const [eventByid, setEventByid] = useState({attending: []});
 
   useEffect(() => {
     getData();
@@ -140,7 +141,6 @@ const EventListScreen = ({ navigation }) => {
       Hosting: lists all events hosted by signed in user (in a flatlist) */
   return (
     <SafeAreaView style={styles.mainContainer}>
-
       <Tab value={index} onChange={setIndex}>
         <Tab.Item
           title="Events"
@@ -151,7 +151,6 @@ const EventListScreen = ({ navigation }) => {
           titleStyle={styles.colorBlack}
         />
       </Tab>
-
       <View style={styles.horizontalInputs}>
         { /* Search bar */}
         <View style={styles.horizontalLeft}>
