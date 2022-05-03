@@ -71,12 +71,14 @@ const MainStack = () => {
                 component={InterestScreen}
             />
             <Stack.Screen
-                name=' EditProfile'
+                name='EditProfile'
                 component={EditProfileScreen}
             />
             <Stack.Screen
                 name='Profile'
                 component={ProfileScreen}
+                options={({ navigation, route }) => ({
+                })}
             />
         </Stack.Navigator>
     );

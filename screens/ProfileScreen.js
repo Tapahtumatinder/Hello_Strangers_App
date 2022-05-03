@@ -1,13 +1,13 @@
 import { doc, getDoc } from 'firebase/firestore/lite';
-import { React, useState, useEffect } from 'react';
-import { View, Text, ScrollView, ImageBackground, SafeAreaView} from 'react-native'
-import { Chip } from 'react-native-elements';
+import { React, useState, useEffect, useLayoutEffect } from 'react';
+import { View, Text, ScrollView, ImageBackground, SafeAreaView, Button} from 'react-native'
+import { Chip, Icon } from 'react-native-elements';
 import { auth, db } from '../firebase';
 import styles from '../AppStyle';
 import UserInterestName from '../components/UserInterestName';
 
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ route, navigation }) => {
 
 
   const [userName, setUserName] = useState('');
@@ -15,6 +15,8 @@ const ProfileScreen = ({ navigation }) => {
   const [userAge, setUserAge] = useState('');
   const [userInterest, setUserInterest] = useState([]);
   const [url, setUrl] = useState();
+  const [isVisible, setIsVisible] = useState(false);
+
 
   useEffect(() => {
     getData()
@@ -40,9 +42,31 @@ const getInterestData = async () =>{
     const docRef= doc(db,'interest');
     const docSnap =await getDoc(docRef);
     const data= docSnap.data();
-
-    
 }
+
+     // to display button in the right upper corner of the header (three dots)
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+          <Button
+              onPress={() => setIsVisible(true)}
+              title=''
+              titleStyle={{ color: 'black' }}
+              type='solid'
+              buttonStyle={{ backgroundColor: 'white', borderRadius: 20 }}
+              icon={
+                  <Icon
+                      name='ellipsis-vertical'
+                      type='ionicon'
+                      size={25}
+                      color="black" />}
+              iconRight />
+      ),
+  });
+}, [navigation]);
+
+
+
   return  (
     <SafeAreaView style={styles.mainContainer}>
     <ScrollView

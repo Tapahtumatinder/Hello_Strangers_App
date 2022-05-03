@@ -4,7 +4,7 @@ import { MainStack, EventStack, ProfileStack } from './StackNavigator';
 import { Ionicons } from '@expo/vector-icons';
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
-import EditProfileScreen from '../screens/EditProfileScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import EventScreen from '../screens/EventScreen';
 import EventListScreen from '../screens/EventListScreen';
 
@@ -34,7 +34,7 @@ export const TabNavigator = () => {
             <Tab.Screen
                 name="ProfileTab"
                 options={{ headerShown: false, tabBarShowLabel: false }}
-                component={EditProfileScreen}
+                component={ProfileScreen}
             />
             <Tab.Screen
                 name="EventListTab"

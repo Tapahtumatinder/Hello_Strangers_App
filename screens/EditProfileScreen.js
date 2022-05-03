@@ -74,7 +74,7 @@ const EditProfileScreen = ({ navigation }) => {
       userAge: userAge,
       userBirthdate: userBirthdate
     }, {merge:true})
-    navigation.navigate('HomeTab')
+    navigation.navigate('Profile')
   }
 
 
