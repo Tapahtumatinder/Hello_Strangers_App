@@ -4,6 +4,7 @@ import { View, Text, ScrollView, ImageBackground, SafeAreaView} from 'react-nati
 import { Chip } from 'react-native-elements';
 import { auth, db } from '../firebase';
 import styles from '../AppStyle';
+import UserInterestName from '../components/UserInterestName';
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -38,6 +39,7 @@ const ProfileScreen = ({ navigation }) => {
 const getInterestData = async () =>{
     const docRef= doc(db,'interest');
     const docSnap =await getDoc(docRef);
+    const data= docSnap.data();
 
     
 }
@@ -50,7 +52,7 @@ const getInterestData = async () =>{
                     source={{ uri: url }}
                     resizeMode="cover"
                     imageStyle={{ opacity: 0.8 }}
-                    style={styles.eventImg}>
+                    style={styles.profileImg}>
           <View style={styles.avatarOnEventImg}>
                         <View>
                             <Text style={styles.txtOnEventImg}>{userName} {userAge}</Text>
@@ -60,16 +62,14 @@ const getInterestData = async () =>{
           </ImageBackground>
           <View style={styles.profileChips}>
             {
-            items.map( (item, index) => (
-                    <Chip
-                        key={index}
-                        title={item.name}
-                        titleStyle={{ color: 'black' }}
-                        type='outline'
-                        buttonStyle={{ backgroundColor: '#D6D6D6', borderColor: 'white' }}
-                        containerStyle={{ marginVertical: 6 }} />
-            ))
-            }
+            userInterest.map( (item, index) => {
+              return <UserInterestName
+              navigation={navigation}
+              key={index}
+              index={index}
+              item={item}/>
+             
+            })}
             </View>
             <View style={styles.descriptionContainer}>
             <Text style={styles.profileDescription}>ABOUT ME:</Text>
@@ -81,27 +81,4 @@ const getInterestData = async () =>{
 }
   export default ProfileScreen;
 
-    const items = [
-      {
-      id: '92iijs7yta',
-      name: 'Boardgames'
-    }, {
-      id: 'a0s0a8ssbsd',
-      name: 'Museums'
-    }, {
-      id: '16hbajsabsd',
-      name: 'Art'
-    }, {
-      id: 'nahs75a5sg',
-      name: 'Outdoors'
-    }, {
-      id: '667atsas',
-      name: 'Wine'
-    }, {
-      id: '92iijs7yva',
-      name: 'Padel'
-    },  {
-      id: '92iijs7ysa',
-      name: 'Travel'
-    }, 
-  ];
+    

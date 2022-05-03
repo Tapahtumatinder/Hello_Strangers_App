@@ -131,7 +131,7 @@ eventInputMultiline: {
     textAlignVertical: 'top'
 },
 // POISTA ALLA OLEVAT ENNEN PUSHAUSTA
-eventImg: {
+profileImg: {
     height: 250,
     justifyContent: 'center',
     marginBottom: 10
