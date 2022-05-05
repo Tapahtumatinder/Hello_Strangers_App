@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <h1>Hello Stranger<h1>
-    <img src="splash.png" alt="Logo" width="240" height="260">
+    <img src="assets/splash.png" alt="Logo" width="240" height="260">
   </a>
 
 
