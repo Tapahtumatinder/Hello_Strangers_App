@@ -8,6 +8,7 @@ import EventDetailsScreen from '../screens/EventDetailsScreen';
 import EditEventScreen from '../screens/EditEventScreen';
 import DeleteAccountScreen from '../screens/DeleteAccountScreen';
 import ProfileDetailsScreen from '../screens/ProfileDetailsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,7 +39,7 @@ const MainStack = () => {
             />
             <Stack.Screen
                 name='Profile details'
-                component={ProfileDetailsScreen}
+                component={ProfileScreen}
                 options={({ navigation, route }) => ({
                 })}
             />

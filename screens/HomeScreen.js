@@ -1,4 +1,5 @@
 import { React, useRef } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { auth } from '../firebase';
 import { signOut } from "firebase/auth";
@@ -46,7 +47,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar hidden></StatusBar>
-      <Picture collection="profile" id={auth.currentUser.uid} ref={buttonRef} />
+      <Picture collection="user" id={auth.currentUser.uid} ref={buttonRef} />
       <Button onPress={pickPicture} title="Pick a photo" />
       <TouchableOpacity
         onPress={handeleSignOut}

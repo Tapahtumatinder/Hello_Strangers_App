@@ -9,7 +9,7 @@ import styles from '../AppStyle';
 const UserAvatar = ({ index, uid, max, navigation}) => {
     const [data, setData] = useState({
         pictureUrl : 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80',
-        userName : 'no name',
+        userName : 'Profile missing!'
     });
 
     useEffect(() => {
@@ -19,8 +19,7 @@ const UserAvatar = ({ index, uid, max, navigation}) => {
     const getData = async () => {
         const docRef = doc(db, 'user', uid);
         const docSnap = await getDoc(docRef);
-        setData(docSnap.data())
-        //setData((parseInt(index) + 1) + '. ' + docSnap.data().userName)
+        if (docSnap.data()) {setData(docSnap.data())}
     }
 
     return (
@@ -48,6 +47,4 @@ const UserAvatar = ({ index, uid, max, navigation}) => {
     )
 }
 
-export default UserAvatar
-
-//<Text style={{ marginTop: 15 }}> {data} </Text>
+export default UserAvatar;

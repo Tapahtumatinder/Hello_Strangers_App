@@ -74,6 +74,7 @@ const Picture = forwardRef((props, refe) => {
 
   // merge picture url under user object in firestore 
   const setData = async (url) => {
+    console.log(url + ', ' + collection + ', ' + id)
     const ref = doc(db, collection, id);
     await setDoc(ref, { pictureUrl: url }, { merge: true })
       .then(setUrl(url))

@@ -213,7 +213,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                             <ListItem.Content style={styles.bottomSheetContent}>
                                 <ListItem.Title>
                                     <Text onPress={() => setIsVisible(false) + changeAttendance()}>
-                                        {eventByid.attending.includes(userId) ? 'Drop out from event' : eventByid.attending.length < eventByid.maxAttendance ? 'Join event' : 'Join queue (even full)'}
+                                        {eventByid.attending.includes(userId) ? 'Drop out from event' : eventByid.attending.length < eventByid.maxAttendance ? 'Join event' : 'Join queue (event full)'}
                                     </Text>
                                 </ListItem.Title>
                             </ListItem.Content>
