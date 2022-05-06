@@ -2,7 +2,7 @@ import { View, TextInput, Text, Platform, ScrollView, SafeAreaView } from 'react
 import { Button } from 'react-native-elements';
 import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
 import { auth, db } from '../firebase';
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useRef } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from '../AppStyle';
 import Picture from '../components/Picture';
@@ -77,6 +77,12 @@ const EditProfileScreen = ({ navigation }) => {
     navigation.navigate('Profile')
   }
 
+  const buttonRef = useRef();
+
+  const pickPicture = () => {
+    buttonRef.current.method();
+  };
+
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -84,7 +90,8 @@ const EditProfileScreen = ({ navigation }) => {
     <View style={styles.mainContainer}>
       <View style={styles.inputContainer}>
         <View >
-          <Picture/>
+        <Picture collection="user" id={auth.currentUser.uid} ref={buttonRef} />
+        <Button onPress={pickPicture} title="Pick a photo" />
         </View>
         <Text style={styles.label}>NAME</Text>
         <TextInput

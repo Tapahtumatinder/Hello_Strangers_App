@@ -2,12 +2,13 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TabNavigator } from './TabNavigator';
 import LoginScreen from '../screens/LoginScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 import EventScreen from '../screens/EventScreen';
 import EventListScreen from '../screens/EventListScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 import EditEventScreen from '../screens/EditEventScreen';
 import DeleteAccountScreen from '../screens/DeleteAccountScreen';
-import ProfileDetailsScreen from '../screens/ProfileDetailsScreen';
+import InterestScreen from '../screens/InterestScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
@@ -32,13 +33,27 @@ const MainStack = () => {
                 component={EventScreen}
             />
             <Stack.Screen
+                name="Delete account"
+                component={DeleteAccountScreen}
+            />
+            <Stack.Screen
+                name="Interest"
+                component={InterestScreen}
+            />
+            <Stack.Screen
+                name='EditProfile'
+                component={EditProfileScreen}
+                options={({ navigation, route }) => ({
+                })}
+            />
+            <Stack.Screen
                 name='Event details'
                 component={EventDetailsScreen}
                 options={({ navigation, route }) => ({
                 })}
             />
             <Stack.Screen
-                name='Profile details'
+                name='Profile'
                 component={ProfileScreen}
                 options={({ navigation, route }) => ({
                 })}
@@ -50,10 +65,6 @@ const MainStack = () => {
             <Stack.Screen
                 name='Events'
                 component={EventListScreen}
-            />
-             <Stack.Screen
-                name="Delete account"
-                component={DeleteAccountScreen}
             />
         </Stack.Navigator>
     );

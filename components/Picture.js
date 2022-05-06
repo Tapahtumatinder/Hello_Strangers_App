@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 const Picture = forwardRef((props, refe) => {
 
-  const [progress, setProgress] = useState('');
+  const [progress, setProgress] = useState('100');
   const [url, setUrl] = useState(null);
   const { collection, id } = props;
 
@@ -74,7 +74,6 @@ const Picture = forwardRef((props, refe) => {
 
   // merge picture url under user object in firestore 
   const setData = async (url) => {
-    console.log(url + ', ' + collection + ', ' + id)
     const ref = doc(db, collection, id);
     await setDoc(ref, { pictureUrl: url }, { merge: true })
       .then(setUrl(url))
@@ -93,7 +92,9 @@ const Picture = forwardRef((props, refe) => {
   return (
     <View>
       <Image style={styles.image} source={{ uri: url }} />
-      <Text>{progress}%</Text>
+      { progress != '100' &&
+      <Text >{progress}%</Text>
+      }
     </View>
   )
 })

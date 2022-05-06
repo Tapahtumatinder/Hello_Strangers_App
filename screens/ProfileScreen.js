@@ -16,30 +16,35 @@ const ProfileScreen = ({ route, navigation }) => {
   const [userAge, setUserAge] = useState('');
   const [userInterest, setUserInterest] = useState([]);
   const [url, setUrl] = useState();
-  const [isVisible, setIsVisible] = useState(false);
+  //const [isVisible, setIsVisible] = useState(true);
   const placeholderUrl = 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80';
-  const id = route.params ? route.params.uid : auth.currentUser.uid;
-
 
   useEffect(() => {
     getData()
   }, [])
 
 // getting profile data
-  const getData = async () => {
-    const docRef = doc(db, 'user', id );
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-    setUserName(docSnap.data().userName ? docSnap.data().userName : '?');
-    setUserDescription(docSnap.data().userDescription ? docSnap.data().userDescription : '?');
-    setUserAge(docSnap.data().userAge ? docSnap.data().userAge : '?');
-    setUserInterest(docSnap.data().interest ? docSnap.data().interest : []);
-    setUrl(docSnap.data().pictureUrl ? docSnap.data().pictureUrl : placeholderUrl);
-    } else {
-      console.log('a true stranger');
-    }
+const getData = async () => {
+  const docRef = doc(db, 'user', profileOwner() ? auth.currentUser.uid : route.params.uid);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+  setUserName(docSnap.data().userName ? docSnap.data().userName : '?');
+  setUserDescription(docSnap.data().userDescription ? docSnap.data().userDescription : '?');
+  setUserAge(docSnap.data().userAge ? docSnap.data().userAge : '?');
+  setUserInterest(docSnap.data().interest ? docSnap.data().interest : []);
+  setUrl(docSnap.data().pictureUrl ? docSnap.data().pictureUrl : placeholderUrl);
+  } else {
+    console.log('a true stranger');
   }
+}
+
+// both tabNav and stackNav include the ProfileScreen
+// if accessed by stackNav the 'route' option is included
+// only profile owner can access the view by tabNav
+// by stackNav the user might or mignt not be the profileOwner
+const profileOwner = () => {
+  return route.params ? route.params.uid != auth.currentUser.uid ? false : true : true;
+}
 
 const getInterestData = async () =>{
     const docRef= doc(db,'interest');
@@ -52,8 +57,11 @@ const getInterestData = async () =>{
     navigation.setOptions({
       headerRight: () => (
           <Button
-              onPress={() => setIsVisible(true)}
-              title=''
+              onPress={() => {
+                navigation.navigate('EditProfile');
+              }}
+              disabled={!profileOwner()}
+              title='Edit'
               titleStyle={{ color: 'black' }}
               type='solid'
               buttonStyle={{ backgroundColor: 'white', borderRadius: 20 }}

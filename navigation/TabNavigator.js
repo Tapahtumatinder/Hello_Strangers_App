@@ -31,7 +31,7 @@ const TabNavigator = () => {
             />
             <Tab.Screen
                 name="ProfileTab"
-                options={{ headerShown: false, tabBarShowLabel: false }}
+                options={{ headerShown: true, tabBarShowLabel: false }}
                 component={ProfileScreen}
             />
             <Tab.Screen

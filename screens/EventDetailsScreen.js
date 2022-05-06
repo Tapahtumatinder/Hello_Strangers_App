@@ -183,6 +183,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                             key={index}
                             index={index}
                             uid={uid}
+                            eid={event.id}
                             max={eventByid.maxAttendance}/>
                     })}
                 </View>
