@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import EventScreen from '../screens/EventScreen';
 import EventListScreen from '../screens/EventListScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,7 +35,7 @@ export const TabNavigator = () => {
             <Tab.Screen
                 name="ProfileTab"
                 options={{ headerShown: false, tabBarShowLabel: false }}
-                component={ProfileScreen}
+                component={EditProfileScreen}
             />
             <Tab.Screen
                 name="EventListTab"
