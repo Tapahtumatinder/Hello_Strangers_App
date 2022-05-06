@@ -2,16 +2,18 @@ import { Text, TouchableOpacity, View, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import { React, useState, useEffect } from 'react';
 import { storage, auth, db } from '../firebase';
-import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
+import { doc, setDoc, getDoc, addDoc, collection } from 'firebase/firestore/lite';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import styles from '../AppStyle';
+import { setISODay } from 'date-fns';
 
-const Picture = () => {
+const EventPicture = ( ) => {
   // muutoksia
 
   const [progress, setProgress] = useState('');
   const [url, setUrl] = useState(null);
+  const [id, setId] = useState('');
 
   useEffect(() => {
     getCurrentPicture ();
@@ -29,7 +31,7 @@ const Picture = () => {
 
   // pick picture from phone
   const pickPicture = async () => {
-
+    setData();
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -44,10 +46,10 @@ const Picture = () => {
     }
   }
   
-  // upload picture to cloud storage -- EVENTID
+  // upload picture to cloud storage -- EVENTID /images/ jälkeen
   const uploadPicture = (image) => {
     if (!image) return;
-    const storageRef = ref(storage, `/images/`);
+    const storageRef = ref(storage, `/images/${id}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
     // show picture upload progress in %
@@ -70,20 +72,24 @@ const Picture = () => {
 
   // merge picture url under event object in firestore  == EVENTID
     const setData = async (url) => {
-      const ref = doc(db, 'event');
-      await setDoc(ref, { pictureUrl: url }, { merge: true })
+      const ref = await addDoc(collection(db, 'event', id), {
+        pictureUrl: url 
+      }, { merge: true }
+      ) 
       .then(setUrl(url))
+      console.log(ref.id);
+      setId(ref.id)
   }
 
   // get and show the picture from the event object -- EVENTID
   const getCurrentPicture = async () => {
-    const docRef = doc(db, 'event');
+    const docRef = doc(db, 'event', id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       setUrl(docSnap.data().pictureUrl);
-    }
-  }
+    } 
+  } 
 
   return (
       <View>
@@ -96,4 +102,4 @@ const Picture = () => {
   )
 }
 
-export default Picture
+export default EventPicture
