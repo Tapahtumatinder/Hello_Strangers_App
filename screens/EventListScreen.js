@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react';
 import {
   FlatList,
   SafeAreaView,
+  ScrollView,
   TextInput,
   View,
   Text,
@@ -175,10 +176,10 @@ const EventListScreen = ({ navigation }) => {
         </View>
       </View>
 
-      <TabView value={index} onChange={setIndex} >
+      <TabView value={index} onChange={setIndex}>
 
         { /* All events */}
-        <TabView.Item style={{ width: '100%' }}>
+        <TabView.Item style={{ width: '100%' }} onMoveShouldSetResponder={(e) => e.stopPropagation()}>
           <FlatList
             data={filteredEvents}
             renderItem={renderItem}
@@ -187,7 +188,7 @@ const EventListScreen = ({ navigation }) => {
         </TabView.Item>
 
         { /* Hosting events */}
-        <TabView.Item style={{ width: '100%' }}>
+        <TabView.Item style={{ width: '100%' }} onMoveShouldSetResponder={(e) => e.stopPropagation()}>
           <FlatList
             data={hostedEvents}
             renderItem={renderItem}
@@ -195,6 +196,8 @@ const EventListScreen = ({ navigation }) => {
           />
         </TabView.Item>
       </TabView>
+
+      
 
       { /* Button that navigates to event creation screen */}
       <FAB
@@ -209,6 +212,7 @@ const EventListScreen = ({ navigation }) => {
             color="white" />}
         onPress={() => navigation.navigate('Create event')}
       />
+
     </SafeAreaView>
   );
 }

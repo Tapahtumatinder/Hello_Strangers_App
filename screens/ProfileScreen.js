@@ -6,6 +6,7 @@ import { Chip, Icon } from 'react-native-elements';
 import { auth, db } from '../firebase';
 import styles from '../AppStyle';
 import UserInterestName from '../components/UserInterestName';
+import { useIsFocused } from "@react-navigation/native";
 
 
 const ProfileScreen = ({ route, navigation }) => {
@@ -18,10 +19,13 @@ const ProfileScreen = ({ route, navigation }) => {
   const [url, setUrl] = useState();
   //const [isVisible, setIsVisible] = useState(true);
   const placeholderUrl = 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80';
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    getData()
-  }, [])
+    if(isFocused){ 
+      getData()
+    }
+  }, [isFocused])
 
 // getting profile data
 const getData = async () => {
