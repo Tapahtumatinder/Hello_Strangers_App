@@ -16,6 +16,7 @@ import { format, setISODay } from 'date-fns';
 import styles from '../AppStyle';
 import EventPicture2 from '../components/EventPicture2'
 import { getIdToken } from 'firebase/auth';
+import { NavigationContainer } from '@react-navigation/native';
 
 const EventScreen = ( ) => {
   const [eventName, setEventName] = useState('');
@@ -76,6 +77,7 @@ const EventScreen = ( ) => {
         eventUrlLink: eventUrlLink,
         organizer: auth.currentUser.uid
       }, {merge:true})
+      NavigationContainer.navigate('Profile')
       
       // TODO: if succeed -> notification to user (e.g toast msg)
       // NB: an event id : docRef.id
@@ -105,37 +107,27 @@ const EventScreen = ( ) => {
   const showTimepicker = () => {
     showMode('time');
   }
-  // TODO: change event image (now temporary img from unsplash.com)
   return (
     <SafeAreaView style={styles.mainContainer}>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}>
         <EventPicture2 collection="event" id={id} ref={buttonRef} />
-      <Button onPress={pickPicture} title="Pick a photo" />
-        <View style={{ flex: 1, padding: 10 }}>
-          <View style={styles.horizontalInputs}>
-            <View style={styles.horizontalLeft}>
-              <Text style={styles.label}>COVER IMAGE</Text>
-              <TextInput
-                placeholder='COMING SOON'
-                editable={false}
-                style={styles.eventInput}
-              />
-            </View>
-            <View style={styles.horizontalRight}>
-              <Button
-                title='Unplash image'
-                disabled={true}
-                buttonStyle={{
+        <View>
+      <Button onPress={pickPicture} title="Pick a photo"  buttonStyle={{
                   borderColor: 'transparent',
                   borderWidth: 0,
                   borderRadius: 20,
                   marginBottom: 6,
                   width: 160,
                   alignSelf: 'center'
-                }}
-              />
+                }} />
+      </View>
+        <View style={{ flex: 1, padding: 10 }}>
+         
+            
+            <View style={styles.horizontalRight}>
+              
             </View>
           </View>
           <View style={styles.verticalInputs}>
@@ -271,7 +263,7 @@ const EventScreen = ( ) => {
                 style={styles.eventInput}
               />
             </View>
-          </View>
+         
         </View>
         <Button title='Publish event' onPress={setData} />
       </ScrollView>

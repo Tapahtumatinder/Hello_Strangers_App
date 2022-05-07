@@ -35,7 +35,7 @@ export const TabNavigator = () => {
             <Tab.Screen
                 name="ProfileTab"
                 options={{ headerShown: false, tabBarShowLabel: false }}
-                component={EditProfileScreen}
+                component={ProfileScreen}
             />
             <Tab.Screen
                 name="EventListTab"

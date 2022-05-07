@@ -5,13 +5,18 @@ import { Avatar, ListItem } from 'react-native-elements';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore/lite';
 import { db } from '../firebase';
 import styles from '../AppStyle';
+import { useIsFocused } from "@react-navigation/native";
+
 
 const EventListScreen = ( {navigation} ) => {
   const [events, setEvents] = useState([]);
+  const isFocused= useIsFocused();
 
   useEffect(() => {
-    getData();
-  }, []);
+    if(isFocused){
+      getData()
+    }
+  }, [isFocused],[])
   // Gets all of the data stored in collection 'event' and sets it in state 'events'
   const getData = async () => {
     let tempEventList = [];
@@ -38,7 +43,7 @@ const EventListScreen = ( {navigation} ) => {
         {
           events.map((item, index) => (
             <ListItem key={index} bottomDivider>
-              <Avatar rounded source={{ uri: 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80' }} />
+              <Avatar rounded source={{uri:item.pictureUrl}} />
               <ListItem.Content>
                 <ListItem.Title style={{ fontWeight: 'bold' }}>
                   {item.eventName}
