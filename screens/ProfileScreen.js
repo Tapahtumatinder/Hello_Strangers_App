@@ -42,10 +42,9 @@ const getData = async () => {
   }
 }
 
-// both tabNav and stackNav include the ProfileScreen
-// if accessed by stackNav the 'route' option is included
-// only profile owner can access the view by tabNav
-// by stackNav the user might or mignt not be the profileOwner
+// both tabNav and stackNav include the ProfileScreen.
+// if accessed by tabnav, user is the profileOwner => uid provided by auth.currentUser.uid (no route).
+// if accessed by stackNav, 'route' provides uid for fetching the matching profile data.
 const profileOwner = () => {
   return route.params ? route.params.uid != auth.currentUser.uid ? false : true : true;
 }
