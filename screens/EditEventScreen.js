@@ -27,6 +27,7 @@ const EditEventScreen = ({ route, navigation }) => {
         maxAttendance: eventObj.maxAttendance,
         description: eventObj.description,
         eventUrlLink: eventObj.eventUrlLink,
+        tags: eventObj.tags,
         id: eventObj.id
     });
     const [mode, setMode] = useState('date');
@@ -47,7 +48,8 @@ const EditEventScreen = ({ route, navigation }) => {
                 endDateTime: event.endDateTime,
                 maxAttendance: event.maxAttendance,
                 description: event.description,
-                eventUrlLink: event.eventUrlLink
+                eventUrlLink: event.eventUrlLink,
+                tags: event.tags
             });
             navigation.goBack(null);
 
@@ -219,11 +221,7 @@ const EditEventScreen = ({ route, navigation }) => {
                             style={styles.eventInput}
                         />
                         <Text style={styles.label}>TAGS</Text>
-                        <TextInput
-                            editable={false}
-                            placeholder='COMING SOON: Select tags'
-                            style={styles.eventInput}
-                        />
+                        <Button buttonStyle={styles.basicButton} title="Select tags" titleStyle={styles.basicTitle} onPress={() => navigation.navigate('Event tags', { event })} />
                         <Text style={styles.label}>EVENT NAME</Text>
                         <TextInput
                             placeholder='Set event name, max 30 characters'
