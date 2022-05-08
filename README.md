@@ -28,9 +28,9 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li><a href="#pictures">Pictures</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -86,10 +86,16 @@ To get a local copy up and running follow these simple example steps.
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+  
+  
+<!-- PICTURES -->
+## Pictures
+<img src="assets/MyHelsinkiEvents.png" alt="Logo" width="240" height="450">&nbsp;&nbsp;<img src="assets/ProfileView.png" alt="Logo" width="240" height="450">&nbsp;&nbsp;<img src="assets/EventView.png" alt="Logo" width="240" height="450">&nbsp;&nbsp;<img src="assets/UserEventss.png" alt="Logo" width="240" height="450">
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
-<!-- USAGE EXAMPLES -->
+<!-- USAGE -->
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
@@ -97,7 +103,6 @@ Use this space to show useful examples of how a project can be used. Additional 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- ROADMAP -->
@@ -125,7 +130,6 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
@@ -134,7 +138,6 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 * []()
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
