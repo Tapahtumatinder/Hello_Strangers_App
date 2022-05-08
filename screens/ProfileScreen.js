@@ -1,8 +1,8 @@
 
 import { doc, getDoc } from 'firebase/firestore/lite';
 import { React, useState, useEffect, useLayoutEffect } from 'react';
-import { View, Text, ScrollView, ImageBackground, SafeAreaView, Button} from 'react-native'
-import { Chip, Icon } from 'react-native-elements';
+import { View, Text, ScrollView, ImageBackground, SafeAreaView} from 'react-native'
+import { Chip, Icon, Button } from 'react-native-elements';
 import { auth, db } from '../firebase';
 import styles from '../AppStyle';
 import UserInterestName from '../components/UserInterestName';
@@ -65,16 +65,10 @@ const getInterestData = async () =>{
               }}
               disabled={!profileOwner()}
               title='Edit'
-              titleStyle={{ color: 'black' }}
+              titleStyle={styles.colorBlue}
               type='solid'
-              buttonStyle={{ backgroundColor: 'white', borderRadius: 20 }}
-              icon={
-                  <Icon
-                      name='ellipsis-vertical'
-                      type='ionicon'
-                      size={25}
-                      color="black" />}
-              iconRight />
+              buttonStyle={{ backgroundColor: 'white', borderRadius: 20, marginRight: 10 }}
+              />
       ),
   });
 }, [navigation]);

@@ -39,7 +39,7 @@ const LoginScreen = ({ navigation }) => {
                     style={styles.input}
                 />
                 <TextInput
-                    placeholder='Passsword'
+                    placeholder='Password'
                     value={password}
                     onChangeText={text => setPassword(text)}
                     style={styles.input}
