@@ -21,11 +21,11 @@ import { format } from 'date-fns';
 import styles from '../AppStyle';
 
 const EventDetailsScreen = ({ route, navigation }) => {
-  
+
     const { event } = route.params;
     const [isVisible, setIsVisible] = useState(false);
     const userId = auth.currentUser.uid;
-    const [eventByid, setEventByid] = useState({attending: []});
+    const [eventByid, setEventByid] = useState({ attending: [] });
 
     // Since firestore/lite does not include snapShot,
     // using useEffect and useState keep the event object updated.
@@ -34,7 +34,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
         const docRef = doc(db, 'event', event.id);
         const docSnap = await getDoc(docRef);
         const data = docSnap.data();
-        if (!data.attending) {data.attending = []}
+        if (!data.attending) { data.attending = [] }
         setEventByid(data)
     }
 
@@ -88,7 +88,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                 contentContainerStyle={{ flexGrow: 1 }}
                 showsVerticalScrollIndicator={false}>
                 <ImageBackground
-                    source={{ uri: 'https://images.unsplash.com/photo-1625723347040-0fdf78cb3c1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80' }}
+                    source={{ uri: event.pictureUrl }}
                     resizeMode="cover"
                     imageStyle={{ opacity: 0.8 }}
                     style={styles.eventImg}>
@@ -184,7 +184,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                             index={index}
                             uid={uid}
                             eid={event.id}
-                            max={eventByid.maxAttendance}/>
+                            max={eventByid.maxAttendance} />
                     })}
                 </View>
                 <BottomSheet

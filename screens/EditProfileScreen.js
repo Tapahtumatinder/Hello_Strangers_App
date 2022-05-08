@@ -15,7 +15,7 @@ const EditProfileScreen = ({ navigation }) => {
   const [userAge, setUserAge] = useState('');
   const [bDayText, setbDayText] = useState('Empty');
   const [userBirthdate, setUserBirthdate] = useState(new Date());
- 
+
   // Calls function getData every time the page reloads
   useEffect(() => {
     getData()
@@ -73,7 +73,7 @@ const EditProfileScreen = ({ navigation }) => {
       userDescription: userDescription,
       userAge: userAge,
       userBirthdate: userBirthdate
-    }, {merge:true})
+    }, { merge: true })
     navigation.goBack('Profile');
   }
 
@@ -86,51 +86,51 @@ const EditProfileScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-    <ScrollView>
-    <View style={styles.mainContainer}>
-      <View style={styles.inputContainer}>
-        <View >
-        <Picture collection="user" id={auth.currentUser.uid} ref={buttonRef} />
-        <Button onPress={pickPicture} title="Pick a photo" />
-        </View>
-        <Text style={styles.label}>NAME</Text>
-        <TextInput
-          placeholder='Set your first name'
-          value={userName}
-          onChangeText={text => setUserName(text)}
-          style={styles.eventInput}
-        />
-        <Text style={styles.label}>ABOUT YOU</Text>
-        <TextInput
-          placeholder='Describe yourself'
-          value={userDescription}
-          onChangeText={text => setUserDescription(text)}
-          style={styles.eventInputMultiline}
-          multiline={true}
-          maxLength={250}
-        />
-         <Button buttonStyle={styles.basicButton} title="SELECT INTERESTS" titleStyle={styles.basicTitle} onPress={() => navigation.navigate('Interest') } />
-       
-        <Button buttonStyle={styles.basicButton} title="SELECT BIRTHDAY" titleStyle={styles.basicTitle} onPress={() => setShow(true)} />
+      <ScrollView>
+        <View style={styles.mainContainer}>
+          <View style={styles.inputContainer}>
+            <View >
+              <Picture collection="user" id={auth.currentUser.uid} ref={buttonRef} />
+              <Button onPress={pickPicture} title="Pick a photo" />
+            </View>
+            <Text style={styles.label}>NAME</Text>
+            <TextInput
+              placeholder='Set your first name'
+              value={userName}
+              onChangeText={text => setUserName(text)}
+              style={styles.eventInput}
+            />
+            <Text style={styles.label}>ABOUT YOU</Text>
+            <TextInput
+              placeholder='Describe yourself'
+              value={userDescription}
+              onChangeText={text => setUserDescription(text)}
+              style={styles.eventInputMultiline}
+              multiline={true}
+              maxLength={250}
+            />
+            <Button buttonStyle={styles.basicButton} title="SELECT INTERESTS" titleStyle={styles.basicTitle} onPress={() => navigation.navigate('Interest')} />
 
-        <Text>{bDayText}</Text>
-      </View>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode="date"
-          display="default"
-          onChange={onDateChange}
-        />
-      )}
-      <View style={styles.inputContainer}>
-        <Text style={{color:'blue', textAlign:'center', textDecorationLine:'underline', marginTop: 40}} onPress={()=> navigation.navigate('Delete account')}>Delete account</Text>
-        <Button buttonStyle={styles.basicButton} title='VIEW PROFILE' titleStyle={styles.basicTitle} onPress={()=> navigation.navigate('Profile')} />
-      </View>
-    </View>
+            <Button buttonStyle={styles.basicButton} title="SELECT BIRTHDAY" titleStyle={styles.basicTitle} onPress={() => setShow(true)} />
+
+            <Text>{bDayText}</Text>
+          </View>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              display="default"
+              onChange={onDateChange}
+            />
+          )}
+          <View style={styles.inputContainer}>
+            <Button buttonStyle={styles.basicButton} title='VIEW PROFILE' titleStyle={styles.basicTitle} onPress={() => navigation.navigate('Profile')} />
+            <Text style={{ color: 'firebrick', textAlign: 'center', textDecorationLine: 'underline', margin: 20 }} onPress={() => navigation.navigate('Delete account')}>Delete account</Text>
+          </View>
+        </View>
         <Button title='SAVE' onPress={setData} />
-    </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 

@@ -1,22 +1,19 @@
-import { Text, View, Image } from 'react-native';
-import { React, useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import { Text, TouchableOpacity, View, Image } from 'react-native';
+import { Button } from 'react-native-elements';
+import { React, useState, useEffect } from 'react';
 import { storage, auth, db } from '../firebase';
-import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
+import { doc, setDoc, getDoc, addDoc, collection } from 'firebase/firestore/lite';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import styles from '../AppStyle';
+import { setISODay } from 'date-fns';
 
-const Picture = forwardRef((props, refe) => {
+const EventPicture = () => {
+  // muutoksia
 
-  const [progress, setProgress] = useState('100');
+  const [progress, setProgress] = useState('');
   const [url, setUrl] = useState(null);
-  const { collection, id } = props;
-
-  useImperativeHandle(refe, () => ({
-    method: () => {
-      pickPicture();
-    },
-  }));
+  const [id, setId] = useState('');
 
   useEffect(() => {
     getCurrentPicture();
@@ -34,12 +31,12 @@ const Picture = forwardRef((props, refe) => {
 
   // pick picture from phone
   const pickPicture = async () => {
-
+    setData();
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0.1,
+      quality: 1,
     });
 
     if (!result.cancelled) {
@@ -49,7 +46,7 @@ const Picture = forwardRef((props, refe) => {
     }
   }
 
-  // upload picture to cloud storage
+  // upload picture to cloud storage -- EVENTID /images/ jälkeen
   const uploadPicture = (image) => {
     if (!image) return;
     const storageRef = ref(storage, `/images/${id}`);
@@ -73,16 +70,20 @@ const Picture = forwardRef((props, refe) => {
       })
   }
 
-  // merge picture url under user object in firestore 
+  // merge picture url under event object in firestore  == EVENTID
   const setData = async (url) => {
-    const ref = doc(db, collection, id);
-    await setDoc(ref, { pictureUrl: url }, { merge: true })
+    const ref = await addDoc(collection(db, 'event', id), {
+      pictureUrl: url
+    }, { merge: true }
+    )
       .then(setUrl(url))
+    console.log(ref.id);
+    setId(ref.id)
   }
 
-  // 
+  // get and show the picture from the event object -- EVENTID
   const getCurrentPicture = async () => {
-    const docRef = doc(db, collection, id);
+    const docRef = doc(db, 'event', id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -95,9 +96,10 @@ const Picture = forwardRef((props, refe) => {
       <Image style={styles.image} source={{ uri: url }} />
       <Text>{progress}%</Text>
       <View style={styles.centerContainer}>
+        <Button buttonStyle={styles.basicButton} titleStyle={styles.basicTitle} title='Cover Image' onPress={pickPicture} />
       </View>
     </View>
   )
-})
+}
 
-export default Picture
+export default EventPicture

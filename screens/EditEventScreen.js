@@ -27,6 +27,7 @@ const EditEventScreen = ({ route, navigation }) => {
         maxAttendance: eventObj.maxAttendance,
         description: eventObj.description,
         eventUrlLink: eventObj.eventUrlLink,
+        pictureUrl: eventObj.pictureUrl,
         id: eventObj.id
     });
     const [mode, setMode] = useState('date');
@@ -47,9 +48,9 @@ const EditEventScreen = ({ route, navigation }) => {
                 endDateTime: event.endDateTime,
                 maxAttendance: event.maxAttendance,
                 description: event.description,
-                eventUrlLink: event.eventUrlLink
+                eventUrlLink: event.eventUrlLink,
             });
-            navigation.goBack(null);
+            navigation.replace('Events');
 
         } catch (error) {
             console.log('error');
@@ -83,34 +84,12 @@ const EditEventScreen = ({ route, navigation }) => {
                 contentContainerStyle={{ flexGrow: 1 }}
                 showsVerticalScrollIndicator={false}>
                 <ImageBackground
-                    source={{ uri: 'https://images.unsplash.com/photo-1464047736614-af63643285bf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80' }}
+                    source={{ uri: event.pictureUrl }}
                     resizeMode="cover"
                     style={styles.eventImg}>
                 </ImageBackground>
                 <View style={{ flex: 1, padding: 10 }}>
                     <View style={styles.horizontalInputs}>
-                        <View style={styles.horizontalLeft}>
-                            <Text style={styles.label}>COVER IMAGE</Text>
-                            <TextInput
-                                placeholder='COMING SOON'
-                                editable={false}
-                                style={styles.eventInput}
-                            />
-                        </View>
-                        <View style={styles.horizontalRight}>
-                            <Button
-                                title='Unplash image'
-                                disabled={true}
-                                buttonStyle={{
-                                    borderColor: 'transparent',
-                                    borderWidth: 0,
-                                    borderRadius: 20,
-                                    marginBottom: 6,
-                                    width: 160,
-                                    alignSelf: 'center'
-                                }}
-                            />
-                        </View>
                     </View>
                     <View style={styles.verticalInputs}>
                         <Text style={styles.label}>ADDRESS</Text>

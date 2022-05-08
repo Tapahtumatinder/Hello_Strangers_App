@@ -8,8 +8,8 @@ import styles from '../AppStyle';
 
 const UserAvatar = ({ index, uid, max, navigation, eid }) => {
     const [data, setData] = useState({
-        pictureUrl : 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80',
-        userName : 'loading...'
+        pictureUrl: 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80',
+        userName: 'loading...'
     });
 
     useEffect(() => {
@@ -38,12 +38,12 @@ const UserAvatar = ({ index, uid, max, navigation, eid }) => {
             <ListItem
                 bottomDivider
                 onPress={() => navigation.navigate('Profile', { uid: uid })}
-                containerStyle={{ paddingLeft: 0, paddingRight: 0, paddingTop: 12, paddingBottom: 12, backgroundColor: 'transparent'}}
+                containerStyle={{ paddingLeft: 0, paddingRight: 0, paddingTop: 12, paddingBottom: 12, backgroundColor: 'transparent' }}
             >
                 <Avatar
                     size={48}
                     rounded
-                    source={{ uri: data.pictureUrl}}
+                    source={{ uri: data.pictureUrl }}
                 />
                 <ListItem.Content>
                     <ListItem.Title style={index < max ? styles.boldFontWeight : styles.colorGrey}>

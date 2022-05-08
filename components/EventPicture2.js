@@ -1,14 +1,14 @@
-import { Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, } from 'react-native';
 import { React, useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { storage, auth, db } from '../firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
-import styles from '../AppStyle';
+import { Button } from 'react-native-elements';
 
-const Picture = forwardRef((props, refe) => {
+const EventPicture2 = forwardRef((props, refe) => {
 
-  const [progress, setProgress] = useState('100');
+  const [progress, setProgress] = useState('');
   const [url, setUrl] = useState(null);
   const { collection, id } = props;
 
@@ -34,7 +34,7 @@ const Picture = forwardRef((props, refe) => {
 
   // pick picture from phone
   const pickPicture = async () => {
-
+    console.log(id);
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -93,11 +93,18 @@ const Picture = forwardRef((props, refe) => {
   return (
     <View>
       <Image style={styles.image} source={{ uri: url }} />
-      <Text>{progress}%</Text>
-      <View style={styles.centerContainer}>
-      </View>
+      <Text>{progress} %</Text>
+
     </View>
   )
 })
 
-export default Picture
+export default EventPicture2;
+
+const styles = StyleSheet.create({
+  image: {
+    width: 375,
+    height: 375,
+    backgroundColor: '#ddd'
+  }
+})

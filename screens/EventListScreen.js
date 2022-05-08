@@ -28,6 +28,8 @@ import {
 import { auth, db } from '../firebase';
 import styles from '../AppStyle';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useIsFocused } from "@react-navigation/native";
+
 
 
 const EventListScreen = ({ navigation }) => {
@@ -36,17 +38,22 @@ const EventListScreen = ({ navigation }) => {
   const [hostedEvents, setHostedEvents] = useState([]);
   const [index, setIndex] = useState(0);
   const today = new Date();
-  const [eventByid, setEventByid] = useState({attending: []});
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const [eventByid, setEventByid] = useState({ attending: [] });
+  const isFocused = useIsFocused();
 
   /*  In first query, gets data stored in a collection 'event' (not past events)
           -> mapping and adding event id to event object,
 
       in second query gets all data stored in a collection 'user'
           -> mapping and adding host user details to event object */
+
+  useEffect(() => {
+    if (isFocused) {
+      getData()
+    }
+  }, [isFocused], [])
+
+  // Gets all of the data stored in collection 'event' and sets it in state 'events'
   const getData = async () => {
     let tempEventList = [];
     let tempHostedEventList = [];
@@ -333,7 +340,7 @@ const EventListScreen = ({ navigation }) => {
         </TabView.Item>
       </TabView>
 
-      
+
 
       { /* Button that navigates to event creation screen */}
       <FAB
