@@ -14,7 +14,8 @@ import {
   Icon,
   ListItem,
   Tab,
-  TabView
+  TabView,
+  Overlay
 } from 'react-native-elements';
 import {
   collection,
@@ -25,6 +26,8 @@ import {
 } from 'firebase/firestore/lite';
 import { auth, db } from '../firebase';
 import styles from '../AppStyle';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 
 const EventListScreen = ({ navigation }) => {
   const [events, setEvents] = useState([]);
@@ -77,10 +80,80 @@ const EventListScreen = ({ navigation }) => {
 
   }
 
-  // UseState for the search keyword
+
+  // FILTER OVERLAY, SEARCHING BY DATE
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+
+  // overlay visibility
+  const [visible, setVisible] = useState(false);
+
+  // date related states
+  const [pickedDate, setPickedDate] = useState(new Date());
+  const [show, setShow] = useState(false);
+  const [mode, setMode] = useState('date');
+
+  const onChangeDate = (event, selectedDate) => {
+    setShow(Platform.OS === 'ios');
+    const currentDate = selectedDate || pickedDate;
+    setPickedDate(currentDate);
+  }
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  }
+
+  const showDatepicker = () => {
+    showMode('date');
+  }
+  const showTimepicker = () => {
+    showMode('time');
+  }
+
+  const getSearchData = async () => {
+    let tempEventList = [];
+    let tempHostedEventList = [];
+    let tempEvent = {};
+
+    try {
+      const q = query(collection(db, 'event'), where("startDateTime", ">=", pickedDate), orderBy('startDateTime'));
+      const querySnapshotEvents = await getDocs(q);
+      querySnapshotEvents.forEach((doc) => {
+        tempEvent = doc.data();
+        tempEvent['id'] = doc.id;
+        tempEventList.push(tempEvent);
+      });
+
+      const querySnapshotUsers = await getDocs(collection(db, 'user'));
+      querySnapshotUsers.forEach((doc) => {
+        tempEventList.map(event => {
+          if (event.organizer === doc.id) {
+            event['hostName'] = doc.data().userName;
+            event['hostAge'] = doc.data().userAge;
+            event['hostImgUrl'] = doc.data().pictureUrl;
+            event.organizer === auth.currentUser.uid && tempHostedEventList.push(event);
+          }
+        })
+      });
+      setEvents(tempEventList);
+      setHostedEvents(tempHostedEventList);
+      setFilteredEvents(tempEventList);
+      setVisible(false);
+    }
+    catch (e) {
+      console.error("Something went wrong: ", e);
+    }
+
+  }
+
+
+  // SEARCH BY KEYWORD
+
   const [search, setSearch] = useState('');
 
-  // Filtering of events
   const filterSearch = (text) => {
     if (text) {
       const newData = events.filter((item) => {
@@ -96,6 +169,7 @@ const EventListScreen = ({ navigation }) => {
       setSearch(text);
     }
   }
+
 
   // event items displayed in a flatlist
   const renderItem = ({ item }) => {
@@ -138,6 +212,7 @@ const EventListScreen = ({ navigation }) => {
   /* returns two tabs 'Events' and 'Hosting'
       Events: lists all events in a flatlist,
       Hosting: lists all events hosted by signed in user (in a flatlist) */
+
   return (
     <SafeAreaView style={styles.mainContainer}>
 
@@ -152,42 +227,102 @@ const EventListScreen = ({ navigation }) => {
         />
       </Tab>
 
-      <View style={styles.horizontalInputs}>
-        { /* Search bar */}
-        <View style={styles.horizontalLeft}>
-          <TextInput
-            placeholder='Search event...'
-            onChangeText={(text) => filterSearch(text)}
-            value={search}
-            style={styles.eventInput}
-          />
-        </View>
-        { /* Refresh button */}
-        <View style={styles.horizontalRight}>
-          <TouchableOpacity
-            onPress={getData}
-            style={{ alignItems: 'center' }}
-          >
-            <Text
-              style={{ textAlign: 'center', textAlignVertical: 'center', height: 40, width: 80 }}>
-              REFRESH
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
       <TabView value={index} onChange={setIndex} >
 
-        { /* All events */}
+        { /* Events -tab */}
         <TabView.Item style={{ width: '100%' }}>
-          <FlatList
-            data={filteredEvents}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index}
-          />
+          <View style={{ flex: 1 }}>
+            <View style={styles.horizontalInputs}>
+              { /* Search bar */}
+              <View style={styles.horizontalLeft}>
+                <TextInput
+                  placeholder='Search event...'
+                  onChangeText={(text) => filterSearch(text)}
+                  value={search}
+                  style={styles.eventInput}
+                />
+              </View>
+              { /* Filter button, opens overlay */}
+              <View style={styles.horizontalCenter}>
+                <TouchableOpacity
+                  onPress={toggleOverlay}
+                >
+                  <Icon
+                    name='filter-outline'
+                    type='ionicon'
+                    size={25}
+                  />
+                </TouchableOpacity>
+                { /* Overlay with datepicker */}
+                <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+                  <View>
+                    <View>
+                      <Text style={styles.label}>START DATE</Text>
+                      <TextInput
+                        placeholder='Start date'
+                        value={format(new Date(pickedDate), 'd.M.yyyy')}
+                        onPressIn={() => showDatepicker()}
+                        showSoftInputOnFocus={false}
+                        style={styles.eventInput}
+                      />
+                    </View>
+                    <View>
+                      <Text style={styles.label}>START TIME</Text>
+                      <TextInput
+                        placeholder='Start time'
+                        value={format(new Date(pickedDate), 'HH:mm')}
+                        onPressIn={() => showTimepicker()}
+                        showSoftInputOnFocus={false}
+                        style={styles.eventInput}
+                      />
+                    </View>
+                    <TouchableOpacity
+                      onPress={getSearchData}
+                    >
+                      <Icon
+                        name='search-circle'
+                        type='ionicon'
+                        size={40}
+                        color='#1390E0'
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  {show && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={pickedDate}
+                      mode={mode}
+                      is24Hour={true}
+                      display="default"
+                      minimumDate={new Date()}
+                      onChange={onChangeDate}
+                    />
+                  )}
+                </Overlay>
+              </View>
+              { /* Refresh/show all button */}
+              <View style={styles.horizontalRight}>
+                <TouchableOpacity
+                  onPress={getData}
+                >
+                  <Text
+                    style={{ textAlign: 'center', textAlignVertical: 'center', height: 40, width: 80 }}>
+                    SHOW ALL
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            { /* List of filtered events */}
+            <FlatList
+              data={filteredEvents}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index}
+            />
+          </View>
+
         </TabView.Item>
 
-        { /* Hosting events */}
+        { /* Hosting -tab*/}
         <TabView.Item style={{ width: '100%' }}>
           <FlatList
             data={hostedEvents}
