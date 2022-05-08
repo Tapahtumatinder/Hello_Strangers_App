@@ -10,7 +10,7 @@ import {
     TextInput,
     View
 } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Chip } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
 import styles from '../AppStyle';
@@ -25,6 +25,7 @@ const EditEventScreen = ({ route, navigation }) => {
         startDateTime: eventObj.startDateTime.toDate(),
         endDateTime: eventObj.endDateTime.toDate(),
         maxAttendance: eventObj.maxAttendance,
+        tags: eventObj.tags,
         description: eventObj.description,
         eventUrlLink: eventObj.eventUrlLink,
         pictureUrl: eventObj.pictureUrl,
@@ -47,13 +48,15 @@ const EditEventScreen = ({ route, navigation }) => {
                 startDateTime: event.startDateTime,
                 endDateTime: event.endDateTime,
                 maxAttendance: event.maxAttendance,
+                // tags: event.tags,
                 description: event.description,
                 eventUrlLink: event.eventUrlLink,
+                // pictureUrl: eventObj.pictureUrl,
             });
             navigation.replace('Events');
 
         } catch (error) {
-            console.log('error');
+            console.log(error.toString());
         }
     }
     // Handles date and time changes
@@ -76,6 +79,10 @@ const EditEventScreen = ({ route, navigation }) => {
     }
     const showTimepicker = () => {
         showMode('time');
+    }
+    const handleTagChange = (item) => {
+        const newTags = event.tags.filter((tag) => tag !== item);
+        setEvent({ ...event, tags: newTags});
     }
 
     return (
@@ -198,11 +205,24 @@ const EditEventScreen = ({ route, navigation }) => {
                             style={styles.eventInput}
                         />
                         <Text style={styles.label}>TAGS</Text>
-                        <TextInput
-                            editable={false}
-                            placeholder='COMING SOON: Select tags'
-                            style={styles.eventInput}
-                        />
+                        <View style={styles.hkiEventTagGroup}>
+                            {event.tags != undefined &&
+                                event.tags.map((tag, index) => (
+                                    <Chip
+                                        key={index}
+                                        title={tag}
+                                        buttonStyle={styles.hkiEventTag}
+                                        icon={{
+                                            name: "close",
+                                            type: "font-awesome",
+                                            size: 20,
+                                            color: "white",
+                                        }}
+                                        iconRight
+                                        onPress={() => handleTagChange(tag)} />
+                                ))
+                            }
+                        </View>
                         <Text style={styles.label}>EVENT NAME</Text>
                         <TextInput
                             placeholder='Set event name, max 30 characters'

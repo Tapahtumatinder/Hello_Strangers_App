@@ -11,12 +11,11 @@ import {
 import { format, isToday } from 'date-fns';
 import {
   Avatar,
-  FAB,
-  Icon,
   ListItem,
   Tab,
   TabView,
-  Overlay
+  Overlay,
+  Icon
 } from 'react-native-elements';
 import {
   collection,
@@ -55,28 +54,27 @@ const EventListScreen = ({ navigation }) => {
 
   // Gets all of the data stored in collection 'event' and sets it in state 'events'
   const getData = async () => {
+    const today = new Date();
     let tempEventList = [];
     let tempHostedEventList = [];
-    let tempEvent = {};
 
     try {
       const q = query(collection(db, 'event'), where("startDateTime", ">=", today), orderBy('startDateTime'));
       const querySnapshotEvents = await getDocs(q);
       querySnapshotEvents.forEach((doc) => {
+        let tempEvent = {};
         tempEvent = doc.data();
-        tempEvent['id'] = doc.id;
+        tempEvent.id = doc.id;
         tempEventList.push(tempEvent);
       });
 
       const querySnapshotUsers = await getDocs(collection(db, 'user'));
       querySnapshotUsers.forEach((doc) => {
-        tempEventList.map(event => {
-          if (event.organizer === doc.id) {
-            event['hostName'] = doc.data().userName;
-            event['hostAge'] = doc.data().userAge;
-            event['hostImgUrl'] = doc.data().pictureUrl;
-            event.organizer === auth.currentUser.uid && tempHostedEventList.push(event);     // if event's organizer is signed in user, adds event to hostedEvents 
-          }
+        tempEventList.filter(event => event.organizer === doc.id).forEach(event => {
+          event.hostName = doc.data().userName;
+          event.hostAge = doc.data().userAge;
+          event.hostImgUrl = doc.data().pictureUrl;
+          if (event.organizer === auth.currentUser.uid) { tempHostedEventList.push(event) }
         })
       });
       setEvents(tempEventList);
@@ -208,10 +206,10 @@ const EventListScreen = ({ navigation }) => {
         { /* Right side content of the list item */}
         <ListItem.Content right>
           <ListItem.Title right style={styles.colorBlue}>
-            {isToday(item.startDateTime.toDate()) ? 'Today' : format(new Date(item.startDateTime.toDate()), 'MMM d')}
+            {isToday(item.startDateTime.toDate()) ? 'Today' : format(item.startDateTime.toDate(), 'MMM d')}
           </ListItem.Title>
           <ListItem.Title right style={styles.colorBlue}>
-            {format(new Date(item.startDateTime.toDate()), 'HH:mm')}
+            {format(item.startDateTime.toDate(), 'HH:mm')}
           </ListItem.Title>
         </ListItem.Content>
 
@@ -339,23 +337,6 @@ const EventListScreen = ({ navigation }) => {
           />
         </TabView.Item>
       </TabView>
-
-
-
-      { /* Button that navigates to event creation screen */}
-      <FAB
-        title=''
-        placement='right'
-        color='#1390E0'
-        icon={
-          <Icon
-            name='add-outline'
-            type='ionicon'
-            size={25}
-            color="white" />}
-        onPress={() => navigation.navigate('Create event')}
-      />
-
     </SafeAreaView>
   );
 }

@@ -58,7 +58,6 @@ export default StyleSheet.create({
         flex: 1,
         flexWrap: 'wrap',
         flexDirection: 'row',
-        // alignContent: 'space-around',
         padding: 10
     },
     descriptionContainer: {
@@ -89,24 +88,16 @@ export default StyleSheet.create({
     filterButton: {
         width: '100%'
     },
-    /* EventScreen */
     colorGrey: {
         color: '#666'
     },
     listItem: {
         padding: 0
     },
-    // picture-komponentin kuvan style
     image: {
         width: 375,
         height: 375,
         backgroundColor: '#ddd'
-    },
-    eventImg: {
-        height: 250,
-        justifyContent: 'center',
-        opacity: 0.7,
-        marginBottom: 10
     },
     horizontalInputs: {
         flexDirection: 'row',
@@ -130,28 +121,6 @@ export default StyleSheet.create({
         marginLeft: 6,
         marginTop: 15
     },
-    eventInput: {
-        width: '95%',
-        height: 40,
-        margin: 6,
-        backgroundColor: 'white',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        borderColor: '#868B8E',
-        borderWidth: 1,
-        lineHeight: 20
-    },
-    eventInputMultiline: {
-        width: '95%',
-        margin: 6,
-        backgroundColor: 'white',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        borderColor: '#868B8E',
-        borderWidth: 1,
-        textAlignVertical: 'top'
-    },
-    /* EventDetailsScreen */
     boldFontWeight: {
         fontWeight: "700"
     },
@@ -164,33 +133,88 @@ export default StyleSheet.create({
         alignItems: 'flex-start',
         padding: 10
     },
-    eventDescription: {
-        flex: 1,
-        padding: 15
-    },
     bottomSheetContent: {
         alignItems: 'center'
     },
-    // POISTA ALLA OLEVAT ENNEN PUSHAUSTA
     profileImg: {
         height: 250,
         justifyContent: 'center',
         marginBottom: 10
+    },
+    eventImg: {
+        height: 250,
+        justifyContent: 'center',
+        marginBottom: 10
+    },
+    eventInput: {
+        width: '95%',
+        height: 40,
+        margin: 6,
+        backgroundColor: 'white',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderColor: '#868B8E',
+        borderWidth: 1
+    },
+    eventInputMultiline: {
+        width: '95%',
+        margin: 6,
+        backgroundColor: 'white',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderColor: '#868B8E',
+        borderWidth: 1,
+        textAlignVertical: 'top'
     },
     avatarOnEventImg: {
         marginLeft: 15,
         flexDirection: 'row',
         position: 'absolute',
         bottom: 0,
-        marginBottom: 20,
+        marginBottom: 10,
     },
     txtOnEventImg: {
+        width: '90%',
         marginLeft: 15,
+        marginRight: 5,
         color: 'white',
-        fontSize: 30,
+        fontSize: 20,
         textShadowColor: 'black',
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 5,
-    }
-
+    },
+    eventDescription: {
+        flex: 1,
+        padding: 15
+    },
+    showHkiEventsChipGroup: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        backgroundColor: '#E9EAEC',
+    },
+    showHkiEventsChip: {
+        margin: 15,
+    },
+    apiEventsListView: {
+        flex: 6,
+    },
+    createEventItem: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+    hkiApiEventsFlatList: {
+        flex: 5,
+    },
+    hkiEventTagGroup: {
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    hkiEventTag: {
+        justifyContent: 'center',
+        backgroundColor: '#1390E0',
+        margin: 5,
+    },
 })

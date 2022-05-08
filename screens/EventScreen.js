@@ -244,7 +244,8 @@ const EventScreen = ({ navigation }) => {
             />
             <Text style={styles.label}>EVENT NAME</Text>
             <TextInput
-              placeholder='Set event name, max 30 characters'
+              placeholder='Set event name, max 40 characters'
+              maxLength={40}
               value={eventName}
               onChangeText={text => setEventName(text)}
               style={styles.eventInput}
