@@ -1,143 +1,119 @@
-import { View, TextInput, Text, Platform } from 'react-native'
-import { Button } from 'react-native-elements';
-import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
+
+import { doc, getDoc } from 'firebase/firestore/lite';
+import { React, useState, useEffect, useLayoutEffect } from 'react';
+import { View, Text, ScrollView, ImageBackground, SafeAreaView, Button} from 'react-native'
+import { Chip, Icon } from 'react-native-elements';
 import { auth, db } from '../firebase';
-import { React, useState, useEffect } from 'react';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from '../AppStyle';
-import Picture from '../components/Picture';
-import DatePicker from 'react-native-date-picker'
+import UserInterestName from '../components/UserInterestName';
+import { useIsFocused } from "@react-navigation/native";
 
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ route, navigation }) => {
+
+
   const [userName, setUserName] = useState('');
   const [userDescription, setUserDescription] = useState('');
   const [userAge, setUserAge] = useState('');
-  const [bDayText, setbDayText] = useState('Empty');
-  const [userBirthdate, setUserBirthdate] = useState(new Date());
+  const [userInterest, setUserInterest] = useState([]);
+  const [url, setUrl] = useState();
+  //const [isVisible, setIsVisible] = useState(true);
+  const placeholderUrl = 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80';
+  const isFocused = useIsFocused();
 
-  //Pick the birthdate
-  const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
-  const [chosenDate, setChosenDate] = useState();
-
-  // select date
-  const onDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setDate(currentDate);
-    setChosenDate(selectedDate);
-    var tempDate = new Date(currentDate);
-    var fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-    setbDayText(fDate);
-    // calculate age
-    var birthDate = new Date(selectedDate);
-    var currentDay = new Date();
-    var age = currentDay.getFullYear() - birthDate.getFullYear();
-    var month = currentDay.getMonth() - birthDate.getMonth();
-    if (month < 0 || (month === 0 && currentDay.getDate() < birthDate.getDate()))
-      age--;
-    setUserAge(age);
-    setUserBirthdate(birthDate);
-    console.log(age);
-    console.log(birthDate);
-    setShow(false);
-  };
-
-  // Calls function getData every time the page reloads
   useEffect(() => {
-    getData()
-  }, [])
-
-  // Gets all of the data stored in collection 'user' that has the same id with the logged in user.
-  const getData = async () => {
-    const docRef = doc(db, 'user', auth.currentUser.uid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      setUserName(docSnap.data().userName);
-      setUserDescription(docSnap.data().userDescription);
-      setUserAge(docSnap.data().userAge);
-      setUserBirthdate(docSnap.data().userBirthdate);
-    } else {
-      console.log('a true stranger');
+    if(isFocused){ 
+      getData()
     }
+  }, [isFocused])
+
+// getting profile data
+const getData = async () => {
+  const docRef = doc(db, 'user', profileOwner() ? auth.currentUser.uid : route.params.uid);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+  setUserName(docSnap.data().userName ? docSnap.data().userName : '?');
+  setUserDescription(docSnap.data().userDescription ? docSnap.data().userDescription : '?');
+  setUserAge(docSnap.data().userAge ? docSnap.data().userAge : '?');
+  setUserInterest(docSnap.data().interest ? docSnap.data().interest : []);
+  setUrl(docSnap.data().pictureUrl ? docSnap.data().pictureUrl : placeholderUrl);
+  } else {
+    console.log('a true stranger');
   }
-
-  // Overrides anything within the collection: 'user' and id: 'logged in user id'...
-  // ...with the stuff inside the '{}' (in this case 'userName: usertName').
-  // If the collection does not exsist, then creates a 'user' collection to firestore.
-  const setData = async () => {
-    await setDoc(doc(db, 'user', auth.currentUser.uid), {
-      userName: userName,
-      userDescription: userDescription,
-      userAge: userAge,
-      userBirthdate: userBirthdate
-    })
-  }
-  return (
-    <View style={styles.mainContainer}>
-      <View style={styles.inputContainer}>
-
-        <Button
-          buttonStyle={styles.basicButton}
-          title='ADD PHOTO'
-          titleStyle={styles.basicTitle}
-        />
-
-        <Text>Name</Text>
-        <TextInput
-          placeholder='Set your first name'
-          value={userName}
-          onChangeText={text => setUserName(text)}
-          style={styles.input}
-        />
-
-        <Text>About you</Text>
-        <TextInput
-          placeholder='Describe yourself'
-          value={userDescription}
-          onChangeText={text => setUserDescription(text)}
-          style={styles.multilineInput}
-          multiline={true}
-          maxLength={250}
-        />
-
-        <Button
-          buttonStyle={styles.basicButton}
-          title="SELECT BIRTHDAY"
-          titleStyle={styles.basicTitle}
-          onPress={() => setShow(true)}
-        />
-        <Text>{bDayText}</Text>
-
-      </View>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode="date"
-          display="default"
-          onChange={onDateChange}
-        />
-      )}
-      <View style={styles.inputContainer}>
-
-        <Button
-          buttonStyle={styles.basicButton}
-          title='SAVE'
-          titleStyle={styles.basicTitle}
-          onPress={setData}
-        />
-        <Text
-          style={{ color: 'blue', textAlign: 'center', textDecorationLine: 'underline', marginTop: 40 }}
-          onPress={() => navigation.navigate('Delete account')}>
-          Delete account
-        </Text>
-
-      </View>
-    </View>
-  );
-
 }
-export default ProfileScreen;
+
+// both tabNav and stackNav include the ProfileScreen.
+// if accessed by tabnav, user is the profileOwner => uid provided by auth.currentUser.uid (no route).
+// if accessed by stackNav, 'route' provides uid for fetching the matching profile data.
+const profileOwner = () => {
+  return route.params ? route.params.uid != auth.currentUser.uid ? false : true : true;
+}
+
+const getInterestData = async () =>{
+    const docRef= doc(db,'interest');
+    const docSnap =await getDoc(docRef);
+    const data= docSnap.data();
+}
+
+     // to display button in the right upper corner of the header (three dots)
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+          <Button
+              onPress={() => {
+                navigation.navigate('EditProfile');
+              }}
+              disabled={!profileOwner()}
+              title='Edit'
+              titleStyle={{ color: 'black' }}
+              type='solid'
+              buttonStyle={{ backgroundColor: 'white', borderRadius: 20 }}
+              icon={
+                  <Icon
+                      name='ellipsis-vertical'
+                      type='ionicon'
+                      size={25}
+                      color="black" />}
+              iconRight />
+      ),
+  });
+}, [navigation]);
+
+
+
+  return  (
+    <SafeAreaView style={styles.mainContainer}>
+    <ScrollView
+        showsVerticalScrollIndicator={false}>
+          <ImageBackground
+                    source={{ uri: url }}
+                    resizeMode="cover"
+                    imageStyle={{ opacity: 0.8 }}
+                    style={styles.profileImg}>
+          <View style={styles.avatarOnEventImg}>
+                        <View>
+                            <Text style={styles.txtOnEventImg}>{userName} {userAge}</Text>
+                            
+                        </View>
+                    </View>
+          </ImageBackground>
+          <View style={styles.profileChips}>
+            {
+            userInterest.map( (item, index) => {
+              return <UserInterestName
+              navigation={navigation}
+              key={index}
+              index={index}
+              item={item}/>
+             
+            })}
+            </View>
+            <View style={styles.descriptionContainer}>
+            <Text style={styles.profileDescription}>ABOUT ME:</Text>
+            <Text style={styles.profileDescription}>{userDescription}</Text>
+            </View>
+    </ScrollView>
+    </SafeAreaView>
+    );
+}
+  export default ProfileScreen;

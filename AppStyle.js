@@ -6,6 +6,9 @@ mainContainer: {
     // default direction is column
     flex: 1,
 },
+centerContainer: {
+    alignItems: 'center' // on secondary (row) axis
+},
 inputContainer: {
     flex: 3,
     alignItems: 'center' // on secondary (row) axis
@@ -29,12 +32,42 @@ multilineInput:{
     marginBottom: 10,
     width: 250,
 },
+item: {
+    padding: 10,
+    marginVertical: 6,
+    marginHorizontal: 16,
+    borderWidth: 1,
+    borderRadius: 20
+  },
+listContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+},  
+profileDescription: {
+    padding: 10,
+    fontSize: 18,
+    color: 'grey'
+},
+profileChips: {
+    flex: 1,
+    flexWrap: 'wrap',
+    flexDirection:'row',
+   // alignContent: 'space-around',
+    padding: 10
+},
+descriptionContainer: {
+    flex: 2,
+    justifyContent: 'center'
+},
 basicButton: {
     backgroundColor: 'rgba(128, 128, 128, 0.4)',
     borderColor: 'transparent',
     borderWidth: 0,
     borderRadius: 10,
-    width: 200
+    width: 250,
+    margin: 10
 },
 basicTitle: {
     color: 'black',
@@ -53,9 +86,22 @@ filterButton: {
     width: '100%'
 },
 /* EventScreen */
+colorGrey: {
+    color: '#666'
+},
+listItem: {
+    padding: 0
+},
+// picture-komponentin kuvan style
+image: {
+    width: 375,
+    height: 375,
+    backgroundColor: '#ddd'
+}, 
 eventImg: {
     height: 250,
     justifyContent: 'center',
+    opacity: 0.7,
     marginBottom: 10
 },
 horizontalInputs: {
@@ -102,23 +148,12 @@ eventInputMultiline: {
     textAlignVertical: 'top'
 },
 /* EventDetailsScreen */
-avatarOnEventImg: {
-    marginLeft: 15, 
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom:0,
-    marginBottom: 20,
-},
-txtOnEventImg: {
-    marginLeft: 15,
-    color: 'white',
-    fontSize: 20,
-    textShadowColor: 'black',
-    textShadowOffset: { width: 1, height: 1 } ,
-    textShadowRadius: 5,
-},
 boldFontWeight: {
     fontWeight: "700"
+},
+attending: {
+    fontWeight: "700",
+    marginBottom: 16
 },
 eventChips: {
     flex: 1,
@@ -132,5 +167,26 @@ eventDescription: {
 bottomSheetContent: {
     alignItems: 'center'
 },
+// POISTA ALLA OLEVAT ENNEN PUSHAUSTA
+profileImg: {
+    height: 250,
+    justifyContent: 'center',
+    marginBottom: 10
+},
+avatarOnEventImg: {
+    marginLeft: 15, 
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom:0,
+    marginBottom: 20,
+},
+txtOnEventImg: {
+    marginLeft: 15,
+    color: 'white',
+    fontSize: 30,
+    textShadowColor: 'black',
+    textShadowOffset: { width: 1, height: 1 } ,
+    textShadowRadius: 5,
+}
 
 })

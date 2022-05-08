@@ -1,3 +1,5 @@
+
+   
 import { View, SafeAreaView, ScrollView } from 'react-native'
 import { Button } from 'react-native-elements';
 import { doc, setDoc, getDoc, collection, getDocs, query } from 'firebase/firestore/lite';
@@ -100,30 +102,3 @@ return (
 
 
 export default InterestScreen;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

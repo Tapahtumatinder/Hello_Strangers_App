@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react';
 import {
   FlatList,
   SafeAreaView,
+  ScrollView,
   TextInput,
   View,
   Text,
@@ -35,6 +36,7 @@ const EventListScreen = ({ navigation }) => {
   const [hostedEvents, setHostedEvents] = useState([]);
   const [index, setIndex] = useState(0);
   const today = new Date();
+  const [eventByid, setEventByid] = useState({attending: []});
 
   useEffect(() => {
     getData();
@@ -215,7 +217,6 @@ const EventListScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-
       <Tab value={index} onChange={setIndex}>
         <Tab.Item
           title="Events"
@@ -230,7 +231,7 @@ const EventListScreen = ({ navigation }) => {
       <TabView value={index} onChange={setIndex} >
 
         { /* Events -tab */}
-        <TabView.Item style={{ width: '100%' }}>
+        <TabView.Item style={{ width: '100%' }} onMoveShouldSetResponder={(e) => e.stopPropagation()}>
           <View style={{ flex: 1 }}>
             <View style={styles.horizontalInputs}>
               { /* Search bar */}
@@ -323,7 +324,7 @@ const EventListScreen = ({ navigation }) => {
         </TabView.Item>
 
         { /* Hosting -tab*/}
-        <TabView.Item style={{ width: '100%' }}>
+        <TabView.Item style={{ width: '100%' }} onMoveShouldSetResponder={(e) => e.stopPropagation()}>
           <FlatList
             data={hostedEvents}
             renderItem={renderItem}
@@ -331,6 +332,8 @@ const EventListScreen = ({ navigation }) => {
           />
         </TabView.Item>
       </TabView>
+
+      
 
       { /* Button that navigates to event creation screen */}
       <FAB
@@ -345,6 +348,7 @@ const EventListScreen = ({ navigation }) => {
             color="white" />}
         onPress={() => navigation.navigate('Create event')}
       />
+
     </SafeAreaView>
   );
 }

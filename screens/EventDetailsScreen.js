@@ -1,6 +1,7 @@
 import { React, useState, useLayoutEffect } from 'react';
 import { auth, db } from '../firebase';
-import { doc, deleteDoc } from "firebase/firestore/lite";
+import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore/lite";
+import UserAvatar from '../components/UserAvatar'
 import {
     ImageBackground,
     SafeAreaView,
@@ -20,11 +21,35 @@ import { format } from 'date-fns';
 import styles from '../AppStyle';
 
 const EventDetailsScreen = ({ route, navigation }) => {
+  
     const { event } = route.params;
     const [isVisible, setIsVisible] = useState(false);
+    const userId = auth.currentUser.uid;
+    const [eventByid, setEventByid] = useState({attending: []});
+
+    // Since firestore/lite does not include snapShot,
+    // using useEffect and useState keep the event object updated.
+    // If event.attending is unassigned adding an empty array to it.
+    const getEventByid = async () => {
+        const docRef = doc(db, 'event', event.id);
+        const docSnap = await getDoc(docRef);
+        const data = docSnap.data();
+        if (!data.attending) {data.attending = []}
+        setEventByid(data)
+    }
+
+    // Toggle (add/remove) current users id in event.attending array
+    const changeAttendance = async () => {
+        const ref = doc(db, 'event', event.id);
+        await updateDoc(ref, {
+            attending: eventByid.attending.includes(userId) ? arrayRemove(userId) : arrayUnion(userId)
+        });
+        getEventByid();
+    }
 
     // to display button in the right upper corner of the header (three dots)
     useLayoutEffect(() => {
+        getEventByid()
         navigation.setOptions({
             headerRight: () => (
                 <Button
@@ -108,7 +133,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                         }}
                         containerStyle={{ marginVertical: 8 }} />
                     <Chip
-                        title="Attending"
+                        title={`Attending ${eventByid.attending ? eventByid.attending.length : '0'}/${eventByid.maxAttendance}`}
                         titleStyle={{ color: 'black' }}
                         type='outline'
                         buttonStyle={{ backgroundColor: '#D6D6D6', borderColor: 'white' }}
@@ -143,6 +168,25 @@ const EventDetailsScreen = ({ route, navigation }) => {
                     <Text style={styles.boldFontWeight}>Description:</Text>
                     <Text style={{ marginTop: 15 }}>{event.description}</Text>
                 </View>
+                <View
+                    style={{
+                        borderBottomColor: '#D6D6D6',
+                        borderBottomWidth: 1,
+                        margin: 10
+                    }}
+                />
+                <View style={styles.eventDescription}>
+                    <Text style={styles.boldFontWeight}>Attending:</Text>
+                    {eventByid.attending.map((uid, index) => {
+                        return <UserAvatar
+                            navigation={navigation}
+                            key={index}
+                            index={index}
+                            uid={uid}
+                            eid={event.id}
+                            max={eventByid.maxAttendance}/>
+                    })}
+                </View>
                 <BottomSheet
                     isVisible={isVisible}>
                     {event.organizer === auth.currentUser.uid ?
@@ -169,7 +213,10 @@ const EventDetailsScreen = ({ route, navigation }) => {
                         (<ListItem bottomDivider>
                             <ListItem.Content style={styles.bottomSheetContent}>
                                 <ListItem.Title>
-                                    <Text>Let host know you'd like to attend</Text></ListItem.Title>
+                                    <Text onPress={() => setIsVisible(false) + changeAttendance()}>
+                                        {eventByid.attending.includes(userId) ? 'Drop out from event' : eventByid.attending.length < eventByid.maxAttendance ? 'Join event' : 'Join queue (event full)'}
+                                    </Text>
+                                </ListItem.Title>
                             </ListItem.Content>
                         </ListItem>)
                     }
@@ -188,3 +235,18 @@ const EventDetailsScreen = ({ route, navigation }) => {
     );
 }
 export default EventDetailsScreen;
+
+
+/*
+    const attending = [
+        'SN83doHTkSdXAVP67HMWl0oYRpv2',
+        'pejQN1GR12ZAiUgLLVKXEwld3Fr1',
+        'k38tgBqsh6NhJbz0VWtBe9EcDTt1'
+    ];
+
+    const setData = async () => {
+        const ref = doc(db, 'event', event.id);
+        await setDoc(ref, { attending: attending }, { merge: true })
+        console.log(ref)
+    }
+    */
