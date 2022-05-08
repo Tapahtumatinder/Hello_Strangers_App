@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import EventListScreen from '../screens/EventListScreen';
+import CreateEventScreen from '../screens/CreateEventScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,6 +21,8 @@ const TabNavigator = () => {
                         iconName = 'person';
                     } else if (route.name === 'EventListTab') {
                         iconName = 'md-calendar';
+                    } else if (route.name === 'Create Events') {
+                        iconName = 'add-circle';
                     }
                     return <Ionicons name={iconName} size={size} color={color} />;
                 }
@@ -33,6 +36,11 @@ const TabNavigator = () => {
                 name="ProfileTab"
                 options={{ headerShown: false, tabBarShowLabel: false }}
                 component={ProfileScreen}
+            />
+            <Tab.Screen
+                name="Create Events"
+                options={{ headerShown: false, tabBarShowLabel: false }}
+                component={CreateEventScreen}
             />
             <Tab.Screen
                 name="EventListTab"

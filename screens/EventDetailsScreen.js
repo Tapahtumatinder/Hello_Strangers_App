@@ -2,6 +2,7 @@ import { React, useState, useLayoutEffect } from 'react';
 import { auth, db } from '../firebase';
 import { doc, deleteDoc } from "firebase/firestore/lite";
 import {
+    Alert,
     ImageBackground,
     SafeAreaView,
     ScrollView,
@@ -44,6 +45,21 @@ const EventDetailsScreen = ({ route, navigation }) => {
         });
     }, [navigation]);
 
+    const confirmationAlert = () => {
+        Alert.alert(
+            "Are you sure?",
+            "Do you really want to cancel the event?",
+            [
+              {
+                text: "No",
+                onPress: () => console.log(" "),
+                style: "cancel"
+              },
+              { text: "Yes", onPress: () => deleteEvent() }
+            ]
+        );
+    }
+
     // removes event from Firestore
     const deleteEvent = async () => {
         if (event.organizer === auth.currentUser.uid) {
@@ -55,15 +71,15 @@ const EventDetailsScreen = ({ route, navigation }) => {
         }
         navigation.goBack('Events');
     }
-
-    // TODO: event image (now hardcoded), 'tags' and 'attending'-chips and bottom sheet's 'Attending' action (doesn't do anything now)
+    // 'https://images.unsplash.com/photo-1625723347040-0fdf78cb3c1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80'
+    
     return (
         <SafeAreaView style={styles.mainContainer}>
             <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 showsVerticalScrollIndicator={false}>
                 <ImageBackground
-                    source={{ uri: 'https://images.unsplash.com/photo-1625723347040-0fdf78cb3c1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80' }}
+                    source={{ uri: event.pictureUrl }}
                     resizeMode="cover"
                     imageStyle={{ opacity: 0.8 }}
                     style={styles.eventImg}>
@@ -96,7 +112,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                         }}
                         containerStyle={{ marginVertical: 8 }} />
                     <Chip
-                        title={format(new Date(event.startDateTime.toDate()), 'EEE d MMM yyyy HH:mm')}
+                        title={format(event.startDateTime.toDate(), 'EEE d MMM yyyy HH:mm')}
                         titleStyle={{ color: 'black' }}
                         type='outline'
                         buttonStyle={{ backgroundColor: '#D6D6D6', borderColor: 'white' }}
@@ -119,18 +135,25 @@ const EventDetailsScreen = ({ route, navigation }) => {
                             color: 'black',
                         }}
                         containerStyle={{ marginVertical: 8 }} />
-                    <Chip
-                        title="Tags"
-                        titleStyle={{ color: 'black' }}
-                        type='outline'
-                        buttonStyle={{ backgroundColor: '#D6D6D6', borderColor: 'white' }}
-                        icon={{
-                            name: 'checkmark-circle',
-                            type: 'ionicon',
-                            size: 20,
-                            color: 'black',
-                        }}
-                        containerStyle={{ marginVertical: 8 }} />
+                    <View style={styles.hkiEventTagGroup}>
+                        {event.tags != undefined &&
+                            event.tags.map((tag, index) => (
+                                <Chip
+                                    key={index}
+                                    title={tag}
+                                    titleStyle={{ color: 'black' }}
+                                    type='outline'
+                                    buttonStyle={{ backgroundColor: '#D6D6D6', borderColor: 'white' }}
+                                    icon={{
+                                        name: 'checkmark-circle',
+                                        type: 'ionicon',
+                                        size: 20,
+                                        color: 'black',
+                                    }}
+                                    containerStyle={{ marginVertical: 8 }} />
+                            ))
+                        }
+                    </View>
                 </View>
                 <View
                     style={{
@@ -158,7 +181,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                             <ListItem bottomDivider>
                                 <ListItem.Content style={styles.bottomSheetContent}>
                                     <ListItem.Title
-                                        onPress={() => deleteEvent()}>
+                                        onPress={() => confirmationAlert()}>
                                         <Text>Cancel event</Text>
                                     </ListItem.Title>
                                 </ListItem.Content>

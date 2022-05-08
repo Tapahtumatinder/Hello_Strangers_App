@@ -5,9 +5,6 @@ import { auth, db } from '../firebase';
 import { React, useState, useEffect } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from '../AppStyle';
-import Picture from '../components/Picture';
-import DatePicker from 'react-native-date-picker'
-
 
 const ProfileScreen = ({ navigation }) => {
   const [userName, setUserName] = useState('');

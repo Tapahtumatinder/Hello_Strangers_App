@@ -99,10 +99,12 @@ avatarOnEventImg: {
     flexDirection: 'row',
     position: 'absolute',
     bottom:0,
-    marginBottom: 20,
+    marginBottom: 10,
 },
 txtOnEventImg: {
+    width: '90%',
     marginLeft: 15,
+    marginRight: 5,
     color: 'white',
     fontSize: 20,
     textShadowColor: 'black',
@@ -123,6 +125,37 @@ eventDescription: {
 },
 bottomSheetContent: {
     alignItems: 'center'
+},
+/* CreateEventScreen */
+showHkiEventsChipGroup: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    backgroundColor: '#E9EAEC',
+},
+showHkiEventsChip: {
+    margin: 15,
+},
+apiEventsListView: {
+    flex: 6,
+},
+createEventItem: {
+    flex: 1,
+    flexDirection: 'row',
+},
+hkiApiEventsFlatList: {
+    flex: 5,
+},
+hkiEventTagGroup: {
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+},
+hkiEventTag: {
+    justifyContent: 'center',
+    backgroundColor: '#1390E0',
+    margin: 5,
 },
 
 })
