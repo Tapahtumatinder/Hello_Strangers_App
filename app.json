@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Hello_Strangers_App",
-    "slug": "Hello_Strangers_App",
+    "name": "Hello_Strangers_App_test",
+    "slug": "hello_strangers_app_test",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }
