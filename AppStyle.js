@@ -238,7 +238,7 @@ export default StyleSheet.create({
         borderRadius: 5,
         opacity: 0.7,
         marginLeft: 3,
-        maxWidth: 90,
+        maxWidth: 110,
         paddingLeft: 4
     },
     markerText: {
@@ -253,5 +253,17 @@ export default StyleSheet.create({
     icon: {
         color: 'white',
         paddingBottom: 10
-    }
+    },
+
+    /* Event tags */
+    hkiEventTagGroup: {
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    hkiEventTag: {
+        justifyContent: 'center',
+        backgroundColor: '#1390E0',
+        margin: 5,
+    },
 })

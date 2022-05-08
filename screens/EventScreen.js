@@ -219,7 +219,11 @@ const EventScreen = ({ navigation }) => {
                 style={styles.eventInput}
               />
               <Text style={styles.label}>TAGS</Text>
-              <Button buttonStyle={styles.basicButton} title="Select tags" titleStyle={styles.basicTitle} onPress={() => navigation.navigate('Event tags', { event })} />
+              <TextInput
+                editable={false}
+                placeholder='COMING SOON: Select tags'
+                style={styles.eventInput}
+              />
               <Text style={styles.label}>EVENT NAME</Text>
               <TextInput
                 placeholder='Set event name, max 30 characters'

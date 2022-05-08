@@ -191,17 +191,17 @@ const EventListScreen = ({ navigation }) => {
       <TabView value={index} onChange={setIndex} >
 
         { /* All events */}
-        <TabView.Item style={{ width: '100%' }}>
+        <TabView.Item style={{ width: '100%' }} onMoveShouldSetResponder={(e) => e.stopPropagation()}>
           {changeView(filteredEvents)}
         </TabView.Item>
 
         { /* Hosting events */}
-        <TabView.Item style={{ width: '100%' }}>
+        <TabView.Item style={{ width: '100%' }} onMoveShouldSetResponder={(e) => e.stopPropagation()}>
           {changeView(hostedEvents)}
         </TabView.Item>
 
         { /* Attending events */}
-        <TabView.Item style={{ width: '100%' }}>
+        <TabView.Item style={{ width: '100%' }} onMoveShouldSetResponder={(e) => e.stopPropagation()}>
           {changeView(attendingEvents)}
         </TabView.Item>
       </TabView>

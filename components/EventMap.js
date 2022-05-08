@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { FlatList, Image, View, Text, TouchableOpacity, Alert } from 'react-native';
-import { format, isToday } from 'date-fns';
+import { Image, View, Text, TouchableOpacity, Alert } from 'react-native';
+import { format, } from 'date-fns';
 import { Ionicons } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
 import styles from '../AppStyle';
@@ -49,8 +49,8 @@ const EventMap = (props) => {
     const [region, setRegion] = useState({
         latitude: 60.16801,
         longitude: 24.941569,
-        latitudeDelta: 0.0322,
-        longitudeDelta: 0.0221
+        latitudeDelta: 0.08,
+        longitudeDelta: 0.1,
     });
 
     //* initializing coordinates for markers
@@ -60,35 +60,36 @@ const EventMap = (props) => {
     });
 
     const [coords, setCoords] = useState({
-        latitude: null,
-        longitude: null
+        latitude: 0,
+        longitude: 0
     });
 
+    const [event, setEvent] = useState({});
 
-    const getCoordinates = async (events) => {
+    const getCoordinates = (events) => {
 
         events.map((item, index) => {
-            console.log(item.address.replace(' ', ''));
+            let tempEvent = {};
 
-            fetch('http://www.mapquestapi.com/geocoding/v1/address?key=Pba7m8GH0z5Wr7Dbd4AXem7GqTUaujPo&location=' + item.address.replace(' ', ''))
+            fetch('http://www.mapquestapi.com/geocoding/v1/address?key=Pba7m8GH0z5Wr7Dbd4AXem7GqTUaujPo&location=' + item.address + ',' + item.locality + ',Finland')
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.results[0].locations[0].latLng.lat);
-                    console.log(data.results[0].locations[0].latLng.lng);
-                    setCoords({
+                    tempEvent = item;
+                    tempEvent.coordinates = {
                         latitude: data.results[0].locations[0].latLng.lat,
                         longitude: data.results[0].locations[0].latLng.lng
-                    })
+                    }
+                    if (!eventsWithCoords.includes(tempEvent)) {
+                        eventsWithCoords.push(tempEvent)
+                    }
                 })
                 .catch(error => { Alert.alert('Error', error.toString()); });
-            console.log(coords);
         }
         )
-
     };
 
     useEffect(() => {
-        console.log(getCoordinates(events));
+        getCoordinates(events);
     }, [])
     /* fuctions to zoom in and out by pressing buttons on the map */
     const onPressZoomIn = () => {
@@ -115,18 +116,22 @@ const EventMap = (props) => {
                 style={styles.map}
                 region={region}
                 customMapStyle={mapStyle}
+                onRegionChangeComplete={(e) => setRegion(e)}
             >
-                <Marker coordinate={coordinates} style={styles.marker}
-                    onPress={() => {
-                        navigation.navigate('Create event');
-                    }}>
-                    <Image source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/hellostrangersapp.appspot.com/o/avatar%2Fk38tgBqsh6NhJbz0VWtBe9EcDTt1?alt=media&token=fb176975-538a-47da-9147-4d5096cb43d4' }}
-                        style={styles.markerImage} />
-                    <View style={styles.markerTextView}>
-                        <Text style={styles.markerText} numberOfLines={1}>Tapahtuman nimi</Text>
-                        <Text style={styles.markerText} numberOfLines={1}>Aika</Text>
-                    </View>
-                </Marker>
+                {eventsWithCoords.map((item, index) => (
+                    <Marker key={index} coordinate={item.coordinates} style={styles.marker}
+                        onPress={() => {
+                            navigation.navigate('Event details', { event: item });
+                        }}>
+                        <Image source={{ uri: item.hostImgUrl ? item.hostImgUrl : 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80' }}
+                            style={styles.markerImage} />
+                        <View style={styles.markerTextView}>
+                            <Text style={styles.markerText} numberOfLines={1}> {item.eventName}</Text>
+                            <Text style={styles.markerText} numberOfLines={1}>{format(new Date(item.startDateTime.toDate()), 'd.M.yyyy H:mm')}</Text>
+                        </View>
+                    </Marker>
+                ))}
+
             </MapView>
             <View style={styles.zoom}>
                 <TouchableOpacity

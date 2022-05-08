@@ -74,19 +74,24 @@ const EventCards = (props) => {
                                     color: 'white',
                                 }} />}
                         </View>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-                            <Chip
-                                title="Tags"
-                                titleStyle={styles.cardText}
-                                type='flat'
-                                buttonStyle={styles.cardChip}
-                                icon={{
-                                    name: 'checkmark-circle',
-                                    type: 'ionicon',
-                                    size: 15,
-                                    color: 'white',
-                                }} />
-                        </View>
+                        {!isEmpty(item.tags) &&
+
+                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                                {item.tags.map((tag, index) => (
+                                    <Chip key={index}
+                                        title={tag}
+                                        titleStyle={styles.cardText}
+                                        type='flat'
+                                        buttonStyle={styles.cardChip}
+                                        icon={{
+                                            name: 'checkmark-circle',
+                                            type: 'ionicon',
+                                            size: 15,
+                                            color: 'white',
+                                        }} />
+                                ))}
+                            </View>
+                        }
                     </View>
                 </ImageBackground>
 
