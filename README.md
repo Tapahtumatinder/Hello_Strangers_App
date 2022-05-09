@@ -90,7 +90,8 @@ To get a local copy up and running follow these simple example steps.
   
 <!-- PICTURES -->
 ## Pictures
-<img src="assets/MyHelsinkiEvents.png" alt="Logo" width="220" height="400">&nbsp;&nbsp;<img src="assets/ProfileView.png" alt="Logo" width="220" height="400">&nbsp;&nbsp;<img src="assets/EventView.png" alt="Logo" width="220" height="400">&nbsp;&nbsp;<img src="assets/UserEventss.png" alt="Logo" width="220" height="400">
+<img src="assets/MyHelsinkiEvents.png" alt="Logo" width="220" height="400">&nbsp;&nbsp;<img src="assets/ProfileView.png" alt="Logo" width="220" height="400">
+<img src="assets/EventView.png" alt="Logo" width="220" height="400">&nbsp;&nbsp;<img src="assets/UserEventss.png" alt="Logo" width="220" height="400">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
