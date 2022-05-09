@@ -29,7 +29,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Hello Strangers is a mobile app created for Haaga-Helia's Software Project II -course (10 ECTS) in spring 2022. Project team consisted of 5 students.
+Hello Strangers is a mobile app created for Haaga-Helia's Software Project II -course (10 ECTS) in spring 2022. Project team consisted of 6 students.
 
 With Hello Strangers users can explore and create events based on own interests. Main point of this app is to help users find other people who are interested in the same things and maybe even form new friendships.
 
