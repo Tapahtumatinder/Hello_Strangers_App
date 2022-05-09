@@ -12,9 +12,6 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -23,9 +20,8 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#technologies">Technologies</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -45,17 +41,6 @@ You will find general information and instructions concerning Hello Strangers on
 <img src="assets/EventView.png" alt="Logo" width="200" height="400">&nbsp;&nbsp;<img src="assets/UserEventss.png" alt="Logo" width="200" height="400">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-### Built With
-
-* [ReactNative.js](https://reactnative.dev/)
-* [Firebase](https://firebase.google.com/)
-* [MyHelsinki API](https://open-api.myhelsinki.fi/)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- GETTING STARTED -->
@@ -93,12 +78,22 @@ You will find general information and instructions concerning Hello Strangers on
 <p align="right">(<a href="#top">back to top</a>)</p>
   
 
-<!-- USAGE -->
-## Usage
+<!-- Technologies -->
+## Technologies
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Built on top of:
+* [Expo](https://expo.dev/)
+* [ReactNative.js](https://reactnative.dev/)
+* [Firebase](https://firebase.google.com/)
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+### API
+* [MyHelsinki API](https://open-api.myhelsinki.fi/)
+
+#### Libraries
+* [React Native Elements](https://reactnativeelements.com/)
+* [Expo Vector Icons](https://docs.expo.dev/guides/icons/)
+* [React Native Community Datetimepicker](https://github.com/react-native-datetimepicker/datetimepicker)
+* [Date-fns](https://date-fns.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -118,63 +113,9 @@ See the [project Trello](https://trello.com/b/1zXl95xR/tulevaisuus-sprint) for a
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+We would like thank our teachers for their support and also our peer support.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
-  
-## Project links:
-
-#### User stories and design
-[Figma](https://www.figma.com/file/sqIHxyv7r7DaS7Yk456HtU/Tapahtumatinder)
-
-#### Backlog
-[Trello](https://trello.com/hhx16745008)
-  - [Sprint 1](https://trello.com/b/mhbG4wKd/sprint-1)
-  - [Sprint 2](https://trello.com/b/Mk9oyoro/sprint-2)
-  - [Sprint 3](https://trello.com/b/9gbxRxi4/sprint-3)
-  - [Sprint 4](https://trello.com/b/0UKkPoPE/sprint-4)
-  
-#### Videos
-- [Demo_preview_0.1](https://www.youtube.com/watch?v=GxT617yNe40)
-
-#### Management
-- [Firebase](https://console.firebase.google.com/u/4/project/hellostrangersapp/overview)
-
-#### Map tools (geocoding)
-- [Mapquest](https://developer.mapquest.com/documentation/geocoding-api/) tai [Googlen API](https://developers.google.com/maps/documentation/geocoding/overview)
-
-#### MyHelsinki API
-- [information](https://hri.fi/data/dataset/myhelsinki-open-api-paikat-tapahtumat-ja-aktiviteetit)
-- [events data](http://open-api.myhelsinki.fi/v1/events/)
