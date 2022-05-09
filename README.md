@@ -155,3 +155,28 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png
+  
+## Project links:
+
+#### User stories and design
+[Figma](https://www.figma.com/file/sqIHxyv7r7DaS7Yk456HtU/Tapahtumatinder)
+
+#### Backlog
+[Trello](https://trello.com/hhx16745008)
+  - [Sprint 1](https://trello.com/b/mhbG4wKd/sprint-1)
+  - [Sprint 2](https://trello.com/b/Mk9oyoro/sprint-2)
+  - [Sprint 3](https://trello.com/b/9gbxRxi4/sprint-3)
+  - [Sprint 4](https://trello.com/b/0UKkPoPE/sprint-4)
+  
+#### Videos
+- [Demo_preview_0.1](https://www.youtube.com/watch?v=GxT617yNe40)
+
+#### Management
+- [Firebase](https://console.firebase.google.com/u/4/project/hellostrangersapp/overview)
+
+#### Map tools (geocoding)
+- [Mapquest](https://developer.mapquest.com/documentation/geocoding-api/) tai [Googlen API](https://developers.google.com/maps/documentation/geocoding/overview)
+
+#### MyHelsinki API
+- [information](https://hri.fi/data/dataset/myhelsinki-open-api-paikat-tapahtumat-ja-aktiviteetit)
+- [events data](http://open-api.myhelsinki.fi/v1/events/)
