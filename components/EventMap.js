@@ -1,9 +1,9 @@
 import { React, useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Image, View, Text, TouchableOpacity, Alert } from 'react-native';
-import { format, } from 'date-fns';
+import { format, isToday } from 'date-fns';
 import { Ionicons } from '@expo/vector-icons';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import styles from '../AppStyle';
 
 
@@ -106,6 +106,7 @@ const EventMap = (props) => {
             <MapView
                 style={styles.map}
                 region={region}
+                provider={PROVIDER_GOOGLE}
                 customMapStyle={mapStyle}
                 onRegionChangeComplete={(e) => setRegion(e)}
             >
@@ -118,7 +119,7 @@ const EventMap = (props) => {
                             style={styles.markerImage} />
                         <View style={styles.markerTextView}>
                             <Text style={styles.markerText} numberOfLines={1}> {item.eventName}</Text>
-                            <Text style={styles.markerText} numberOfLines={1}>{format(new Date(item.startDateTime.toDate()), 'd.M.yyyy H:mm')}</Text>
+                            <Text style={styles.markerText} numberOfLines={1}>{isToday(item.startDateTime.toDate()) ? 'Today' + format(item.startDateTime.toDate(), ' HH:mm') : format(item.startDateTime.toDate(), 'd.M.yyyy H:mm')}</Text>
                         </View>
                     </Marker>
                 ))}

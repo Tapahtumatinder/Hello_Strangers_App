@@ -68,6 +68,8 @@ const MainStack = () => {
             <Stack.Screen
                 name='Events'
                 component={EventListScreen}
+                options={({ navigation, route }) => ({
+                })}
             />
             <Stack.Screen
                 name="Event tags"

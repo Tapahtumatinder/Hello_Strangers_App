@@ -8,7 +8,7 @@ import MultiSelect from 'react-native-multiple-select';
 
 
 const EventTagScreen = ({ route, navigation }) => {
-    const { eventId, /*eventTags */ } = route.params;
+    const { eventId } = route.params;
     const [tags, setTags] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [eventTags, setEventTags] = useState([]);
@@ -17,7 +17,7 @@ const EventTagScreen = ({ route, navigation }) => {
     useEffect(() => {
         getInterest();
         getData();
-
+        console.log(eventId);
     }, []);
 
     // Gets already stored tags in collection 'event' that has the same id with the event being changed.
@@ -46,7 +46,7 @@ const EventTagScreen = ({ route, navigation }) => {
         await setDoc(ref, {
             ourTags: selectedItems
         }, { merge: true })
-            .then(navigation.goBack('Edit event'));
+            .then(navigation.goBack());
     }
 
     // Gets all of the data stored in collection 'interest'
@@ -75,7 +75,7 @@ const EventTagScreen = ({ route, navigation }) => {
             <View>
                 <MultiSelect
                     fixedHeight={true}
-                    styleSelectorContainer={{ height: '93%' }}
+                    styleSelectorContainer={{ height: '91%' }}
                     hideTags
                     items={tags}
                     uniqueKey="id"

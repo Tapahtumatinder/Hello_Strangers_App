@@ -24,16 +24,27 @@ const CreateEventScreen = ({ navigation }) => {
                     let tempEventList = json.data.filter(event => isAfter(new Date(event.event_dates.starting_day), new Date()));
                     tempEventList = tempEventList.sort((a, b) => compareAsc(new Date(a.event_dates.starting_day), new Date(b.event_dates.starting_day)));
                     setHkiApiEvents(tempEventList);
-                    
-                    const tempEventsToday = tempEventList.filter(event => isToday(new Date(event.event_dates.starting_day)));
-                    setEventsToday(tempEventsToday);
-                    setShowEvents(tempEventsToday);
-                    
-                    const tempEventsTomorrow = tempEventList.filter(event => isTomorrow(new Date(event.event_dates.starting_day)));
-                    setEventsTomorrow(tempEventsTomorrow);
 
+                    const tempEventsToday = tempEventList.filter(event => isToday(new Date(event.event_dates.starting_day)));
+                    if (tempEventsToday.length > 0) {
+                        setEventsToday(tempEventsToday);
+                        setShowEvents(tempEventsToday);
+                    } else {
+                        showEvents.push({});
+                    }
+
+                    const tempEventsTomorrow = tempEventList.filter(event => isTomorrow(new Date(event.event_dates.starting_day)));
+                    if (tempEventsTomorrow.length > 0) {
+                        setEventsTomorrow(tempEventsTomorrow);
+                    } else {
+                        showEvents.push({});
+                    }
                     const tempEventsAfter = tempEventList.filter(event => isAfter(new Date(event.event_dates.starting_day), tempAfterDay));
-                    setEventsLater(tempEventsAfter);
+                    if (tempEventsAfter.length > 0) {
+                        setEventsLater(tempEventsAfter);
+                    } else {
+                        showEvents.push({});
+                    }
                 })
         } catch (error) {
             console.log(error)

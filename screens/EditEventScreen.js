@@ -39,7 +39,6 @@ const EditEventScreen = ({ route, navigation }) => {
     // Updates event details to Firestore
     const updateEvent = async () => {
         const eventRef = doc(db, 'event', event.id);
-
         try {
             await updateDoc(eventRef, {
                 eventName: event.eventName,
@@ -49,14 +48,36 @@ const EditEventScreen = ({ route, navigation }) => {
                 startDateTime: event.startDateTime,
                 endDateTime: event.endDateTime,
                 maxAttendance: event.maxAttendance,
-                ourTags: event.ourTags,
-                tags: event.tags,
                 description: event.description,
                 eventUrlLink: event.eventUrlLink,
                 // pictureUrl: eventObj.pictureUrl,
 
             });
-            navigation.replace('Events');
+            navigation.goBack(null);
+
+        } catch (error) {
+            console.log(error.toString());
+        }
+    }
+
+    const updateEventWithTags = async () => {
+        const eventRef = doc(db, 'event', event.id);
+        try {
+            await updateDoc(eventRef, {
+                eventName: event.eventName,
+                address: event.address,
+                postalCode: event.postalCode,
+                locality: event.locality,
+                startDateTime: event.startDateTime,
+                endDateTime: event.endDateTime,
+                maxAttendance: event.maxAttendance,
+                description: event.description,
+                eventUrlLink: event.eventUrlLink,
+                tags: event.tags
+                // pictureUrl: eventObj.pictureUrl,
+
+            });
+            navigation.goBack(null);
 
         } catch (error) {
             console.log(error.toString());
@@ -258,7 +279,7 @@ const EditEventScreen = ({ route, navigation }) => {
                     </View>
                 </View>
                 <TouchableOpacity>
-                    <Button title='Update event' onPress={() => updateEvent()} />
+                    <Button title='Update event' onPress={event.tags ? () => updateEventWithTags() : () => updateEvent()} />
                 </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>

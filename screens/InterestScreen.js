@@ -73,6 +73,8 @@ const InterestScreen = ({ navigation }) => {
     <SafeAreaView>
       <View>
         <MultiSelect
+          fixedHeight={true}
+          styleSelectorContainer={{ height: '91%' }}
           hideTags
           items={interests}
           uniqueKey="id"

@@ -1,7 +1,7 @@
 import { React } from 'react';
 import { useNavigation, } from '@react-navigation/native';
 import { FlatList, ImageBackground, View, Text, Pressable } from 'react-native';
-import { format } from 'date-fns';
+import { format, isToday } from 'date-fns';
 import { Avatar, Chip, } from 'react-native-elements';
 import styles from '../AppStyle';
 import { isEmpty } from '@firebase/util';
@@ -54,7 +54,7 @@ const EventCards = (props) => {
                                     color: 'white',
                                 }} />
                             <Chip
-                                title={format(new Date(item.startDateTime.toDate()), 'EEE d MMM yyyy HH:mm')}
+                                title={isToday(item.startDateTime.toDate()) ? 'Today' + format(item.startDateTime.toDate(), ' HH:mm') : format(item.startDateTime.toDate(), 'EEE d MMM yyyy HH:mm')}
                                 titleStyle={styles.cardText}
                                 type='flat'
                                 buttonStyle={styles.cardChip}

@@ -39,7 +39,7 @@ const EventList = (props) => {
                 { /* Right side content of the list item */}
                 <ListItem.Content right>
                     <ListItem.Title right style={styles.colorBlue}>
-                        {isToday(item.startDateTime.toDate()) ? 'Today' : format(new Date(item.startDateTime.toDate()), 'MMM d')}
+                        {isToday(item.startDateTime.toDate()) ? 'Today' : format(item.startDateTime.toDate(), 'MMM d')}
                     </ListItem.Title>
                     <ListItem.Title right style={styles.colorBlue}>
                         {format(new Date(item.startDateTime.toDate()), 'HH:mm')}

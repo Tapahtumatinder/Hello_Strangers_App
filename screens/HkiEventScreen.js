@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { addDoc, collection } from 'firebase/firestore/lite';
+import { addDoc, collection, documentId, FieldPath, setDoc, doc } from 'firebase/firestore/lite'
 import { auth, db } from '../firebase';
 import {
     ImageBackground,
@@ -21,6 +21,11 @@ const HkiEventScreen = ({ navigation, route }) => {
     const [tags, setTags] = useState([]);
     const [endDateTime, setEndDateTime] = useState(new Date());
     const [startDateTime, setStartDateTime] = useState(new Date());
+    const [eventId, setEventId] = useState(doc(collection(db, "event")).id);
+
+    useEffect(() => {
+        console.log(eventId);
+    }, []);
 
     useEffect(() => {
         handleTags();
@@ -29,7 +34,7 @@ const HkiEventScreen = ({ navigation, route }) => {
 
     const setData = async () => {
         try {
-            const docRef = await addDoc(collection(db, 'event'), {
+            await setDoc(doc(db, 'event', eventId), {
                 pictureUrl: event.description.images[0].url,
                 eventName: event.name.fi,
                 address: event.location.address.street_address,
@@ -43,8 +48,8 @@ const HkiEventScreen = ({ navigation, route }) => {
                 tags: tags,
                 eventUrlLink: event.info_url,
                 organizer: auth.currentUser.uid
-            });
-            navigation.goBack('Create Helsinki Event');
+            }, { merge: true })
+            navigation.navigate('EventListTab');
 
         } catch (e) {
             console.error("Error adding document: ", e);
@@ -75,7 +80,7 @@ const HkiEventScreen = ({ navigation, route }) => {
                 contentContainerStyle={{ flexGrow: 1 }}
                 showsVerticalScrollIndicator={false}>
                 <ImageBackground
-                    source={{ uri: event.description.images[0].url }}
+                    source={{ uri: event.description.images[0].url ? event.description.images[0].url : 'https://images.unsplash.com/photo-1625723347040-0fdf78cb3c1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80' }}
                     resizeMode="cover"
                     style={styles.eventImg}>
                 </ImageBackground>
@@ -150,6 +155,10 @@ const HkiEventScreen = ({ navigation, route }) => {
                                     />
                                 ))}
                             </View>
+                            <Button buttonStyle={styles.basicButton} title="Select more tags" titleStyle={styles.basicTitle}
+                                onPress={() => navigation.navigate('Event tags', {
+                                    eventId: eventId
+                                })} />
                             <Text style={styles.label}>EVENT NAME</Text>
                             <TextInput
                                 value={event.name.fi}

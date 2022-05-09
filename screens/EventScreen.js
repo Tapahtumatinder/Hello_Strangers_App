@@ -18,6 +18,7 @@ import styles from '../AppStyle';
 import EventPicture2 from '../components/EventPicture2'
 import { getIdToken } from 'firebase/auth';
 import { NavigationContainer } from '@react-navigation/native';
+import { NavigationActions } from 'react-navigation';
 
 const EventScreen = ({ navigation }) => {
   const [eventName, setEventName] = useState('');
@@ -53,7 +54,7 @@ const EventScreen = ({ navigation }) => {
 
 
 
-  // TODO: tags and cover image, validation, input fields UI (size etc)...
+  // TO-DO: validation, input fields UI (size etc)...
 
   // Calls function every time the page reloads
   useEffect(() => {
@@ -78,7 +79,7 @@ const EventScreen = ({ navigation }) => {
         eventUrlLink: eventUrlLink,
         organizer: auth.currentUser.uid
       }, { merge: true })
-      navigation.goBack('Events')
+      navigation.navigate('EventListTab')
 
       // TODO: if succeed -> notification to user (e.g toast msg)
       // NB: an event id : docRef.id

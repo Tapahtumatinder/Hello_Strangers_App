@@ -2,6 +2,7 @@ import { View, TextInput, Text, Platform, ScrollView, SafeAreaView } from 'react
 import { Button } from 'react-native-elements';
 import { doc, setDoc, getDoc } from 'firebase/firestore/lite';
 import { auth, db } from '../firebase';
+import { format } from 'date-fns';
 import { React, useState, useEffect, useRef } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from '../AppStyle';
@@ -59,6 +60,7 @@ const EditProfileScreen = ({ navigation }) => {
       setUserDescription(docSnap.data().userDescription);
       setUserAge(docSnap.data().userAge);
       setUserBirthdate(docSnap.data().userBirthdate);
+      setbDayText(format(docSnap.data().userBirthdate.toDate(), 'd MMM yyyy'));
     } else {
       console.log('a true stranger');
     }

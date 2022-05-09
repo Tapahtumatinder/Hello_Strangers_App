@@ -7,10 +7,8 @@ import {
   TouchableOpacity,
   Pressable
 } from 'react-native';
-import { format, isToday } from 'date-fns';
+import { format } from 'date-fns';
 import {
-  Avatar,
-  ListItem,
   Tab,
   TabView,
   Overlay,
