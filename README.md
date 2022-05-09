@@ -1,16 +1,10 @@
 <div id="top"></div>
 
 <!-- PROJECT LOGO -->
-<br />
 <div align="center">
-  <h1>Hello Stranger<h1>
-    <img src="assets/splash.png" alt="Logo" width="240" height="260">
+    <img src="assets/splash.png" alt="Logo" width="300" height="300">
   </a>
-
-
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -36,12 +30,8 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 Hello Strangers is a mobile app created for Haaga-Helia's Software Project II -course (10 ECTS) in spring 2022. Project team consisted of 5 students.
 
@@ -72,7 +62,8 @@ You will find general information and instructions concerning Hello Strangers on
 ## Getting Started
   
 ### Prerequisites
-  Using the app requires creating an account with your email address and name.
+  - Using the app requires creating an account with your email address and name.
+  - Currently only available on android.
 
 ### Installation
 
