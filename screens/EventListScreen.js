@@ -1,12 +1,11 @@
 import { React, useState, useEffect } from 'react';
 import {
-  FlatList,
   SafeAreaView,
-  ScrollView,
   TextInput,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Pressable
 } from 'react-native';
 import { format, isToday } from 'date-fns';
 import {
@@ -17,6 +16,7 @@ import {
   Overlay,
   Icon
 } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
 import {
   collection,
   getDocs,
@@ -28,6 +28,9 @@ import { auth, db } from '../firebase';
 import styles from '../AppStyle';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useIsFocused } from "@react-navigation/native";
+import EventList from '../components/EventList';
+import EventCards from '../components/EventCards';
+import EventMap from '../components/EventMap'
 
 
 
@@ -35,6 +38,7 @@ const EventListScreen = ({ navigation }) => {
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [hostedEvents, setHostedEvents] = useState([]);
+  const [attendingEvents, setAttendingEvents] = useState([]);
   const [index, setIndex] = useState(0);
   const today = new Date();
   const [eventByid, setEventByid] = useState({ attending: [] });
@@ -54,9 +58,11 @@ const EventListScreen = ({ navigation }) => {
 
   // Gets all of the data stored in collection 'event' and sets it in state 'events'
   const getData = async () => {
+    setSearch('');
     const today = new Date();
     let tempEventList = [];
     let tempHostedEventList = [];
+    let tempAttendingEventList = [];
 
     try {
       const q = query(collection(db, 'event'), where("startDateTime", ">=", today), orderBy('startDateTime'));
@@ -75,11 +81,15 @@ const EventListScreen = ({ navigation }) => {
           event.hostAge = doc.data().userAge;
           event.hostImgUrl = doc.data().pictureUrl;
           if (event.organizer === auth.currentUser.uid) { tempHostedEventList.push(event) }
+          if (event.attending.includes(auth.currentUser.uid) && !tempAttendingEventList.includes(event)) {
+            tempAttendingEventList.push(event);
+          }
         })
       });
       setEvents(tempEventList);
       setHostedEvents(tempHostedEventList);
       setFilteredEvents(tempEventList);
+      setAttendingEvents(tempAttendingEventList);
     }
     catch (e) {
       console.error("Something went wrong: ", e);
@@ -123,6 +133,7 @@ const EventListScreen = ({ navigation }) => {
   const getSearchData = async () => {
     let tempEventList = [];
     let tempHostedEventList = [];
+    let tempAttendingEventList = [];
     let tempEvent = {};
 
     try {
@@ -143,10 +154,14 @@ const EventListScreen = ({ navigation }) => {
             event['hostImgUrl'] = doc.data().pictureUrl;
             event.organizer === auth.currentUser.uid && tempHostedEventList.push(event);
           }
+          if (event.attending.includes(auth.currentUser.uid) && !tempAttendingEventList.includes(event)) {
+            tempAttendingEventList.push(event);
+          }
         })
       });
       setEvents(tempEventList);
       setHostedEvents(tempHostedEventList);
+      setAttendingEvents(tempAttendingEventList);
       setFilteredEvents(tempEventList);
       setVisible(false);
     }
@@ -177,61 +192,64 @@ const EventListScreen = ({ navigation }) => {
     }
   }
 
+  /* Changing views between list, cards and map */
+  const [view, setView] = useState(1);
 
-  // event items displayed in a flatlist
-  const renderItem = ({ item }) => {
-    return (
-      <ListItem
-        bottomDivider
-        onPress={() => {
-          navigation.navigate('Event details', { event: item });
-        }}
-      >
-        { /* Event picture */}
-        <Avatar
-          size={58}
-          rounded
-          source={{ uri: item.hostImgUrl ? item.hostImgUrl : 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80' }} />
-
-        { /* Main content of the list item */}
-        <ListItem.Content>
-          <ListItem.Title style={styles.boldFontWeight}>
-            {item.eventName}
-          </ListItem.Title>
-          <ListItem.Subtitle>
-            {`${item.address}, ${item.locality}`}
-          </ListItem.Subtitle>
-        </ListItem.Content>
-
-        { /* Right side content of the list item */}
-        <ListItem.Content right>
-          <ListItem.Title right style={styles.colorBlue}>
-            {isToday(item.startDateTime.toDate()) ? 'Today' : format(item.startDateTime.toDate(), 'MMM d')}
-          </ListItem.Title>
-          <ListItem.Title right style={styles.colorBlue}>
-            {format(item.startDateTime.toDate(), 'HH:mm')}
-          </ListItem.Title>
-        </ListItem.Content>
-
-      </ListItem>
-    )
+  const changeView = (events) => {
+    if (view == 1) {
+      return (
+        <EventList data={events} />
+      )
+    } else if (view == 2) {
+      return (
+        <EventCards data={events} />
+      )
+    } else {
+      return (
+        <EventMap data={events} />
+      )
+    }
   }
-  /* returns two tabs 'Events' and 'Hosting'
-      Events: lists all events in a flatlist,
-      Hosting: lists all events hosted by signed in user (in a flatlist) */
+
+  /* returns tre tabs 'Events', 'Hosting' and 'Attending'
+      Events: lists all events,
+      Hosting: lists all events hosted by signed in user 
+      Attending: lists all events current user is attending */
 
   return (
     <SafeAreaView style={styles.mainContainer}>
       <Tab value={index} onChange={setIndex}>
         <Tab.Item
           title="Events"
-          titleStyle={styles.colorBlack}
+          titleStyle={styles.eventLists}
         />
         <Tab.Item
           title="Hosting"
-          titleStyle={styles.colorBlack}
+          titleStyle={styles.eventLists}
+        />
+        <Tab.Item
+          title="Attending"
+          titleStyle={styles.eventLists}
         />
       </Tab>
+
+      <View style={styles.views}>
+        <Pressable id="1"
+          style={[(view === 1) ? styles.viewOptions2 : styles.viewOptions]}
+          onPress={() => setView(1)} >
+          <Text><Ionicons name="list-outline"></Ionicons> List</Text>
+        </Pressable>
+        <Pressable id="2"
+          style={[(view === 2) ? styles.viewOptions2 : styles.viewOptions]}
+          onPress={() => setView(2)}>
+          <Text><Ionicons name="copy-outline"></Ionicons> Card</Text>
+        </Pressable>
+        <Pressable id="3"
+          style={[(view === 3) ? styles.viewOptions2 : styles.viewOptions]}
+          onPress={() => setView(3)}>
+          <Text><Ionicons name="navigate-circle-outline"></Ionicons> Map</Text>
+        </Pressable>
+      </View>
 
       <TabView value={index} onChange={setIndex} >
 
@@ -318,23 +336,18 @@ const EventListScreen = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
             </View>
-            { /* List of filtered events */}
-            <FlatList
-              data={filteredEvents}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index}
-            />
+            {changeView(filteredEvents)}
           </View>
 
         </TabView.Item>
 
         { /* Hosting -tab*/}
         <TabView.Item style={{ width: '100%' }} onMoveShouldSetResponder={(e) => e.stopPropagation()}>
-          <FlatList
-            data={hostedEvents}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index}
-          />
+          {changeView(hostedEvents)}
+        </TabView.Item>
+
+        <TabView.Item style={{ width: '100%' }} onMoveShouldSetResponder={(e) => e.stopPropagation()}>
+          {changeView(attendingEvents)}
         </TabView.Item>
       </TabView>
     </SafeAreaView>

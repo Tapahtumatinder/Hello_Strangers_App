@@ -20,6 +20,8 @@ import {
 } from 'react-native-elements';
 import { format } from 'date-fns';
 import styles from '../AppStyle';
+import { isEmpty } from '@firebase/util';
+import OurTags from '../components/OurTags';
 
 const EventDetailsScreen = ({ route, navigation }) => {
 
@@ -104,7 +106,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                 contentContainerStyle={{ flexGrow: 1 }}
                 showsVerticalScrollIndicator={false}>
                 <ImageBackground
-                    source={{ uri: event.pictureUrl }}
+                    source={{ uri: event.pictureUrl ? event.pictureUrl : 'https://images.unsplash.com/photo-1625723347040-0fdf78cb3c1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80' }}
                     resizeMode="cover"
                     imageStyle={{ opacity: 0.8 }}
                     style={styles.eventImg}>
@@ -149,7 +151,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
                         }}
                         containerStyle={{ marginVertical: 8 }} />
                     <Chip
-                        title={`Attending ${eventByid.attending ? eventByid.attending.length : '0'}/${eventByid.maxAttendance}`}
+                        title={`Attending ${eventByid.attending ? eventByid.attending.length : '0'} ${eventByid.maxAttendance ? '/ ' + eventByid.maxAttendance : ''}`}
                         titleStyle={{ color: 'black' }}
                         type='outline'
                         buttonStyle={{ backgroundColor: '#D6D6D6', borderColor: 'white' }}
@@ -176,6 +178,14 @@ const EventDetailsScreen = ({ route, navigation }) => {
                                         color: 'black',
                                     }}
                                     containerStyle={{ marginVertical: 8 }} />
+                            ))
+                        }
+                        {!isEmpty(event.ourTags) &&
+                            event.ourTags.map((item, index) => (
+                                <OurTags key={index}
+                                    index={index}
+                                    item={item}
+                                    whatStyle={'detail'} />
                             ))
                         }
                     </View>

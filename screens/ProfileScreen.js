@@ -86,7 +86,7 @@ const ProfileScreen = ({ route, navigation }) => {
           style={styles.profileImg}>
           <View style={styles.avatarOnEventImg}>
             <View>
-              <Text style={styles.txtOnEventImg}>{userName} {userAge}</Text>
+              <Text style={styles.txtOnEventImg}>{userName}, {userAge}</Text>
 
             </View>
           </View>

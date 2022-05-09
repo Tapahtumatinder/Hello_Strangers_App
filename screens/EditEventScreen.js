@@ -26,6 +26,7 @@ const EditEventScreen = ({ route, navigation }) => {
         endDateTime: eventObj.endDateTime.toDate(),
         maxAttendance: eventObj.maxAttendance,
         tags: eventObj.tags,
+        ourTags: eventObj.ourTags,
         description: eventObj.description,
         eventUrlLink: eventObj.eventUrlLink,
         pictureUrl: eventObj.pictureUrl,
@@ -48,10 +49,12 @@ const EditEventScreen = ({ route, navigation }) => {
                 startDateTime: event.startDateTime,
                 endDateTime: event.endDateTime,
                 maxAttendance: event.maxAttendance,
-                // tags: event.tags,
+                ourTags: event.ourTags,
+                tags: event.tags,
                 description: event.description,
                 eventUrlLink: event.eventUrlLink,
                 // pictureUrl: eventObj.pictureUrl,
+
             });
             navigation.replace('Events');
 
@@ -82,7 +85,7 @@ const EditEventScreen = ({ route, navigation }) => {
     }
     const handleTagChange = (item) => {
         const newTags = event.tags.filter((tag) => tag !== item);
-        setEvent({ ...event, tags: newTags});
+        setEvent({ ...event, tags: newTags });
     }
 
     return (
@@ -205,6 +208,11 @@ const EditEventScreen = ({ route, navigation }) => {
                             style={styles.eventInput}
                         />
                         <Text style={styles.label}>TAGS</Text>
+                        <Button buttonStyle={styles.basicButton} title="Select tags" titleStyle={styles.basicTitle}
+                            onPress={() => navigation.navigate('Event tags', {
+                                eventId: event.id,
+                                eventTags: event.tags
+                            })} />
                         <View style={styles.hkiEventTagGroup}>
                             {event.tags != undefined &&
                                 event.tags.map((tag, index) => (
