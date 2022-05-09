@@ -1,9 +1,9 @@
 import { React } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
 import { auth } from '../firebase';
 import { signOut } from "firebase/auth";
 import { StatusBar } from 'expo-status-bar';
-import { Image } from 'react-native-elements';
+import styles from '../AppStyle';
 
 const HomeScreen = ({ navigation }) => {
 
@@ -16,45 +16,20 @@ const HomeScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.homeContainer}>
       <StatusBar hidden></StatusBar>
-      <TouchableOpacity
-        onPress={handeleSignOut}
-        style={styles.button}>
-        <Text style={styles.buttonText}>Sign out</Text>
-      </TouchableOpacity>
+      <ImageBackground
+        style={{ width: '100%', height: '105%', marginTop: -20 }}
+        source={require('../assets/HomeBackground.jpg')}>
+        <Text style={styles.screenText}>Welcome stranger!</Text>
+        <TouchableOpacity
+          onPress={handeleSignOut}
+          style={styles.signoutButton}>
+          <Text style={styles.signoutButtonText}>Sign out</Text>
+        </TouchableOpacity>
+      </ImageBackground>
     </View>
   )
 }
 
 export default HomeScreen
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    flex: 1,
-    //justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20
-  },
-  button: {
-    backgroundColor: '#0782f9',
-    width: '60%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16
-  },
-  input: {
-    backgroundColor: 'white',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 5,
-  },
-})

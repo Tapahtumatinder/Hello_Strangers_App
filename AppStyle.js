@@ -346,5 +346,31 @@ export default StyleSheet.create({
         color: 'white',
         paddingBottom: 10
     },
-
+    homeContainer: {
+        backgroundColor: '#fff',
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 20
+      },
+      signoutButton: {
+        backgroundColor: '#0782f9',
+        width: '40%',
+        padding: 15,
+        borderRadius: 10,
+        alignSelf: 'center',
+        marginTop: 20,
+      },
+      signoutButtonText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
+        textAlign: 'center'
+      },
+      screenText: {
+        color: 'white',
+        fontWeight: '500',
+        fontSize: 28,
+        textAlign: 'center',
+        paddingTop: 50
+      },
 })
