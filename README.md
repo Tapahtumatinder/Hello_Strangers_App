@@ -55,24 +55,25 @@ You will find general information and instructions concerning Hello Strangers on
   There's two options:
   
 1.
-    - Clone the repo
+    Clone the repo
     ```sh
     git clone https://github.com/Tapahtumatinder/Hello_Strangers_App
     ```
-    - Install NPM packages
+    Install NPM packages
     ```sh
     npm install
     ```
-    - Start app
+    Start app
     ```sh
     expo start
     ```
 2.
-    - Download Expo Go on your phone or emulator.
+    Download Expo Go on your phone or emulator.
       - [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en&gl=US)
       - [iOS App Store](https://apps.apple.com/us/app/expo-go/id982107779)
 
-    - Scan this QR code here or open the [Expo Go page](https://expo.dev/@maruzella/hello_strangers_app).
+    Scan this QR code here or open the [Expo Go page](https://expo.dev/@maruzella/hello_strangers_app).
+    
     <img src="https://qr.expo.dev/expo-go?owner=maruzella&slug=hello_strangers_app&releaseChannel=default&host=exp.host" width="300" height="300">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -81,10 +82,13 @@ You will find general information and instructions concerning Hello Strangers on
 <!-- Technologies -->
 ## Technologies
 
-### Built on top of:
+### Built on
 * [Expo](https://expo.dev/)
 * [ReactNative.js](https://reactnative.dev/)
 * [Firebase](https://firebase.google.com/)
+    * [Firestore Database](https://firebase.google.com/docs/firestore)
+    * [Authentication](https://firebase.google.com/docs/auth)
+    * [Cloud storage](https://firebase.google.com/docs/storage)
 
 ### API
 * [MyHelsinki API](https://open-api.myhelsinki.fi/)
@@ -94,6 +98,7 @@ You will find general information and instructions concerning Hello Strangers on
 * [Expo Vector Icons](https://docs.expo.dev/guides/icons/)
 * [React Native Community Datetimepicker](https://github.com/react-native-datetimepicker/datetimepicker)
 * [Date-fns](https://date-fns.org/)
+* [React Native Navigation](https://reactnavigation.org/docs/getting-started)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -116,6 +121,6 @@ See the [project Trello](https://trello.com/b/1zXl95xR/tulevaisuus-sprint) for a
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-We would like thank our teachers for their support and also our peer support.
+We would like to thank our teachers and our peer support group for working with us.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
