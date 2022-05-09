@@ -25,10 +25,10 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#pictures">Pictures</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -43,12 +43,16 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Tapahtumatinder is a mobile app created for Haaga-Helia's Software Project II -course (10 ECTS) in spring 2022. Project team consisted of 5 students.
+Hello Strangers is a mobile app created for Haaga-Helia's Software Project II -course (10 ECTS) in spring 2022. Project team consisted of 5 students.
 
-With Tapahtumatinder users can explore and create events based on own interests. Main point of this app is to help users find other people who are interested in the same things and maybe even form new friendships.
+With Hello Strangers users can explore and create events based on own interests. Main point of this app is to help users find other people who are interested in the same things and maybe even form new friendships.
 
-You will find general information and instructions concerning Tapahtumatinder on this page.
+You will find general information and instructions concerning Hello Strangers on this page.
 
+<br />
+  
+<img src="assets/MyHelsinkiEvents.png" alt="Logo" width="200" height="400">&nbsp;&nbsp;<img src="assets/ProfileView.png" alt="Logo" width="200" height="400">
+<img src="assets/EventView.png" alt="Logo" width="200" height="400">&nbsp;&nbsp;<img src="assets/UserEventss.png" alt="Logo" width="200" height="400">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -66,35 +70,37 @@ You will find general information and instructions concerning Tapahtumatinder on
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+  
+### Prerequisites
+  Using the app requires creating an account with your email address and name.
 
 ### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/Tapahtumatinder/Hello_Strangers_App
-   ```
-2. Install NPM packages
-   ```sh
-   npm install
-   ```
-3. Start app
-   ```sh
-   expo start
-   ```
+  There's two options:
+  
+1.
+    - Clone the repo
+    ```sh
+    git clone https://github.com/Tapahtumatinder/Hello_Strangers_App
+    ```
+    - Install NPM packages
+    ```sh
+    npm install
+    ```
+    - Start app
+    ```sh
+    expo start
+    ```
+2.
+    - Download Expo Go on your phone or emulator.
+      - [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en&gl=US)
+      - [iOS App Store](https://apps.apple.com/us/app/expo-go/id982107779)
+
+    - Scan this QR code here or open the [Expo Go page](https://expo.dev/@maruzella/hello_strangers_app).
+    <img src="https://qr.expo.dev/expo-go?owner=maruzella&slug=hello_strangers_app&releaseChannel=default&host=exp.host" width="300" height="300">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
   
-  
-<!-- PICTURES -->
-## Pictures
-<img src="assets/MyHelsinkiEvents.png" alt="Logo" width="220" height="400">&nbsp;&nbsp;<img src="assets/ProfileView.png" alt="Logo" width="220" height="400">
-<img src="assets/EventView.png" alt="Logo" width="220" height="400">&nbsp;&nbsp;<img src="assets/UserEventss.png" alt="Logo" width="220" height="400">
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 
 <!-- USAGE -->
 ## Usage
