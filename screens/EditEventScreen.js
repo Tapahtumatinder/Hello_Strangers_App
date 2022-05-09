@@ -49,6 +49,7 @@ const EditEventScreen = ({ route, navigation }) => {
                 maxAttendance: event.maxAttendance,
                 description: event.description,
                 eventUrlLink: event.eventUrlLink,
+                ourTags: ourTags,
                 tags: event.tags
             });
             navigation.goBack(null);
@@ -221,11 +222,11 @@ const EditEventScreen = ({ route, navigation }) => {
                             style={styles.eventInput}
                         />
                         <Text style={styles.label}>TAGS</Text>
-                        <TextInput
-                            editable={false}
-                            placeholder='COMING SOON: Select tags'
-                            style={styles.eventInput}
-                        />
+                        <Button buttonStyle={styles.basicButton} title="Select tags" titleStyle={styles.basicTitle}
+                            onPress={() => navigation.navigate('Event tags', {
+                                eventId: event.id,
+                                eventTags: event.tags
+                            })} />
                         <Text style={styles.label}>EVENT NAME</Text>
                         <TextInput
                             placeholder='Set event name, max 30 characters'

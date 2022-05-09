@@ -5,6 +5,7 @@ import { format, isToday } from 'date-fns';
 import { Avatar, Chip, } from 'react-native-elements';
 import styles from '../AppStyle';
 import { isEmpty } from '@firebase/util';
+import OurTags from './OurTags';
 
 
 const EventCards = (props) => {
@@ -74,10 +75,11 @@ const EventCards = (props) => {
                                     color: 'white',
                                 }} />}
                         </View>
-                        {!isEmpty(item.tags) &&
 
-                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-                                {item.tags.map((tag, index) => (
+
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                            {!isEmpty(item.tags) &&
+                                item.tags.map((tag, index) => (
                                     <Chip key={index}
                                         title={tag}
                                         titleStyle={styles.cardText}
@@ -89,9 +91,18 @@ const EventCards = (props) => {
                                             size: 15,
                                             color: 'white',
                                         }} />
-                                ))}
-                            </View>
-                        }
+                                ))
+                            }
+                            {!isEmpty(item.ourTags) &&
+                                item.ourTags.map((item, index) => (
+                                    <OurTags key={index}
+                                        index={index}
+                                        item={item} />
+                                ))
+                            }
+                        </View>
+
+
                     </View>
                 </ImageBackground>
 

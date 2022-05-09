@@ -8,7 +8,7 @@ import EventDetailsScreen from '../screens/EventDetailsScreen';
 import EditEventScreen from '../screens/EditEventScreen';
 import DeleteAccountScreen from '../screens/DeleteAccountScreen';
 import InterestScreen from '../screens/InterestScreen';
-
+import EventTagScreen from '../screens/EventTagScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,7 +53,10 @@ const MainStack = () => {
                 name="Interest"
                 component={InterestScreen}
             />
-
+            <Stack.Screen
+                name="Event tags"
+                component={EventTagScreen}
+            />
         </Stack.Navigator>
     );
 }
