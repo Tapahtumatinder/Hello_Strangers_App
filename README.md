@@ -38,7 +38,7 @@ You will find general information and instructions concerning Hello Strangers on
 <br />
   
 <img src="assets/MyHelsinkiEvents.png" alt="Logo" width="200" height="400">&nbsp;&nbsp;<img src="assets/ProfileView.png" alt="Logo" width="200" height="400">
-<img src="assets/EventView.png" alt="Logo" width="200" height="400">&nbsp;&nbsp;
+<img src="assets/EventList.jpg" alt="Logo" width="200" height="400">&nbsp;&nbsp;<img src="assets/EventCards.jpg" alt="Logo" width="200" height="400">&nbsp;&nbsp;<img src="assets/EventMap.jpg" alt="Logo" width="200" height="400">&nbsp;&nbsp;<img src="assets/EventView.png" alt="Logo" width="200" height="400">&nbsp;&nbsp;
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
