@@ -72,9 +72,9 @@ You will find general information and instructions concerning Hello Strangers on
       - [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en&gl=US)
       - [iOS App Store](https://apps.apple.com/us/app/expo-go/id982107779)
 
-    Scan this QR code here or open the [Expo Go page](https://expo.dev/@maruzella/hello_strangers_app).
+    Scan this QR code here or open the [Expo Go page](https://expo.dev/@jonneaspinen/hello_strangers_app).
     
-    <img src="https://qr.expo.dev/expo-go?owner=maruzella&slug=hello_strangers_app&releaseChannel=default&host=exp.host" width="300" height="300">
+    <img src="https://qr.expo.dev/expo-go?owner=jonneaspinen&slug=hello_strangers_app&releaseChannel=default&host=exp.host" width="300" height="300">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
   
