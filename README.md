@@ -114,7 +114,7 @@ You will find general information and instructions concerning Hello Strangers on
 - [ ] Badges
 - [ ] Reviews
 
-See the [project Trello](https://trello.com/b/1zXl95xR/tulevaisuus-sprint) for a full list of proposed features (and known issues).
+See the [project Trello](https://trello.com/b/wyFrw7lC/hello-strangers-roadmap) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
