@@ -48,7 +48,7 @@ You will find general information and instructions concerning Hello Strangers on
   
 ### Prerequisites
   - Using the app requires creating an account with your email address and name.
-  - Currently only available on android.
+  - Currently only available on Expo Go and GitHub.
 
 ### Installation
 
@@ -93,12 +93,13 @@ You will find general information and instructions concerning Hello Strangers on
 ### API
 * [MyHelsinki API](https://open-api.myhelsinki.fi/)
 
-#### Libraries
+#### Libraries/modules
 * [React Native Elements](https://reactnativeelements.com/)
 * [Expo Vector Icons](https://docs.expo.dev/guides/icons/)
 * [React Native Community Datetimepicker](https://github.com/react-native-datetimepicker/datetimepicker)
 * [Date-fns](https://date-fns.org/)
 * [React Native Navigation](https://reactnavigation.org/docs/getting-started)
+* [React Native Maps](https://github.com/react-native-maps/react-native-maps)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
