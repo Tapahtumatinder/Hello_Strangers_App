@@ -88,11 +88,16 @@ const EditEventScreen = ({ route, navigation }) => {
         setShow(Platform.OS === 'ios');
         if (isStart) {
             const currentDate = selectedDate || event.startDateTime;
-            setEvent({ ...event, startDateTime: currentDate })
+            if (event.endDateTime.getDate() < selectedDate) {
+                setEvent({ ...event, startDateTime: currentDate, endDateTime: currentDate })
+            } else {
+                setEvent({ ...event, startDateTime: currentDate })
+            }
         } else {
             const currentDate = selectedDate || event.endDateTime;
             setEvent({ ...event, endDateTime: currentDate })
         }
+
     }
     const showMode = (currentMode) => {
         setShow(true);
@@ -229,7 +234,7 @@ const EditEventScreen = ({ route, navigation }) => {
                             style={styles.eventInput}
                         />
                         <Text style={styles.label}>TAGS</Text>
-                        <Button buttonStyle={styles.basicButton} title="Select tags" titleStyle={styles.basicTitle}
+                        <Button buttonStyle={styles.basicButton2} title="Select tags" titleStyle={styles.basicTitle}
                             onPress={() => navigation.navigate('Event tags', {
                                 eventId: event.id,
                                 eventTags: event.tags

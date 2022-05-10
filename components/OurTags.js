@@ -43,6 +43,7 @@ const OurTags = (props) => {
                         size: 20,
                         color: 'black',
                     }}
+                    containerStyle={{ marginVertical: 8 }}
                 />}
         </View>
 

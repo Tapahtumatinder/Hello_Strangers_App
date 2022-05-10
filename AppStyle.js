@@ -72,6 +72,14 @@ export default StyleSheet.create({
         width: 250,
         margin: 10
     },
+    basicButton2: {
+        backgroundColor: 'rgba(128, 128, 128, 0.4)',
+        borderColor: 'transparent',
+        borderWidth: 0,
+        borderRadius: 10,
+        width: '95%',
+        margin: 10
+    },
     basicTitle: {
         color: 'black',
         fontWeight: '100'
@@ -346,31 +354,33 @@ export default StyleSheet.create({
         color: 'white',
         paddingBottom: 10
     },
+
+    /*Home screen*/
     homeContainer: {
         backgroundColor: '#fff',
         flex: 1,
         alignItems: 'center',
         marginTop: 20
-      },
-      signoutButton: {
+    },
+    signoutButton: {
         backgroundColor: '#0782f9',
         width: '40%',
         padding: 15,
         borderRadius: 10,
         alignSelf: 'center',
         marginTop: 20,
-      },
-      signoutButtonText: {
+    },
+    signoutButtonText: {
         color: 'white',
         fontWeight: '700',
         fontSize: 16,
         textAlign: 'center'
-      },
-      screenText: {
+    },
+    screenText: {
         color: 'white',
         fontWeight: '500',
         fontSize: 28,
         textAlign: 'center',
         paddingTop: 50
-      },
+    },
 })

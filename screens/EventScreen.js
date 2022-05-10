@@ -126,120 +126,117 @@ const EventScreen = ({ navigation }) => {
           }} />
         </View>
         <View style={{ flex: 1, padding: 10 }}>
-
-
-          <View style={styles.horizontalRight}>
-
-          </View>
-        </View>
-        <View style={styles.verticalInputs}>
-          <Text style={styles.label}>ADDRESS</Text>
-          <TextInput
-            placeholder='Set an address for your event'
-            value={address}
-            onChangeText={text => setAddress(text)}
-            style={styles.eventInput}
-          />
           <View style={styles.horizontalInputs}>
-            <View style={styles.horizontalLeft}>
-              <Text style={styles.label}>POSTAL CODE</Text>
-              <TextInput
-                placeholder='Postal code'
-                keyboardType='numeric'
-                value={postalCode}
-                onChangeText={text => setPostalCode(text)}
-                style={styles.eventInput}
-              />
-            </View>
-            <View style={styles.horizontalRight}>
-              <Text style={styles.label}>CITY</Text>
-              <TextInput
-                placeholder='Locality'
-                value={locality}
-                onChangeText={text => setLocality(text)}
-                style={styles.eventInput}
-              />
-            </View>
           </View>
-          <View style={styles.horizontalInputs}>
-            <View style={styles.horizontalLeft}>
-              <Text style={styles.label}>START DATE</Text>
-              <TextInput
-                placeholder='Start date'
-                value={format(new Date(startDateTime), 'd.M.yyyy')}
-                onPressIn={() => { showDatepicker(); setIsStart(true); }}
-                showSoftInputOnFocus={false}
-                style={styles.eventInput}
-              />
-            </View>
-            <View style={styles.horizontalRight}>
-              <Text style={styles.label}>START TIME</Text>
-              <TextInput
-                placeholder='Start time'
-                value={format(new Date(startDateTime), 'HH:mm')}
-                onPressIn={() => { showTimepicker(); setIsStart(true); }}
-                showSoftInputOnFocus={false}
-                style={styles.eventInput}
-              />
-            </View>
-          </View>
-          <View style={styles.horizontalInputs}>
-            <View style={styles.horizontalLeft}>
-              <Text style={styles.label}>END DATE</Text>
-              <TextInput
-                placeholder='Set date'
-                value={format(new Date(endDateTime), 'd.M.yyyy')}
-                onPressIn={() => { showDatepicker(); setIsStart(false); }}
-                showSoftInputOnFocus={false}
-                style={styles.eventInput}
-              />
-            </View>
-            <View style={styles.horizontalRight}>
-              <Text style={styles.label}>END TIME</Text>
-              <TextInput
-                label='END TIME'
-                placeholder='Set end time'
-                value={format(new Date(endDateTime), 'HH:mm')}
-                onPressIn={() => { showTimepicker(); setIsStart(false); }}
-                showSoftInputOnFocus={false}
-                style={styles.eventInput}
-              />
-            </View>
-          </View>
-          {isStart && show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={startDateTime}
-              mode={mode}
-              is24Hour={true}
-              display="default"
-              minimumDate={new Date()}
-              onChange={onChange}
-            />
-          )}
-          {!isStart && show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={endDateTime}
-              mode={mode}
-              is24Hour={true}
-              display="default"
-              minimumDate={new Date()}
-              onChange={onChange}
-            />
-          )}
           <View style={styles.verticalInputs}>
-            <Text style={styles.label}>MAX ATTENDANCE</Text>
+            <Text style={styles.label}>ADDRESS</Text>
             <TextInput
-              placeholder='How many people can participate in?'
-              value={maxAttendance}
-              onChangeText={text => setMaxAttendance(text)}
-              keyboardType='numeric'
+              placeholder='Set an address for your event'
+              value={address}
+              onChangeText={text => setAddress(text)}
               style={styles.eventInput}
             />
-            <Text style={styles.label}>TAGS</Text>
-            <Button buttonStyle={styles.basicButton} title="Select tags" titleStyle={styles.basicTitle}
-              onPress={() => navigation.navigate('Event tags', { eventId: id })} />
+            <View style={styles.horizontalInputs}>
+              <View style={styles.horizontalLeft}>
+                <Text style={styles.label}>POSTAL CODE</Text>
+                <TextInput
+                  placeholder='Postal code'
+                  keyboardType='numeric'
+                  value={postalCode}
+                  onChangeText={text => setPostalCode(text)}
+                  style={styles.eventInput}
+                />
+              </View>
+              <View style={styles.horizontalRight}>
+                <Text style={styles.label}>CITY</Text>
+                <TextInput
+                  placeholder='Locality'
+                  value={locality}
+                  onChangeText={text => setLocality(text)}
+                  style={styles.eventInput}
+                />
+              </View>
+            </View>
+            <View style={styles.horizontalInputs}>
+              <View style={styles.horizontalLeft}>
+                <Text style={styles.label}>START DATE</Text>
+                <TextInput
+                  placeholder='Start date'
+                  value={format(new Date(startDateTime), 'd.M.yyyy')}
+                  onPressIn={() => { showDatepicker(); setIsStart(true); }}
+                  showSoftInputOnFocus={false}
+                  style={styles.eventInput}
+                />
+              </View>
+              <View style={styles.horizontalRight}>
+                <Text style={styles.label}>START TIME</Text>
+                <TextInput
+                  placeholder='Start time'
+                  value={format(new Date(startDateTime), 'HH:mm')}
+                  onPressIn={() => { showTimepicker(); setIsStart(true); }}
+                  showSoftInputOnFocus={false}
+                  style={styles.eventInput}
+                />
+              </View>
+            </View>
+            <View style={styles.horizontalInputs}>
+              <View style={styles.horizontalLeft}>
+                <Text style={styles.label}>END DATE</Text>
+                <TextInput
+                  placeholder='Set date'
+                  value={format(new Date(endDateTime), 'd.M.yyyy')}
+                  onPressIn={() => { showDatepicker(); setIsStart(false); }}
+                  showSoftInputOnFocus={false}
+                  style={styles.eventInput}
+                />
+              </View>
+              <View style={styles.horizontalRight}>
+                <Text style={styles.label}>END TIME</Text>
+                <TextInput
+                  label='END TIME'
+                  placeholder='Set end time'
+                  value={format(new Date(endDateTime), 'HH:mm')}
+                  onPressIn={() => { showTimepicker(); setIsStart(false); }}
+                  showSoftInputOnFocus={false}
+                  style={styles.eventInput}
+                />
+              </View>
+            </View>
+            {isStart && show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={startDateTime}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                minimumDate={new Date()}
+                onChange={onChange}
+              />
+            )}
+            {!isStart && show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={endDateTime}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                minimumDate={new Date()}
+                onChange={onChange}
+              />
+            )}
+            <View style={styles.verticalInputs}>
+              <Text style={styles.label}>MAX ATTENDANCE</Text>
+              <TextInput
+                placeholder='How many people can participate in?'
+                value={maxAttendance}
+                onChangeText={text => setMaxAttendance(text)}
+                keyboardType='numeric'
+                style={styles.eventInput}
+              />
+              <Text style={styles.label}>TAGS</Text>
+              <Button buttonStyle={styles.basicButton2} title="Select tags" titleStyle={styles.basicTitle}
+                onPress={() => navigation.navigate('Event tags', { eventId: id })} />
+            </View>
             <Text style={styles.label}>EVENT NAME</Text>
             <TextInput
               placeholder='Set event name, max 40 characters'

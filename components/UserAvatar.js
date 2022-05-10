@@ -43,7 +43,7 @@ const UserAvatar = ({ index, uid, max, navigation, eid }) => {
                 <Avatar
                     size={48}
                     rounded
-                    source={{ uri: data.pictureUrl }}
+                    source={{ uri: data.pictureUrl ? data.pictureUrl : 'https://images.unsplash.com/photo-1523626752472-b55a628f1acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80' }}
                 />
                 <ListItem.Content>
                     <ListItem.Title style={index < max ? styles.boldFontWeight : styles.colorGrey}>

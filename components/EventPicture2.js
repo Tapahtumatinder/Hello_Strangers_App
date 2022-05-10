@@ -91,10 +91,9 @@ const EventPicture2 = forwardRef((props, refe) => {
   }
 
   return (
-    <View>
+    <View style={{ alignItems: 'center' }}>
       <Image style={styles.image} source={{ uri: url }} />
       <Text>{progress} %</Text>
-
     </View>
   )
 })

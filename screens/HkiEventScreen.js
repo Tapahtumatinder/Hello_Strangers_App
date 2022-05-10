@@ -155,7 +155,7 @@ const HkiEventScreen = ({ navigation, route }) => {
                                     />
                                 ))}
                             </View>
-                            <Button buttonStyle={styles.basicButton} title="Select more tags" titleStyle={styles.basicTitle}
+                            <Button buttonStyle={styles.basicButton2} title="Select more tags" titleStyle={styles.basicTitle}
                                 onPress={() => navigation.navigate('Event tags', {
                                     eventId: eventId
                                 })} />
